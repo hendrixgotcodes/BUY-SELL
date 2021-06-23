@@ -8,17 +8,28 @@ import ViewImageScreen from './app/components/Screens/ViewImageScreen'
 
 //Components
 import Button from './app/components/Button'
+import Card from './app/components/Card'
 
+const placeBo = {
+    title: "Red jacket for sale!",
+    subTitle: "$100",
+    image: require('./app/assets/img/jacket.jpg')
+}
 
 export default function App() {
 
   
-
   return (
     <View style={styles.container}>
       {/* <Text>Open up App.js to start working on your app!</Text>
       <StatusBar style="auto" /> */}
-      <WelcomeScreen />
+      {/* <WelcomeScreen /> */}
+
+      <Card
+        title={placeBo.title}
+        subTitle={placeBo.subTitle}
+        image={placeBo.image}
+      />
 
       {/* <Button>
        LOGIN
@@ -32,7 +43,7 @@ export default function App() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#fff',
+    backgroundColor: '#f8f4f4',
     alignItems: 'center',
     justifyContent: 'center',
   },
