@@ -7,12 +7,12 @@ import WelcomeScreen from './app/components/WelcomeScreen'
 import ViewImageScreen from './app/components/ViewImageScreen'
 
 //Hooks
-// import {useDimensions, useDeviceOrientation} from '@react-native-community/hooks'
+import {useDimensions, useDeviceOrientation} from '@react-native-community/hooks'
 
 
 export default function App() {
 
-// console.log(useDeviceOrientation());
+console.log(useDeviceOrientation());
   
 
   return (

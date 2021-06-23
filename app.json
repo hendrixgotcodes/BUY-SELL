@@ -3,7 +3,7 @@
     "name": "donewithit",
     "slug": "donewithit",
     "version": "1.0.0",
-    "orientation": "portrait",
+    "orientation": "default",
     "icon": "./app/assets/icon.png",
     "splash": {
       "image": "./app/assets/splash.png",
