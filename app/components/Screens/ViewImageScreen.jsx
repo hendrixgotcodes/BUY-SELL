@@ -9,8 +9,8 @@ import {
 } from 'react-native'
 
 //Assets
-import colors from '../assets/_colors'
-const image = require("../assets/bgs/chair.jpg")
+import colors from '../../assets/_colors'
+const image = require("../../assets/bgs/chair.jpg")
 
 export default function ViewImageScreen(){
 

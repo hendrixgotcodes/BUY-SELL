@@ -3,16 +3,15 @@ import React from 'react';
 import { StyleSheet, Text, View } from 'react-native';
 
 //Screens
-import WelcomeScreen from './app/components/WelcomeScreen'
-import ViewImageScreen from './app/components/ViewImageScreen'
+import WelcomeScreen from './app/components/Screens/WelcomeScreen'
+import ViewImageScreen from './app/components/Screens/ViewImageScreen'
 
-//Hooks
-import {useDimensions, useDeviceOrientation} from '@react-native-community/hooks'
+//Components
+import Button from './app/components/Button'
 
 
 export default function App() {
 
-console.log(useDeviceOrientation());
   
 
   return (
@@ -20,7 +19,12 @@ console.log(useDeviceOrientation());
       {/* <Text>Open up App.js to start working on your app!</Text>
       <StatusBar style="auto" /> */}
       {/* <WelcomeScreen /> */}
-      <ViewImageScreen />
+
+      <Button>
+       LOGIN
+      </Button>
+
+      {/* <ViewImageScreen /> */}
     </View>
   );
 }

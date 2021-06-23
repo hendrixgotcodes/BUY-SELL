@@ -10,11 +10,12 @@ import {
 } from 'react-native'
 
 //Components
-import {PrimaryButton, SecondaryButton} from './Buttons'
+import {PrimaryButton, SecondaryButton} from '../Buttons'
+import AppText from '../AppText'
 
 //Variables
-const backgroundImage = require("../assets/bgs/background.jpg")
-const logo = require("../assets/logo-red.png")
+const backgroundImage = require("../../assets/bgs/background.jpg")
+const logo = require("../../assets/logo-red.png")
 
 export default function WelcomeScreen() {
     return (
@@ -23,9 +24,7 @@ export default function WelcomeScreen() {
                 <View style={styles.contentWrapper}>
                     <View style={styles.header}>
                         <Image source={logo} style={styles.header_logo} />
-                        <Text>
-                            Sell What You Don't Need
-                        </Text>
+                        <AppText>Sell What You Don't Need</AppText>
                     </View>
                     <View style={styles.btnWrapper}>
                         <PrimaryButton caption={"Register"}/>
