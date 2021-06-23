@@ -20,7 +20,7 @@ export default function Button({style, children}) {
 const styles = StyleSheet.create({
     button: {
         width: "100%",
-        paddingVertical: 12,
+        paddingVertical: 15,
         display: "flex",
         justifyContent: "center",
         alignItems: "center",

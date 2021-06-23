@@ -10,25 +10,33 @@ import {
 } from 'react-native'
 
 //Components
-import {PrimaryButton, SecondaryButton} from '../Buttons'
 import AppText from '../AppText'
+import Button from  '../Button'
+
+//Assets
+import Colors from '../../assets/_colors'
 
 //Variables
 const backgroundImage = require("../../assets/bgs/background.jpg")
 const logo = require("../../assets/logo-red.png")
 
+
 export default function WelcomeScreen() {
     return (
         <View style={styles.container}>
-            <ImageBackground source={backgroundImage} style={styles.imgBg}>
+            <ImageBackground source={backgroundImage} style={styles.imgBg} blurRadius={Platform.OS === "android" ? 2 : 20}>
                 <View style={styles.contentWrapper}>
                     <View style={styles.header}>
                         <Image source={logo} style={styles.header_logo} />
                         <AppText>Sell What You Don't Need</AppText>
                     </View>
                     <View style={styles.btnWrapper}>
-                        <PrimaryButton caption={"Register"}/>
-                        <SecondaryButton caption={"Log In"} />
+                        <Button style={{marginBottom: 20}}>
+                            LOGIN
+                        </Button>
+                        <Button style={{marginBottom: 20, backgroundColor: Colors.secondary}}>
+                            REGISTER
+                        </Button>
                     </View>
                     </View>
             </ImageBackground>
@@ -68,7 +76,7 @@ const styles = StyleSheet.create({
         flexDirection: "column",
     },
     btnWrapper: {
-        width: "100%"
-    }
+        width: "90%"
+    },
 
 })
