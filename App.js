@@ -26,19 +26,19 @@ export default function App() {
       <StatusBar style="auto" /> */}
       {/* <WelcomeScreen /> */}
 
-      <ListingDetailsScreen>
+      {/* <ListingDetailsScreen>
           <Card
             title={placeBo.title}
             subTitle={placeBo.subTitle}
             image={placeBo.image}
           />
-      </ListingDetailsScreen>
+      </ListingDetailsScreen> */}
 
       {/* <Button>
        LOGIN
       </Button> */}
 
-      {/* <ViewImageScreen /> */}
+      <ViewImageScreen />
     </View>
   );
 }

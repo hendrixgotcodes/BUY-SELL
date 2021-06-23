@@ -29,14 +29,14 @@ const styles = StyleSheet.create({
 
     container: {
         backgroundColor: Colors.plain,
-        width: "90%",
-        height: "30%",
+        width: "100%",
+        height: "40%",
         borderTopLeftRadius: 20,
         borderTopRightRadius: 20,
     },
     image: {
         width: "100%",
-        height: "75%",
+        height: "80%",
         borderTopLeftRadius: 20,
         borderTopRightRadius: 20,
     },

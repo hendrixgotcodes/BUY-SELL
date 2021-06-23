@@ -11,6 +11,7 @@ import {
 //Assets
 import colors from '../../assets/_colors'
 const image = require("../../assets/bgs/chair.jpg")
+import { MaterialCommunityIcons } from '@expo/vector-icons';
 
 export default function ViewImageScreen(){
 
@@ -22,8 +23,8 @@ export default function ViewImageScreen(){
                 <View style={styles.contentWrapper}>
                     <View style={styles.btnWrapper}>
 
-                        <View style={[styles.btn, styles.btnPrimary]}/>
-                        <View style={[styles.btn, styles.btnSecondary]} />
+                        <MaterialCommunityIcons name="close" size={24} color={colors.plain} />
+                        <MaterialCommunityIcons name="trash-can-outline" size={24} color={colors.plain} />
 
                     </View>
 
