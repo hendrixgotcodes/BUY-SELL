@@ -10,6 +10,7 @@ import ListingDetailsScreen from './app/components/Screens/ListingDetailsScreen'
 //Components
 import Button from './app/components/Button'
 import Card from './app/components/Card'
+import ListItem from './app/components/ListItem'
 
 const placeBo = {
     title: "Red jacket for sale!",
@@ -26,19 +27,20 @@ export default function App() {
       <StatusBar style="auto" /> */}
       {/* <WelcomeScreen /> */}
 
-      {/* <ListingDetailsScreen>
+      <ListingDetailsScreen>
           <Card
             title={placeBo.title}
             subTitle={placeBo.subTitle}
             image={placeBo.image}
           />
-      </ListingDetailsScreen> */}
+          <ListItem />
+      </ListingDetailsScreen>
 
       {/* <Button>
        LOGIN
       </Button> */}
 
-      <ViewImageScreen />
+      {/* <ViewImageScreen /> */}
     </View>
   );
 }
