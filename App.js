@@ -5,6 +5,7 @@ import { StyleSheet, Text, View } from 'react-native';
 //Screens
 import WelcomeScreen from './app/components/Screens/WelcomeScreen'
 import ViewImageScreen from './app/components/Screens/ViewImageScreen'
+import ListingDetailsScreen from './app/components/Screens/ListingDetailsScreen'
 
 //Components
 import Button from './app/components/Button'
@@ -25,11 +26,13 @@ export default function App() {
       <StatusBar style="auto" /> */}
       {/* <WelcomeScreen /> */}
 
-      <Card
-        title={placeBo.title}
-        subTitle={placeBo.subTitle}
-        image={placeBo.image}
-      />
+      <ListingDetailsScreen>
+          <Card
+            title={placeBo.title}
+            subTitle={placeBo.subTitle}
+            image={placeBo.image}
+          />
+      </ListingDetailsScreen>
 
       {/* <Button>
        LOGIN
