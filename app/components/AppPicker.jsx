@@ -19,6 +19,7 @@ export default function AppPicker({icon, ...rest}){
         // <View style={styles.container}>
             <Picker
                 selectedValue={selectedLanguage}
+                color = {Colors.primary}
                 onValueChange={(itemValue, itemIndex) =>
                     setSelectedLanguage(itemValue)
                 }>

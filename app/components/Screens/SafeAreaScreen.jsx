@@ -4,10 +4,10 @@ import {View, StyleSheet, SafeAreaView, Platform, StatusBar} from  'react-native
 //Assets
 import Colors from '../../assets/_colors'
 
-export default function DefaultScreen({children}){
+export default function DefaultScreen({children, style}){
 
     return(
-        <SafeAreaView style={styles.safeArea}>
+        <SafeAreaView style={[styles.safeArea, {...style}]}>
             {children}
         </SafeAreaView>
     )
