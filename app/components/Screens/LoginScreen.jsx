@@ -5,6 +5,7 @@ import {View, StyleSheet, Image, TextInput} from 'react-native'
 import AppTextInput from '../AppTextInput'
 import AppText from '../AppText'
 import AppButton from '../AppButton'
+import AppFormField from '../AppFormField'
 import ErrorMessage from '../ErrorMessage'
 import {Formik} from 'formik'
 import SafeAreaScreen from './SafeAreaScreen'
@@ -38,28 +39,25 @@ export default function LoginScreen(){
                     {
                         ({handleSubmit, handleChange, errors, setFieldTouched, touched})=>(
                                 <>
-                                    <AppTextInput 
+                                    <AppFormField
                                         autoCapitalize="none"
                                         autoCorrect={false}
                                         icon="email"
                                         keyboardType="email-address"
-                                        onChangeText = {handleChange("email")}
+                                        name="email"
                                         placeholder="Email"
                                         textContentType="emailAddress"
-                                        onBlur= {()=>setFieldTouched("email")}
                                     />
-                                    {touched.email && <ErrorMessage message={errors.email} style={{color: "red"}} />}
-                                    <AppTextInput 
+                                    {/* {touched.email && <ErrorMessage message={errors.email} style={{color: "red"}} />} */}
+                                    <AppFormField 
                                         autoCapitalize="none"
                                         autoCorrect={false}
                                         icon="lock"
-                                        onChangeText = {handleChange("password")}
+                                        name="password"
                                         placeholder="Password"
                                         secureTextEntry={true}
                                         textContentType="password"
-                                        onBlur= {()=>setFieldTouched("password")}
                                     />
-                                    {touched.password && <ErrorMessage message={errors.password} style={{color: "red"}} />}
                                     <AppButton 
                                         title="Login"
                                         onPress={handleSubmit}
