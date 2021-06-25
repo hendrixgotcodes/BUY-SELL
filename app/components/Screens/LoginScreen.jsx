@@ -4,7 +4,7 @@ import {View, StyleSheet, Image, TextInput} from 'react-native'
 //Components
 import AppTextInput from '../AppTextInput'
 import AppText from '../AppText'
-import AppButton from '../AppButton'
+import SubmitButton from '../SubmitButton'
 import AppFormField from '../AppFormField'
 import ErrorMessage from '../ErrorMessage'
 import {Formik} from 'formik'
@@ -37,7 +37,7 @@ export default function LoginScreen(){
                 >
 
                     {
-                        ({handleSubmit, handleChange, errors, setFieldTouched, touched})=>(
+                        ()=>(
                                 <>
                                     <AppFormField
                                         autoCapitalize="none"
@@ -58,9 +58,8 @@ export default function LoginScreen(){
                                         secureTextEntry={true}
                                         textContentType="password"
                                     />
-                                    <AppButton 
+                                    <SubmitButton 
                                         title="Login"
-                                        onPress={handleSubmit}
                                     />
                                 </>
                         )
