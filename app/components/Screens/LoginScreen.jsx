@@ -2,11 +2,12 @@ import React from 'react'
 import {View, StyleSheet, Image, TextInput} from 'react-native'
 
 //Components
-import {Formik} from 'formik'
-import SafeAreaScreen from './SafeAreaScreen'
 import AppTextInput from '../AppTextInput'
 import AppText from '../AppText'
 import AppButton from '../AppButton'
+import ErrorMessage from '../ErrorMessage'
+import {Formik} from 'formik'
+import SafeAreaScreen from './SafeAreaScreen'
 
 //Assets
 const logo = require("../../assets/logo-red.png")
@@ -35,7 +36,7 @@ export default function LoginScreen(){
                 >
 
                     {
-                        ({handleSubmit, handleChange, errors})=>(
+                        ({handleSubmit, handleChange, errors, setFieldTouched, touched})=>(
                                 <>
                                     <AppTextInput 
                                         autoCapitalize="none"
@@ -45,8 +46,9 @@ export default function LoginScreen(){
                                         onChangeText = {handleChange("email")}
                                         placeholder="Email"
                                         textContentType="emailAddress"
+                                        onBlur= {()=>setFieldTouched("email")}
                                     />
-                                    <AppText style={{color: "red"}}>{errors.email}</AppText>
+                                    {touched.email && <ErrorMessage message={errors.email} style={{color: "red"}} />}
                                     <AppTextInput 
                                         autoCapitalize="none"
                                         autoCorrect={false}
@@ -55,8 +57,9 @@ export default function LoginScreen(){
                                         placeholder="Password"
                                         secureTextEntry={true}
                                         textContentType="password"
+                                        onBlur= {()=>setFieldTouched("password")}
                                     />
-                                    <AppText style={{color: "red"}}>{errors.password}</AppText>
+                                    {touched.password && <ErrorMessage message={errors.password} style={{color: "red"}} />}
                                     <AppButton 
                                         title="Login"
                                         onPress={handleSubmit}
