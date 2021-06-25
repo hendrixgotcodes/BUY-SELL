@@ -16,6 +16,7 @@ import Button from './app/components/Button'
 import Card from './app/components/Card'
 import ListItem from './app/components/ListItem'
 import AppTextInput from './app/components/AppTextInput'
+import AppPicker from './app/components/AppPicker'
 
 
 const placeBo = {
@@ -44,7 +45,8 @@ export default function App() {
       {/* <MessagesScreen /> */}
       {/* <ListingsScreen /> */}
       <SafeAreaScreen>
-          <AppTextInput placeholder="username" icon="email" />
+          {/* <AppTextInput placeholder="username" icon="email" /> */}
+          <AppPicker />
       </SafeAreaScreen>
 
       {/* <Button>

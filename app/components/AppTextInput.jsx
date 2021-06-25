@@ -32,11 +32,6 @@ const styles = StyleSheet.create({
         marginVertical: 10,
         alignItems: "center"
     },
-    textInput:{
-        fontSize: 18,
-        fontFamily: Platform.OS === "android" ? "Roboto" : "avenir",
-        color: Colors.dark
-    },
     icon:{
         marginRight: 10
     }
