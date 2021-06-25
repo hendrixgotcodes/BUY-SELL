@@ -7,11 +7,16 @@ import WelcomeScreen from './app/components/Screens/WelcomeScreen'
 import ViewImageScreen from './app/components/Screens/ViewImageScreen'
 import ListingDetailsScreen from './app/components/Screens/ListingDetailsScreen'
 import MessagesScreen from './app/components/Screens/MessagesScreen'
+import MyAccountScreen from './app/components/Screens/MyAccountScreen'
+import ListingsScreen from './app/components/Screens/ListingsScreen'
+import SafeAreaScreen from './app/components/Screens/SafeAreaScreen'
 
 //Components
 import Button from './app/components/Button'
 import Card from './app/components/Card'
 import ListItem from './app/components/ListItem'
+import AppTextInput from './app/components/AppTextInput'
+
 
 const placeBo = {
     title: "Red jacket for sale!",
@@ -36,7 +41,11 @@ export default function App() {
           />
           <ListItem style={{marginTop: 10}} />
       </ListingDetailsScreen> */}
-      <MessagesScreen />
+      {/* <MessagesScreen /> */}
+      {/* <ListingsScreen /> */}
+      <SafeAreaScreen>
+          <AppTextInput placeholder="username" icon="email" />
+      </SafeAreaScreen>
 
       {/* <Button>
        LOGIN
