@@ -1,9 +1,12 @@
 import React from 'react'
-import { View} from 'react-native'
+import { View, StyleSheet} from 'react-native'
 
 //Components
-import AppTextInput from './AppTextInput'
+import AppTextInput from '../AppTextInput'
 import ErrorMessage from './ErrorMessage'
+
+//Assets
+import Colors from '../../assets/_colors'
 
 //Hook
 import {useFormikContext} from 'formik'
@@ -20,7 +23,7 @@ export default function AppFormField({name, ...rest}) {
                 onBlur= {()=>setFieldTouched(name)}
                 {...rest}
             />
-            {touched[name] && <ErrorMessage message={errors[name]} style={{color: "red"}} />}
+            {touched[name] && <ErrorMessage message={errors[name]} />}
 
         </>
     )

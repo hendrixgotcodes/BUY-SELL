@@ -1,37 +1,39 @@
 import React from 'react'
-import {View, StyleSheet, Image, TextInput} from 'react-native'
+import { View, StyleSheet } from 'react-native'
 
 //Components
-import AppText from '../AppText'
-import SafeAreaScreen from './SafeAreaScreen'
 import {AppForm, AppFormField, SubmitButton} from '../forms'
-
-
-//Assets
-const logo = require("../../assets/logo-red.png")
+import SafeAreaScreen from './SafeAreaScreen'
 
 //Extra
 import * as Yup from 'yup'
 
-//Variables
 const validationSchema = Yup.object().shape({
+    name: Yup.string().required().label("Name"),
     email: Yup.string().required().email().label("Email"),
-    password: Yup.string().required().min(5).label("Password")
+    password: Yup.string().required().min(5).max(10).label("Password")
 })
 
-export default function LoginScreen(){
-
-    return(
+export default function RegisterScreen() {
+    return (
         <SafeAreaScreen>
-        
-            <View style={styles.container}>
-                <Image source={logo} style={styles.logo} />
             
+            <View style={styles.container}>
+
                 <AppForm
-                    initialValues={{email: "", password: ""}}
+                    initialValues={{name: "", email: "", password: ""}}
                     onSubmit={(values)=>console.log(values)}
                     validationSchema={validationSchema}
-                >                    
+                >
+                    <AppFormField
+                        autoCapitalize="words"
+                        autoCorrect={false}
+                        icon="account"
+                        name="name"
+                        placeholder="Name"
+                        textContentType="name"
+                    />
+
                     <AppFormField
                         autoCapitalize="none"
                         autoCorrect={false}
@@ -51,29 +53,21 @@ export default function LoginScreen(){
                         secureTextEntry={true}
                         textContentType="password"
                     />
-                    
+
                     <SubmitButton 
-                        title="Login"
+                        title="register"
                     />
 
                 </AppForm>
+
             </View>
 
         </SafeAreaScreen>
     )
-
 }
 
 const styles = StyleSheet.create({
-
-    container:{
+    container: {
         padding: 10
-    },
-   logo:{
-        width: 80,
-        height: 80,
-        alignSelf: "center",
-        marginTop: 50,
-        marginBottom: 20
-   }
+    }
 })

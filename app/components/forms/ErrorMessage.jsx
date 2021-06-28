@@ -2,18 +2,18 @@ import React from 'react'
 import {View, StyleSheet} from 'react-native'
 
 //Components
-import AppText from './AppText'
+import AppText from '../AppText'
 
 //Assets
-import Colors from '../assets/_colors'
+import Colors from '../../assets/_colors'
 
-export default function ErrorMessage({message}){
+export default function ErrorMessage({message, style}){
 
     if(!message) return null
 
     return(
 
-        <AppText style={styles.errorMessage}>
+        <AppText style={styles.appText}>
             {message}
         </AppText>
 
@@ -22,7 +22,8 @@ export default function ErrorMessage({message}){
 }
 
 const styles = StyleSheet.create({
-    errorMessage:{
+    appText:{
+        fontSize: 16,
         color: Colors.danger
     }
 })

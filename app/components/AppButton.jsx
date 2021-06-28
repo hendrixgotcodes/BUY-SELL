@@ -36,6 +36,7 @@ const styles = StyleSheet.create({
     },
     text: {
         fontWeight: "bold",
-        color:Colors.plain
+        color:Colors.plain,
+        textTransform: "uppercase"
     }
 })

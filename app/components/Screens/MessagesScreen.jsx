@@ -58,6 +58,8 @@ export default function MessagesScreen() {
                             title={item.title} 
                             subTitle= {item.description}
                             image={item.image}
+                            showChevron
+                            numberOfLines={2}
                             renderRightActions = {
                                 ()=>(
                                     <ListItemDeleteAction onPress={()=>{
@@ -65,6 +67,9 @@ export default function MessagesScreen() {
                                     }} />
                                 )
                             }
+                            onPress={()=>{
+                                // console.log("hi");
+                            }}
                         />
                     )}
                     ItemSeparatorComponent={
