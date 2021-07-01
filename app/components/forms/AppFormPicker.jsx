@@ -11,7 +11,7 @@ import {useFormikContext} from 'formik'
 
 export default function AppFormField({ item, name, onBlur, onSelectItem,...rest}) {
 
-    const {setFieldTouched, setFieldValue,handleChange, errors, touched, values} = useFormikContext()
+    const {setFieldTouched, setFieldValue,handleChange, errors, touched, values, style} = useFormikContext()
 
     return (
         <>
@@ -25,6 +25,7 @@ export default function AppFormField({ item, name, onBlur, onSelectItem,...rest}
                     setFieldTouched(name)
                 }}
                 selectedItem = {values[name]}
+                style={style}
                 {...rest}
             />
             {touched[name] && <ErrorMessage message={errors[name]} />}

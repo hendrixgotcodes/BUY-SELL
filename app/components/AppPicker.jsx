@@ -2,9 +2,11 @@ import React, {useState} from 'react'
 import {View, StyleSheet, TextInput, Platform, Pressable, Modal, FlatList} from 'react-native'
 
 //Components
+import {FlatGrid} from 'react-native-super-grid'
 import {Picker} from '@react-native-picker/picker';
 import AppButton from './AppButton'
 import AppText from './AppText'
+import Icon from './Icon'
 import PickerItem from './PickerItem'
 import SafeAreaScreen from './Screens/SafeAreaScreen'
 
@@ -13,7 +15,7 @@ import {MaterialCommunityIcons} from '@expo/vector-icons'
 import Colors from '../assets/_colors'
 import defaultStyles from '../config/_styles'
 
-export default function AppPicker({icon, items, onBlur,onSelectItem, placeholder, selectedItem, ...rest}){
+export default function AppPicker({icon, items, onBlur,onSelectItem, placeholder, selectedItem, style, ...rest}){
 
     const [selected, setSelected] = useState(null);
     const [isModalVisible, setIsModalVisible] = useState(false)
@@ -23,7 +25,7 @@ export default function AppPicker({icon, items, onBlur,onSelectItem, placeholder
     return(
         <>
             <Pressable onPress={()=>setIsModalVisible(true)}>
-                <View style={styles.container}>
+                <View style={[styles.container, {...style}]}>
                     {icon && <MaterialCommunityIcons style={styles.icon} name={icon} size={20} color={Colors.medium} />}
                     <AppText style={textColor}>
                         {selected ? selected.label : placeholder}
@@ -40,7 +42,7 @@ export default function AppPicker({icon, items, onBlur,onSelectItem, placeholder
                             onBlur()
                         }} />
 
-                        <FlatList
+                        {/* <FlatList
                             data={items}
                             keyExtractor={(item)=>item.value.toString()}
                             renderItem={({item})=>(
@@ -53,7 +55,34 @@ export default function AppPicker({icon, items, onBlur,onSelectItem, placeholder
                                     }}
                                 />
                             )}
-                        />
+                        /> */}
+                        
+                            <FlatGrid
+                                data={items}
+                                spacing={0}
+                                keyExtractor={(item)=>item.value.toString()}
+                                renderItem={
+                                ({item})=>(
+                                    <Pressable
+                                        onPress={()=> {
+                                            setSelected(item)
+                                            setIsModalVisible(false)
+                                            onSelectItem(item)
+                                        }}
+                                    >
+                                        <Icon
+                                            backgroundColor= {item.backgroundColor}
+                                            width = {item.width}
+                                            iconName= {item.iconName}
+                                            color = {item.color}
+                                            iconSize= {item.iconSize}
+                                            text= {item.label}
+                                        />
+                                    </Pressable>
+                                )
+                                }
+                            />
+
                     </View>
                 </SafeAreaScreen>
             </Modal>

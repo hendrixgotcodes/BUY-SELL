@@ -13,6 +13,10 @@ import {MaterialCommunityIcons} from '@expo/vector-icons'
 
 export default function ListItem({style, title, subTitle, image, onPress, renderRightActions, showChevron, numberOfLines}){
 
+    if(numberOfLines !== undefined && (typeof numberOfLines !== "number")){
+        throw new Error("property 'numberOfLines' must be a JavaScript Number")
+    }
+
     return(
        <Swipeable 
             renderRightActions = {renderRightActions}
@@ -28,7 +32,7 @@ export default function ListItem({style, title, subTitle, image, onPress, render
                     <Image style={styles.figure} source={image} />
                     <View style={{flex: 1}}>
                         <AppText
-                            numberOfLines={numberOfLines ? numberOfLines : 1}
+                            numberOfLines={(numberOfLines >= 1) ? numberOfLines : 1}
                             style={{...Platform.select({
                                 ios: {
                                     fontSize: 18,
@@ -40,30 +44,11 @@ export default function ListItem({style, title, subTitle, image, onPress, render
                                 }
                             })}}
                         >
-                            Lorem ipsum dolor sit amet consectetur adipisicing elit. Maxime mollitia,
-molestiae quas vel sint commodi repudiandae consequuntur voluptatum laborum
-numquam blanditiis harum quisquam eius sed odit fugiat iusto fuga praesentium
-optio, eaque rerum! Provident similique accusantium nemo autem. Veritatis
-obcaecati tenetur iure eius earum ut molestias architecto voluptate aliquam
-nihil, eveniet aliquid culpa officia aut! Impedit sit sunt quaerat, odit,
-tenetur error, harum nesciunt ipsum debitis quas aliquid. Reprehenderit,
-quia. Quo neque error repudiandae fuga? Ipsa laudantium molestias eos 
-sapiente officiis modi at sunt excepturi expedita sint? Sed quibusdam
-recusandae alias error harum maxime adipisci amet laborum. Perspiciatis 
-minima nesciunt dolorem! Officiis iure rerum voluptates a cumque velit 
-quibusdam sed amet tempora. Sit laborum ab, eius fugit doloribus tenetur 
-fugiat, temporibus enim commodi iusto libero magni deleniti quod quam 
-consequuntur! Commodi minima excepturi repudiandae velit hic maxime
-doloremque. Quaerat provident commodi consectetur veniam similique ad 
-earum omnis ipsum saepe, voluptas, hic voluptates pariatur est explicabo 
-fugiat, dolorum eligendi quam cupiditate excepturi mollitia maiores labore 
-suscipit quas? Nulla, placeat. Voluptatem quaerat non architecto ab laudantium
-modi minima sunt esse temporibus sint culpa, recusandae aliquam numquam 
-totam ratione voluptas quod exercitationem fuga. Possimus quis earum veniam 
-quasi aliquam eligendi, placeat qui corporis!
+                            {title}
                         </AppText>
 
                         <AppText
+                            numberOfLines={2}
                             style={{...Platform.select({
                                 ios: {
                                     fontSize: 16,
@@ -78,7 +63,7 @@ quasi aliquam eligendi, placeat qui corporis!
                             {subTitle}
                         </AppText>
                     </View>
-                    {showChevron && <MaterialCommunityIcons name="chevron-right" size={24} color="black" />}
+                    {showChevron && <MaterialCommunityIcons name="chevron-right" size={24} color={Colors.light} />}
                 </View>
 
         </TouchableHighlight>

@@ -12,7 +12,7 @@ import Colors from '../../assets/_colors'
 import {useFormikContext} from 'formik'
 
 
-export default function AppFormField({name, ...rest}) {
+export default function AppFormField({name, style, ...rest}) {
 
     const {setFieldTouched, handleChange, errors, touched} = useFormikContext()
 
@@ -21,6 +21,7 @@ export default function AppFormField({name, ...rest}) {
             <AppTextInput 
                 onChangeText = {handleChange(name)}
                 onBlur= {()=>setFieldTouched(name)}
+                style={style}
                 {...rest}
             />
             {touched[name] && <ErrorMessage message={errors[name]} />}

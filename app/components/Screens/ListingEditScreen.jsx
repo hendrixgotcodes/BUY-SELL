@@ -2,9 +2,10 @@ import React from 'react'
 import { View, Text, StyleSheet} from 'react-native'
 
 //Components
-import SafeAreaScreen from './SafeAreaScreen'
 import {AppForm, AppFormField, AppFormPicker,SubmitButton} from '../forms'
 import AppPicker from '../AppPicker'
+import SafeAreaScreen from './SafeAreaScreen'
+
 
 //Extras
 import * as Yup from 'yup'
@@ -16,19 +17,74 @@ const validationSchema = Yup.object().shape({
     description: Yup.string().label("Description")
 })
 
-const categories = [
+// const categories = [
+     
+// ]
+
+const categories=[
     {
+        backgroundColor: "#fc5c65",
+        width: 80,
+        iconName: "floor-lamp",
+        color: "#fff",
+        iconSize: 30,
         label: "Furniture",
         value: 1
     },
     {
-        label: "Clothing",
+        backgroundColor: "#fd9644",
+        width: 80,
+        iconName: "car",
+        color: "#fff",
+        iconSize: 30,
+        label: "Cars",
         value: 2
     },
     {
+        backgroundColor: "#fed330",
+        width: 80,
+        iconName: "camera",
+        color: "#fff",
+        iconSize: 30,
         label: "Cameras",
         value: 3
-    },    
+    },
+    {
+        backgroundColor: "#26de81",
+        width: 80,
+        iconName: "cards",
+        color: "#fff",
+        iconSize: 30,
+        label: "Games",
+        value: 4
+    },
+    {
+        backgroundColor: "#2bcbba",
+        width: 80,
+        iconName: "shoe-heel",
+        color: "#fff",
+        iconSize: 30,
+        label: "Clothing",
+        value: 5
+    },
+    {
+        backgroundColor: "#45aaf2",
+        width: 80,
+        iconName: "basketball",
+        color: "#fff",
+        iconSize: 30,
+        label: "Sports",
+        value: 6
+    },
+    {
+        backgroundColor: "#4b7bec",
+        width: 80,
+        iconName: "headset",
+        color: "#fff",
+        iconSize: 25,
+        label: "Movies & Others",
+        value: 7
+    },
 ]
 
 export default function ListingEditScreen() {
@@ -49,6 +105,14 @@ export default function ListingEditScreen() {
                         maxLength={255}
                     />
 
+                    <AppFormPicker 
+                        name="category"
+                        placeholder="Category"
+                        items={categories}
+                        onSelectItem={(item)=>console.log(item)}
+                        style={{width: "60%"}}
+                    />
+
                     <AppFormField
                         autoCapitalize="words"
                         autoCorrect={true}
@@ -56,14 +120,9 @@ export default function ListingEditScreen() {
                         placeholder="Price"
                         keyboardType="numeric"
                         maxLength={8}
+                        style={{width: "30%"}}
                     />
-                    <AppFormPicker 
-                        name="category"
-                        placeholder="Category"
-                        items={categories}
-                        onSelectItem={(item)=>console.log(item)}
-                    />
-
+                        
                     <AppFormField
                         autoCapitalize="words"
                         autoCorrect={true}
@@ -75,7 +134,7 @@ export default function ListingEditScreen() {
                     />
 
                     <SubmitButton 
-                        title="Post "
+                        title="Post"
                     />
 
 
@@ -89,6 +148,15 @@ export default function ListingEditScreen() {
 const styles = StyleSheet.create({
     container: {
         paddingHorizontal: 10
+    },
+    flexBox: {
+        width: "100%",
+        // flex: 1,
+        flexDirection: "row",
+        display: "flex",
+        backgroundColor: "red",
+        justifyContent: "center",
+        alignItems: "center",
     }
 })
 

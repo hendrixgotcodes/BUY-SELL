@@ -13,14 +13,14 @@ const initialMessages = [
 
     {
         id: 1,
-        title: "T1",
-        description: 'D1',
+        title: "Godwin Owusu",
+        description: 'Nice couch. Can i get it for 500 ?',
         image: require('../../assets/img/mosh.jpg')
     },
     {
         id: 2,
-        title: "T2",
-        description: 'D2',
+        title: "Samuel Opoku Asare",
+        description: "I'm interested in this item. When will i be able to get it?",
         image: require('../../assets/img/mosh.jpg')
     },
 
@@ -59,7 +59,6 @@ export default function MessagesScreen() {
                             subTitle= {item.description}
                             image={item.image}
                             showChevron
-                            numberOfLines={2}
                             renderRightActions = {
                                 ()=>(
                                     <ListItemDeleteAction onPress={()=>{

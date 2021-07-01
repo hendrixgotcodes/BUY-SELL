@@ -13,8 +13,8 @@ export default function Card({title, subTitle, image, style}){
         <View style={[styles.container, style]}>
             <Image style={styles.image} source={image} />
             <View style={styles.captionsWrapper}>
-                <AppText>{title}</AppText>
-                <AppText
+                <AppText numberOfLines={1}>{title}</AppText>
+                <AppText numberOfLines={1}
                     style={{color: Colors.secondary, fontWeight: "bold"}}
                 >
                     {subTitle}
