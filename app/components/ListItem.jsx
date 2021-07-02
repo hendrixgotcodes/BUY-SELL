@@ -1,5 +1,5 @@
 import React from 'react'
-import {View, StyleSheet, Image, Platform, TouchableHighlight} from 'react-native'
+import {View, StyleSheet, Image, Platform, TouchableHighlight, Pressable} from 'react-native'
 
 //Components
 import AppText from './AppText'

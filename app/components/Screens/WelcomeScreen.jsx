@@ -11,7 +11,7 @@ import {
 
 //Components
 import AppText from '../AppText'
-import Button from  '../Button'
+import AppButton from  '../AppButton'
 
 //Assets
 import Colors from '../../assets/_colors'
@@ -21,7 +21,16 @@ const backgroundImage = require("../../assets/bgs/background.jpg")
 const logo = require("../../assets/logo-red.png")
 
 
-export default function WelcomeScreen() {
+export default function WelcomeScreen({navigation}) {
+
+    const handleLoginOnClick = ()=>{
+        navigation.navigate("loginScreen")
+    }
+
+    const handleRegisterOnClick = ()=>{
+        navigation.navigate("registerScreen")
+    }
+
     return (
         <View style={styles.container}>
             <ImageBackground source={backgroundImage} style={styles.imgBg} blurRadius={Platform.OS === "android" ? 2 : 20}>
@@ -31,12 +40,8 @@ export default function WelcomeScreen() {
                         <AppText>Sell What You Don't Need</AppText>
                     </View>
                     <View style={styles.btnWrapper}>
-                        <Button style={{marginBottom: 20}}>
-                            LOGIN
-                        </Button>
-                        <Button style={{marginBottom: 20, backgroundColor: Colors.secondary}}>
-                            REGISTER
-                        </Button>
+                        <AppButton title="login" style={{marginBottom: 20}} onPress={handleLoginOnClick} />
+                        <AppButton title="register" style={{marginBottom: 20, backgroundColor: Colors.secondary}} onPress={handleRegisterOnClick} />
                     </View>
                     </View>
             </ImageBackground>

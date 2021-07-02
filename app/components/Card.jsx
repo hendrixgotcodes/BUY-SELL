@@ -1,5 +1,5 @@
 import React from 'react'
-import {View, StyleSheet, Image} from 'react-native'
+import {View, StyleSheet, Image, Pressable} from 'react-native'
 
 //Components
 import AppText from './AppText'
@@ -7,20 +7,22 @@ import AppText from './AppText'
 //Assets
 import Colors from '../assets/_colors'
 
-export default function Card({title, subTitle, image, style}){
+export default function Card({title, subTitle, image, style, onPress}){
 
     return(
-        <View style={[styles.container, style]}>
-            <Image style={styles.image} source={image} />
-            <View style={styles.captionsWrapper}>
-                <AppText numberOfLines={1}>{title}</AppText>
-                <AppText numberOfLines={1}
-                    style={{color: Colors.secondary, fontWeight: "bold"}}
-                >
-                    {subTitle}
-                </AppText>
+        <Pressable onPress={onPress}>
+            <View style={[styles.container, style]}>
+                <Image style={styles.image} source={image} />
+                <View style={styles.captionsWrapper}>
+                    <AppText numberOfLines={1}>{title}</AppText>
+                    <AppText numberOfLines={1}
+                        style={{color: Colors.secondary, fontWeight: "bold"}}
+                    >
+                        {subTitle}
+                    </AppText>
+                </View>
             </View>
-        </View>
+        </Pressable>
     )
 
 }

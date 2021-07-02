@@ -1,9 +1,12 @@
 import React from 'react'
-import { View, StyleSheet } from 'react-native'
+import { View, StyleSheet, Image } from 'react-native'
 
 //Components
 import {AppForm, AppFormField, SubmitButton} from '../forms'
 import SafeAreaScreen from './SafeAreaScreen'
+
+//Assets
+const logo = require("../../assets/logo-red.png")
 
 //Extra
 import * as Yup from 'yup'
@@ -19,6 +22,8 @@ export default function RegisterScreen() {
         <SafeAreaScreen>
             
             <View style={styles.container}>
+
+                <Image source={logo} style={styles.logo} />
 
                 <AppForm
                     initialValues={{name: "", email: "", password: ""}}
@@ -69,5 +74,12 @@ export default function RegisterScreen() {
 const styles = StyleSheet.create({
     container: {
         padding: 10
-    }
+    },
+    logo:{
+        width: 80,
+        height: 80,
+        alignSelf: "center",
+        marginTop: 50,
+        marginBottom: 20
+   }
 })

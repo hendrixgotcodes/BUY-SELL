@@ -13,7 +13,7 @@ import AppText from '../AppText'
 import Card from '../Card'
 import ListItemSeperator from '../ListItemSeperator'
 
-export default function ListingsScreen() {
+export default function ListingsScreen({navigation}) {
 
     const listings = [
         {
@@ -32,7 +32,7 @@ export default function ListingsScreen() {
 
     return (
 
-        <SafeAreaScreen>
+        // <SafeAreaScreen>
 
             <View style={styles.wrapper}>
                 <FlatList
@@ -48,22 +48,27 @@ export default function ListingsScreen() {
                                 subTitle={item.subTitle}
                                 image={item.image}
                                 style={styles.card}
+                                onPress={()=>{
+                                    navigation.navigate("Listing Details", item)
+                                }}
                             />
                         )
                     }
                 />
             </View>
             
-        </SafeAreaScreen>
+        // {/* </SafeAreaScreen> */}
         
     )
 }
 
 const styles = StyleSheet.create({
     wrapper:{
-        padding: 15
+        paddingHorizontal: 15,
+        flex: 1
     },
     card: {
-        borderRadius: 10
+        borderRadius: 10,
+        marginTop: 10
     }
 })
