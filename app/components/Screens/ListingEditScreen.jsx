@@ -1,25 +1,26 @@
-import React from 'react'
-import { View, Text, StyleSheet} from 'react-native'
+import React, {useEffect, useState} from 'react'
+import { View, Text, StyleSheet, Alert} from 'react-native'
 
 //Components
-import {AppForm, AppFormField, AppFormPicker,SubmitButton} from '../forms'
+import {AppForm, AppFormField, AppFormPicker,SubmitButton, FormImagePicker} from '../forms'
 import AppPicker from '../AppPicker'
 import SafeAreaScreen from './SafeAreaScreen'
 
+//Hooks
+import useLocation from '../../hooks/useLocation'
 
 //Extras
 import * as Yup from 'yup'
+
 
 const validationSchema = Yup.object().shape({
     title: Yup.string().required().label("Title"),
     price: Yup.number().required().min(1).max(10000).label("Price"),
     category: Yup.object().required().nullable().label("Category"),
-    description: Yup.string().label("Description")
+    description: Yup.string().label("Description"),
+    images: Yup.array().min(1, "Please select at least one image").label("Images")
 })
 
-// const categories = [
-     
-// ]
 
 const categories=[
     {
@@ -88,15 +89,23 @@ const categories=[
 ]
 
 export default function ListingEditScreen() {
+
+    const Location = useLocation()
+
     return (
         <SafeAreaScreen>
             
             <View style={styles.container}>
                 <AppForm
-                    initialValues={{title: "", price: "", category: null, description: ""}}
+                    initialValues={{title: "", price: "", category: null, description: "", images: []}}
                     onSubmit={(values)=>console.log(values)}
                     validationSchema={validationSchema}
                 >
+
+                    <FormImagePicker
+                        name="images" 
+                    />
+
                     <AppFormField
                         autoCapitalize="words"
                         autoCorrect={true}

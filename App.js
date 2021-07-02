@@ -6,10 +6,33 @@ import * as Permissions from 'expo-permissions'
 
 //Screens
 import SafeAreaScreen from './app/components/Screens/SafeAreaScreen'
+import ListingEditScreen from './app/components/Screens/ListingEditScreen'
+import {NavigationContainer} from '@react-navigation/native'
 
 //Components
-import AppImageInput from './app/components/AppImageInput'
-import ImageInputList from './app/components/ImageInputList'
+import {createStackNavigator} from '@react-navigation/stack'
+
+const Tweets = ()=>(
+  <SafeAreaScreen>
+    <Text>Tweets</Text>
+  </SafeAreaScreen>
+)
+const TweetDetails = ()=>(
+  <SafeAreaScreen>
+    <Text>Tweet Details</Text>
+  </SafeAreaScreen>
+)
+
+
+const Stack = createStackNavigator()
+const StackNavigator = ()=>(
+
+  <Stack.Navigator>
+      <Stack.Screen name="Tweets" component={Tweets} />
+      <Stack.Screen name="Tweet Details" component={TweetDetails} />
+  </Stack.Navigator>
+
+)
 
 const data=[
   {
@@ -77,45 +100,14 @@ const data=[
   },
 ]
 
-const onChangeURI = (uri)=>{
-  console.log(uri);
-}
+
 
 export default function App() {
 
-  const [URIs, setImageURIs] = useState([])
-
-  const handleOnRemoveImage = (item)=>{
-
-      let uris = URIs.filter(uriItem => uriItem !== item)
-      setImageURIs(uris)
-      
-  }
-
-  const handleOnAddURI = uri=>{
-        setImageURIs(
-            [...URIs,
-                uri
-            ]
-        )
-  }
-  
-  
   return (
-    
-      <SafeAreaScreen>
-
-          {/* <View>
-            <AppImageInput onChangeImage={onChangeURI} />
-          </View> */}
-          <ImageInputList
-            imageURIs = {URIs}
-            onRemoveURI={handleOnRemoveImage}
-            onAddURI = {handleOnAddURI}
-           />
-
-      </SafeAreaScreen>
-
-  );
+      <NavigationContainer>
+          <StackNavigator />
+      </NavigationContainer>
+  )
   
 }
