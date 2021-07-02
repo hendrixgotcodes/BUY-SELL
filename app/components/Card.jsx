@@ -7,11 +7,11 @@ import AppText from './AppText'
 //Assets
 import Colors from '../assets/_colors'
 
-export default function Card({title, subTitle, image, style, onPress}){
+export default function Card({title, subTitle, image, style, onPress, borderRadius}){
 
     return(
         <Pressable onPress={onPress}>
-            <View style={[styles.container, style]}>
+            <View style={[styles.container, {...style}]}>
                 <Image style={styles.image} source={image} />
                 <View style={styles.captionsWrapper}>
                     <AppText numberOfLines={1}>{title}</AppText>
@@ -35,12 +35,11 @@ const styles = StyleSheet.create({
         // height: 300,
         borderTopLeftRadius: 20,
         borderTopRightRadius: 20,
+        overflow: "hidden"
     },
     image: {
         width: "100%",
         height: 200,
-        borderTopLeftRadius: 20,
-        borderTopRightRadius: 20,
     },
     captionsWrapper: {
         display: "flex",

@@ -1,5 +1,5 @@
 import React from 'react'
-import {View, StyleSheet, FlatList} from 'react-native'
+import {View, StyleSheet, FlatList, Pressable} from 'react-native'
 
 
 //Screens
@@ -14,20 +14,22 @@ import AppText from '../AppText'
 import ListItem, {MenuListItem} from '../ListItem'
 import ListItemSeperator from '../ListItemSeperator'
 
-export default function MyAccountScreen(){
+export default function MyAccountScreen({navigation}){
 
     const listDetails= [
         {
             id: 1,
             description: "My Listings",
             backgroundColor: Colors.primary,
-            icon: <MaterialCommunityIcons name="format-list-bulleted" size={20} color={Colors.plain} />
+            icon: <MaterialCommunityIcons name="format-list-bulleted" size={20} color={Colors.plain} />,
+            targetScreen: "My Listings"
         },
         {   
             id:2,
             description: "My Messages",
             backgroundColor: Colors.secondary,
-            icon: <MaterialCommunityIcons name="email" size={20} color={Colors.plain} />
+            icon: <MaterialCommunityIcons name="email" size={20} color={Colors.plain} />,
+            targetScreen: "Messages"
         }
         // {
         //     description: "My Messages",
@@ -39,11 +41,14 @@ export default function MyAccountScreen(){
     return(
         <SafeAreaScreen>
 
-           <ListItem
-                title="Mosh Hamedani" 
-                subTitle="programmingwithmosh@gmail.com"
-                image= {require("../../assets/img/mosh.jpg")}
-           />
+            
+                <ListItem
+                        title="Samuel Opoku Asare" 
+                        subTitle="asare11samuel@gmail.com"
+                        image= {require("../../assets/img/dp.jpg")}
+                        onPress={()=>navigation.navigation("")}
+                />
+            
 
            <View style={styles.listWrapper}>
 
@@ -58,6 +63,7 @@ export default function MyAccountScreen(){
                                 description={item.description}
                                 backgroundColor= {item.backgroundColor}
                                 icon={item.icon}
+                                onPress={()=>navigation.navigate(item.targetScreen)}
                             />
                         )
                     }

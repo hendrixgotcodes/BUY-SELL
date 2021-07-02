@@ -3,32 +3,28 @@ import { View, StyleSheet } from 'react-native'
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs'
 
 //Components
+import AccountNavigator from './AccountNavigator'
 import FeedNavigator from './FeedNavigator'
 import ListingsScreen from '../Screens/ListingsScreen'
 import ListingEditScreen from '../Screens/ListingEditScreen'
-import MyAccountScreen from '../Screens/MyAccountScreen'
+import NewListingButton from './NewListingButton'
+
 
 //Assets
 import {MaterialCommunityIcons, Ionicons} from '@expo/vector-icons'
-import Colors from '../../assets/_colors'
+
 
 //Variable
 const Tab = createBottomTabNavigator()
 
-const listingEditScreenOptions = ({color, size})=>({
-    tabBarIcon: <Ionicons name="add-circle" color={color} size={size} />
-})
-const myAccountScreenOptions = ({color, size})=>({
-    tabBarIcon: <MaterialCommunityIcons name="account" color={color} size={size} />
-})
-
  
-export default function AccountNavigator() {
+export default function AppNavigator() {
     return (
         <Tab.Navigator
-            tabBarOptions={{
-                activeTintColor: Colors.primary,
-                inactiveTintColor: Colors.light,
+            tabBarOptions = {{
+                labelStyle: {
+                fontSize: 14,
+            }
             }}
         >
             <Tab.Screen 
@@ -42,11 +38,16 @@ export default function AccountNavigator() {
             <Tab.Screen 
                 name="listingEdit" 
                 component={ListingEditScreen}
+                options = {({navigation})=>(
+                    {
+                       tabBarButton: ()=><NewListingButton onPress={()=>navigation.navigate("listingEdit")} />,
+                    }
+                )}
             />
 
             <Tab.Screen 
                 name="Account" 
-                component={MyAccountScreen}
+                component={AccountNavigator}
                 options = {{
                     tabBarIcon: ({color, size})=> <MaterialCommunityIcons name="account" color={color} size={size} />
                 }}

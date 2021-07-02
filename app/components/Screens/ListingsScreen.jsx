@@ -7,6 +7,7 @@ import SafeAreaScreen from './SafeAreaScreen'
 //Assets
 import Colors from '../../assets/_colors'
 import { MaterialCommunityIcons } from '@expo/vector-icons';
+import routes from '../navigators/routes'
 
 //Component
 import AppText from '../AppText'
@@ -32,7 +33,7 @@ export default function ListingsScreen({navigation}) {
 
     return (
 
-        // <SafeAreaScreen>
+        <SafeAreaScreen>
 
             <View style={styles.wrapper}>
                 <FlatList
@@ -49,7 +50,7 @@ export default function ListingsScreen({navigation}) {
                                 image={item.image}
                                 style={styles.card}
                                 onPress={()=>{
-                                    navigation.navigate("Listing Details", item)
+                                    navigation.navigate(routes.LISTING_DETAILS, item)
                                 }}
                             />
                         )
@@ -57,7 +58,7 @@ export default function ListingsScreen({navigation}) {
                 />
             </View>
             
-        // {/* </SafeAreaScreen> */}
+        </SafeAreaScreen>
         
     )
 }
@@ -69,6 +70,5 @@ const styles = StyleSheet.create({
     },
     card: {
         borderRadius: 10,
-        marginTop: 10
     }
 })

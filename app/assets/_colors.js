@@ -10,6 +10,7 @@ export default {
     offwhite: "#f8f4f4",
     danger: "#ff5252",
     complementary: "#ffe66d",
+    white: "#fff"
     
 
 }

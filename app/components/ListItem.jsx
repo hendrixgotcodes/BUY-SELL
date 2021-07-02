@@ -72,11 +72,11 @@ export default function ListItem({style, title, subTitle, image, onPress, render
 
 }
 
-export function MenuListItem({icon, description, backgroundColor}){
+export function MenuListItem({icon, description, backgroundColor, onPress}){
 
     return(
 
-        <Pressable>
+        <Pressable onPress={onPress}>
 
             <View style={styles.container}>
 

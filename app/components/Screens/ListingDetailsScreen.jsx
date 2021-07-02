@@ -1,18 +1,47 @@
 import React from 'react'
-import {View, StyleSheet, Platform, SafeAreaView, StatusBar} from 'react-native'
+import {View, StyleSheet, Platform, SafeAreaView, StatusBar, Image} from 'react-native'
+
+//Components
+import AppText from '../AppText'
+import Card from '../Card'
+import ListItem from '../ListItem'
+import SafeAreaScreen from './SafeAreaScreen'
 
 //Assets
 import Colors from '../../assets/_colors'
 
-export default function ListingDetailScren({children}){
+export default function ListingDetailScren({route}){
+
+    const item = route.params
+    const image = require("../../assets/img/dp.jpg")
 
     return(
 
-        <View style={styles.container}>
-            {/* <SafeAreaView style={styles.safeArea}> */}
-                {children}
-            {/* </SafeAreaView> */}
-        </View>
+        // <SafeAreaScreen>
+
+            <View>
+                <View style={styles.cardContainer}>
+                    <Image style={styles.cardImage} source={item.image} />
+                    <View style={styles.captionsWrapper}>
+                        <AppText numberOfLines={1}>{item.title}</AppText>
+                        <AppText numberOfLines={1}
+                            style={{color: Colors.secondary, fontWeight: "bold"}}
+                        >
+                            {item.subTitle}
+                        </AppText>
+                    </View>
+                </View>
+                <ListItem 
+                    title="Samuel Opoku Asare"
+                    subTitle="5 Listings"
+                    image={image}
+                    showChevron
+                    style={{marginTop: 20}}
+                />
+
+            </View>
+            
+        // {/* </SafeAreaScreen> */}
 
     )
 
@@ -20,23 +49,24 @@ export default function ListingDetailScren({children}){
 
 const styles = StyleSheet.create({
 
-    container: {
-        backgroundColor: Colors.offwhite,
+    cardContainer: {
+        backgroundColor: Colors.plain,
         width: "100%",
-        height: "100%",
-        display: "flex",
-        justifyContent: "flex-start",
-        alignItems: "center",
-        flexDirection: "column"
+        borderTopLeftRadius: 20,
+        borderTopRightRadius: 20,
+        overflow: "hidden"
     },
-    safeArea:{
-        paddingTop: Platform.OS === "android" ? StatusBar.currentHeight : 0,
+    cardImage:{
         width: "100%",
-        height: "100%",
+        height: 400,
+        borderTopLeftRadius: 0,
+        borderTopRightRadius: 0,
+    },
+    captionsWrapper: {
         display: "flex",
-        justifyContent: "flex-start",
-        alignItems: "center",
-        flexDirection: "column"
+        flexDirection: "column",
+        paddingVertical: 10,
+        paddingHorizontal: 10
     }
 
 })

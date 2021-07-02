@@ -8,20 +8,24 @@ import ListingDetailsScreen from '../Screens/ListingDetailsScreen'
 
 //Fields
 const Stack = createStackNavigator()
+import routes from './routes'
  
 export default function FeedNavigator() {
     return (
-        <Stack.Navigator>
+        <Stack.Navigator 
+            mode="modal"
+            screenOptions={{
+                headerShown: false
+            }}
+        >
 
             <Stack.Screen name="Listings" component={ListingsScreen} />
-            <Stack.Screen name="Listing Details" component={ListingDetailsScreen} />
+
+            <Stack.Screen 
+                name={routes.LISTING_DETAILS} 
+                component={ListingDetailsScreen} 
+            />
 
         </Stack.Navigator>
     )
 }
- 
-const styles = StyleSheet.create({
-    container: {
- 
-    }
-})
