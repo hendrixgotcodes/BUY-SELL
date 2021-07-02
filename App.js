@@ -1,6 +1,7 @@
 import { StatusBar } from 'expo-status-bar';
 import React, {useState, useEffect} from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import { StyleSheet, Text, View, Button } from 'react-native';
+import {MaterialCommunityIcons} from '@expo/vector-icons'
 
 import * as Permissions from 'expo-permissions'
 
@@ -11,10 +12,15 @@ import {NavigationContainer} from '@react-navigation/native'
 
 //Components
 import {createStackNavigator} from '@react-navigation/stack'
+import {createBottomTabNavigator} from '@react-navigation/bottom-tabs'
 
-const Tweets = ()=>(
+const Tweets = ({navigation})=>(
   <SafeAreaScreen>
     <Text>Tweets</Text>
+    <Button
+      title="View Tweet"
+      onPress={()=>navigation.navigate("Tweet Details", {id: 1})}
+     />
   </SafeAreaScreen>
 )
 const TweetDetails = ()=>(
@@ -23,14 +29,54 @@ const TweetDetails = ()=>(
   </SafeAreaScreen>
 )
 
+const Account = ()=> <SafeAreaScreen><Text>Account</Text></SafeAreaScreen>
 
+
+const Tab = createBottomTabNavigator()
 const Stack = createStackNavigator()
+
+
 const StackNavigator = ()=>(
 
-  <Stack.Navigator>
-      <Stack.Screen name="Tweets" component={Tweets} />
-      <Stack.Screen name="Tweet Details" component={TweetDetails} />
+  <Stack.Navigator screenOptions={{headerShown: false}}>
+      <Stack.Screen
+        name="Tweets" 
+        component={Tweets} 
+      />
+
+      <Stack.Screen 
+        name="Tweet Details" 
+        component={TweetDetails} 
+      />
   </Stack.Navigator>
+
+)
+
+const TabNavigator = ()=>(
+
+  <Tab.Navigator
+    tabBarOptions={
+      {
+        activeBackgroundColor: "dodgerblue",
+        activeTintColor: "white"
+      }
+    }
+  >
+    <Tab.Screen 
+      name="Feed" 
+      component={Tweets} 
+      options={{
+        tabBarIcon: ({size, color})=> <MaterialCommunityIcons size={size} color={color} name="home" size={22} />
+      }}
+    />
+    <Tab.Screen 
+      name="Account" 
+      component={Account}
+      options={{
+        tabBarIcon: ({size, color})=> <MaterialCommunityIcons name="account" color={color} size={size} />
+      }} 
+    />
+  </Tab.Navigator>
 
 )
 
@@ -106,7 +152,7 @@ export default function App() {
 
   return (
       <NavigationContainer>
-          <StackNavigator />
+          <TabNavigator />
       </NavigationContainer>
   )
   
