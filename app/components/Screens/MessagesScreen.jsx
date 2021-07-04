@@ -21,7 +21,7 @@ const initialMessages = [
         id: 2,
         title: "Samuel Opoku Asare",
         description: "I'm interested in this item. When will i be able to get it?",
-        image: require('../../assets/img/mosh.jpg')
+        image: require('../../assets/img/dp.jpg')
     },
 
 ]
@@ -50,9 +50,10 @@ export default function MessagesScreen() {
            {messages.length !== 0 ? 
                 (<FlatList
                     data={messages}
+                    ItemSeparatorComponent= {()=><ListItemSeperator gap={1} />}
                     keyExtractor={message => message.id.toString()}
-                    refreshing={refreshing}
                     onRefresh = {handleOnRefresh}
+                    refreshing={refreshing}
                     renderItem = {({item})=>(
                         <ListItem
                             title={item.title} 
@@ -71,9 +72,6 @@ export default function MessagesScreen() {
                             }}
                         />
                     )}
-                    ItemSeparatorComponent={
-                        ()=><ListItemSeperator />
-                    }
                 />) : (
                     <View style={styles.empty}>
                         <AppText>Nothing to show!</AppText>

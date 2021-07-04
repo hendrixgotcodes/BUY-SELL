@@ -21,13 +21,13 @@ export default function ListingDetailScren({route}){
 
             <View>
                 <View style={styles.cardContainer}>
-                    <Image style={styles.cardImage} source={item.image} />
+                    <Image style={styles.cardImage} source={{uri: item.images[0].url}} />
                     <View style={styles.captionsWrapper}>
                         <AppText numberOfLines={1}>{item.title}</AppText>
                         <AppText numberOfLines={1}
                             style={{color: Colors.secondary, fontWeight: "bold"}}
                         >
-                            {item.subTitle}
+                            {item.price}
                         </AppText>
                     </View>
                 </View>

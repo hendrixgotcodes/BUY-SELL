@@ -46,7 +46,6 @@ export default function MyAccountScreen({navigation}){
                         title="Samuel Opoku Asare" 
                         subTitle="asare11samuel@gmail.com"
                         image= {require("../../assets/img/dp.jpg")}
-                        onPress={()=>navigation.navigation("")}
                 />
             
 
@@ -56,7 +55,7 @@ export default function MyAccountScreen({navigation}){
 
                     data={listDetails}
                     keyExtractor={(items)=>items.id.toString()}
-                    ItemSeparatorComponent= {ListItemSeperator}
+                    // ItemSeparatorComponent= {()=><ListItemSeperator gap={2} />}
                     renderItem={
                         ({item})=>(
                             <MenuListItem

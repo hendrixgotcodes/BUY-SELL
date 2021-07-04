@@ -11,6 +11,7 @@ import NewListingButton from './NewListingButton'
 
 
 //Assets
+import Colors from '../../assets/_colors'
 import {MaterialCommunityIcons, Ionicons} from '@expo/vector-icons'
 
 
@@ -23,15 +24,28 @@ export default function AppNavigator() {
         <Tab.Navigator
             tabBarOptions = {{
                 labelStyle: {
-                fontSize: 14,
-            }
+                    fontSize: 14,
+                },
+                style:{
+                    // height: "9%"
+                    justifyContent: "center",
+                    alignItems: "center"
+                },
+                allowFontScaling: true
             }}
         >
             <Tab.Screen 
                 name="Feed" 
                 component={FeedNavigator}
                 options = {{
-                    tabBarIcon: ({color, size})=> <MaterialCommunityIcons name="home" color={color} size={size} />
+                    tabBarIcon: ({color, size})=> <MaterialCommunityIcons name="home" color={color} size={size} />,
+                    tabBarBadge: 3,
+                    tabBarBadgeStyle: {
+                        display: "flex",
+                        justifyContent: "center",
+                        alignItems: "center",
+                        flexDirection: "column"
+                    }
                 }}
             />
 

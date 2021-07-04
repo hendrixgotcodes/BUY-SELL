@@ -7,12 +7,12 @@ import AppText from './AppText'
 //Assets
 import Colors from '../assets/_colors'
 
-export default function Card({title, subTitle, image, style, onPress, borderRadius}){
+export default function Card({title, subTitle, imageUrl, style, onPress, borderRadius}){
 
     return(
         <Pressable onPress={onPress}>
             <View style={[styles.container, {...style}]}>
-                <Image style={styles.image} source={image} />
+                <Image style={styles.image} source={{uri: imageUrl}} />
                 <View style={styles.captionsWrapper}>
                     <AppText numberOfLines={1}>{title}</AppText>
                     <AppText numberOfLines={1}
