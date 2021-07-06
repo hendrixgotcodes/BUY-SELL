@@ -26,12 +26,19 @@ const useLocation = ()=>{
                     )
                 }else{
                     Location.getCurrentPositionAsync()
-                    .then(({coords: {latitude, longitude}})=>{
-                        setLocation({latitude, longitude})
-                        console.log("latitude", latitude, " longitude:",longitude);
+                    .then((result)=>{
+                        // setLocation({latitude, longitude})
+
+                        // Location.reverseGeocodeAsync({latitude, longitude})
+                        // .then((result)=>{
+                        //     console.log(result);
+                        // })
+
+                        console.log(result);
+
+                        // console.log({latitude, longitude});
                     })
                     .catch((error)=>{
-                        console.log(error);
                         Alert.alert(
                             "Error",
                             "Sorry, Failed to access location services",

@@ -13,45 +13,39 @@ import { MaterialCommunityIcons } from '@expo/vector-icons';
 import routes from '../navigators/routes'
 
 //Component
+import ActivityIndicator from '../ActivityIndicator'
+import AppButton from '../AppButton'
 import AppText from '../AppText'
 import Card from '../Card'
 import ListItemSeperator from '../ListItemSeperator'
 
+//Hooks
+import useAPI from '../../hooks/useAPI'
+
 export default function ListingsScreen({navigation}) {
 
-    // const listings = [
-    //     {
-    //         id: 1,
-    //         title: "Red jacket for sale",
-    //         subTitle: "$100",
-    //         image: require("../../assets/img/jacket.jpg")
-    //     },
-    //     {
-    //         id: 2,
-    //         title: "Couch in great condition",
-    //         subTitle: "$100",
-    //         image: require("../../assets/img/couch.jpg")
-    //     }
-    // ]
-
-    const [listings, setListings] = useState([])
+    const {data: listings, hasError, isLoading, request: loadListings} = useAPI(listingsAPI.getListings)
 
     useEffect(() => {
         loadListings()
     }, [])
 
-    const loadListings = async ()=>{
-
-        const response = await listingsAPI.getListings()
-        setListings(response.data)
-        // console.log(response.data);
-    }
 
     return (
 
         <SafeAreaScreen>
 
             <View style={styles.wrapper}>
+
+                {hasError===true &&
+                    (<View style={{height: "100%", justifyContent: "center", textAlign: "center"}}>
+                        <AppText style={{textAlign: "center", marginBottom: 20}}>Couldn't retrieve the listings</AppText>
+                        <AppButton title="Retry" onPress={loadListings} />
+                    </View>)
+                }
+
+                <ActivityIndicator visible={isLoading} />
+
                 <FlatList
                     data={listings}
                     ItemSeparatorComponent = {()=>(

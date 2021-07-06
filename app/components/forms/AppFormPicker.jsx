@@ -20,6 +20,8 @@ export default function AppFormField({ item, name, onBlur, onSelectItem,...rest}
                     setFieldValue(name, item)
                     handleChange(name)
                     setFieldTouched(name)
+
+                    onSelectItem(item)
                 }}
                 onBlur= {()=>{
                     setFieldTouched(name)

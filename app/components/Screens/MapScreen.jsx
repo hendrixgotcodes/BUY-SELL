@@ -1,0 +1,335 @@
+import React, {useRef, useEffect, useState} from 'react'
+import { View, StyleSheet, Dimensions, Platform } from 'react-native'
+
+//Assets
+import Colors from '../../assets/_colors'
+
+//Components
+import AppTextInput from '../AppTextInput'
+import * as Location from 'expo-location'
+import MapView, {Animated, AnimatedRegion, Marker} from 'react-native-maps'
+import SafeAreaScreen from './SafeAreaScreen'
+
+
+const mapStyle = [
+  {
+    "elementType": "geometry",
+    "stylers": [
+      {
+        "color": "#212121"
+      }
+    ]
+  },
+  {
+    "elementType": "labels.icon",
+    "stylers": [
+      {
+        "visibility": "off"
+      }
+    ]
+  },
+  {
+    "elementType": "labels.text.fill",
+    "stylers": [
+      {
+        "color": "#757575"
+      }
+    ]
+  },
+  {
+    "elementType": "labels.text.stroke",
+    "stylers": [
+      {
+        "color": "#212121"
+      }
+    ]
+  },
+  {
+    "featureType": "administrative",
+    "elementType": "geometry",
+    "stylers": [
+      {
+        "color": "#757575"
+      }
+    ]
+  },
+  {
+    "featureType": "administrative.country",
+    "elementType": "labels.text.fill",
+    "stylers": [
+      {
+        "color": "#9e9e9e"
+      }
+    ]
+  },
+  {
+    "featureType": "administrative.land_parcel",
+    "stylers": [
+      {
+        "visibility": "off"
+      }
+    ]
+  },
+  {
+    "featureType": "administrative.locality",
+    "elementType": "labels.text.fill",
+    "stylers": [
+      {
+        "color": "#bdbdbd"
+      }
+    ]
+  },
+  {
+    "featureType": "poi",
+    "elementType": "labels.text.fill",
+    "stylers": [
+      {
+        "color": "#757575"
+      }
+    ]
+  },
+  {
+    "featureType": "poi.park",
+    "elementType": "geometry",
+    "stylers": [
+      {
+        "color": "#181818"
+      }
+    ]
+  },
+  {
+    "featureType": "poi.park",
+    "elementType": "labels.text.fill",
+    "stylers": [
+      {
+        "color": "#616161"
+      }
+    ]
+  },
+  {
+    "featureType": "poi.park",
+    "elementType": "labels.text.stroke",
+    "stylers": [
+      {
+        "color": "#1b1b1b"
+      }
+    ]
+  },
+  {
+    "featureType": "road",
+    "elementType": "geometry.fill",
+    "stylers": [
+      {
+        "color": "#2c2c2c"
+      }
+    ]
+  },
+  {
+    "featureType": "road",
+    "elementType": "labels.text.fill",
+    "stylers": [
+      {
+        "color": "#8a8a8a"
+      }
+    ]
+  },
+  {
+    "featureType": "road.arterial",
+    "elementType": "geometry",
+    "stylers": [
+      {
+        "color": "#373737"
+      }
+    ]
+  },
+  {
+    "featureType": "road.highway",
+    "elementType": "geometry",
+    "stylers": [
+      {
+        "color": "#3c3c3c"
+      }
+    ]
+  },
+  {
+    "featureType": "road.highway.controlled_access",
+    "elementType": "geometry",
+    "stylers": [
+      {
+        "color": "#4e4e4e"
+      }
+    ]
+  },
+  {
+    "featureType": "road.local",
+    "elementType": "labels.text.fill",
+    "stylers": [
+      {
+        "color": "#616161"
+      }
+    ]
+  },
+  {
+    "featureType": "transit",
+    "elementType": "labels.text.fill",
+    "stylers": [
+      {
+        "color": "#757575"
+      }
+    ]
+  },
+  {
+    "featureType": "water",
+    "elementType": "geometry",
+    "stylers": [
+      {
+        "color": "#000000"
+      }
+    ]
+  },
+  {
+    "featureType": "water",
+    "elementType": "labels.text.fill",
+    "stylers": [
+      {
+        "color": "#3d3d3d"
+      }
+    ]
+  }
+]
+
+const DELTA = {
+  latitudeDelta: 0.0922,
+  longitudeDelta: 0.0421,
+}
+
+
+export default function MapScreen() {
+
+    // useEffect(()=>{
+    //     Location.setGoogleApiKey("AIzaSyAkV66qhT6lHIkWcKD7pIbHofxKUvnBTqA")
+    // }, [])
+
+    const [currentLocation, setCurrentLocation] = useState({
+        "latitude": 5.647746557375088,
+        "longitude": -0.08263701573021955,
+    })
+
+    const [autoCompleteData, setAutoCompleteData] = useState([])
+    const [map, setMap] = useState(null)
+
+    const handleOnTextInput = ({nativeEvent: {text}})=>{
+
+       const locations = []
+    
+        Location.geocodeAsync(text)
+        .then((result)=>{
+
+            result.map((item)=>{
+                Location.reverseGeocodeAsync({"latitude":item.latitude, "longitude":item.longitude})
+                .then((postalAddress)=>{
+
+                  const geoLocation = {
+                    location:{
+                      "latitude": item.latitude,
+                      "longitude": item.longitude
+                    },
+                    city: postalAddress[0].city,
+                    district: postalAddress[0].district,
+                    street: postalAddress[0].street
+                  }
+
+                  locations.push(geoLocation)
+                  setAutoCompleteData(locations)
+                })
+                return null
+            })
+
+        })
+
+    }
+    const handleOnAutoCompleteItemPress = (item)=>{
+
+      setCurrentLocation(item)
+      setAutoCompleteData([])
+
+      // map.animateToRegion({
+      //   ...item,
+      //   ...DELTA
+      // })
+
+      map.getCamera()
+      .then((newCamera)=>{
+
+        newCamera.center = {...item}
+        newCamera.zoom = 20
+
+        map.animateCamera(newCamera, 1000)
+
+      })
+
+
+    }
+
+    return (
+            <View style={styles.container}>
+
+                <View style={styles.inputWrapper}>
+                    <AppTextInput
+                        autoComplete={true}
+                        autoCompleteData={autoCompleteData}
+                        autoCompleteType="street-address"
+                        icon="map-search" 
+                        onSubmitEditing={handleOnTextInput}
+                        onAutoCompleteItemPress={handleOnAutoCompleteItemPress}
+                        placeholder="Search city, town, etc"
+                        placeholderTextColor={Colors.light}
+                    />
+                </View>
+
+                <View style={styles.mapViewWrapper}>
+                    <MapView 
+                        // customMapStyle= {mapStyle}
+                        initialRegion={{
+                            ...currentLocation,
+                            ...DELTA
+                        }}
+                        ref={ref=> (setMap(ref))}
+                        showsUserLocation={true}
+                        style={styles.mapView}
+                        userLocationAnnotationTitle="You"
+                        userLocationCalloutEnabled={true}
+                    >
+                        <Marker
+                            draggable
+                            coordinate={currentLocation}
+                            onDragEnd={(e) => console.log({ x: e.nativeEvent.coordinate })}
+                        />
+                    </MapView>
+                </View>
+
+            </View>
+    )
+}
+ 
+const styles = StyleSheet.create({
+    container: {
+        width: "100%",
+        height: "100%",
+        // padding: 20
+    },
+    inputWrapper:{
+        position: "absolute",
+        top:  Platform.OS === "android" ? 10 : 30,
+        left: 10,
+        zIndex: 2,
+        width: "95%"
+    },
+    mapViewWrapper:{
+        // height: "80%"
+    },
+    mapView:{
+        width: "100%",
+        height: "100%"
+    }
+})

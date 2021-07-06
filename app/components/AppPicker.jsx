@@ -22,6 +22,13 @@ export default function AppPicker({icon, items, onBlur,onSelectItem, placeholder
 
     const textColor = !selected ? styles.text : styles.text_selected
 
+    const submitItem = item =>{
+        return {
+            "label": item.label,
+            "value": item.value
+        }
+    }
+
     return(
         <>
             <Pressable onPress={()=>setIsModalVisible(true)}>
@@ -41,21 +48,6 @@ export default function AppPicker({icon, items, onBlur,onSelectItem, placeholder
                             setIsModalVisible(false)
                             onBlur()
                         }} />
-
-                        {/* <FlatList
-                            data={items}
-                            keyExtractor={(item)=>item.value.toString()}
-                            renderItem={({item})=>(
-                                <PickerItem 
-                                    label={item.label}
-                                    onPress={()=> {
-                                        setSelected(item)
-                                        setIsModalVisible(false)
-                                        onSelectItem(item)
-                                    }}
-                                />
-                            )}
-                        /> */}
                         
                             <FlatGrid
                                 data={items}
@@ -65,9 +57,9 @@ export default function AppPicker({icon, items, onBlur,onSelectItem, placeholder
                                 ({item})=>(
                                     <Pressable
                                         onPress={()=> {
-                                            setSelected(item)
+                                            setSelected(submitItem(item))
                                             setIsModalVisible(false)
-                                            onSelectItem(item)
+                                            onSelectItem(submitItem(item))
                                         }}
                                     >
                                         <Icon

@@ -7,6 +7,7 @@ import AccountNavigator from './AccountNavigator'
 import FeedNavigator from './FeedNavigator'
 import ListingsScreen from '../Screens/ListingsScreen'
 import ListingEditScreen from '../Screens/ListingEditScreen'
+import LottieView from 'lottie-react-native'
 import NewListingButton from './NewListingButton'
 
 
@@ -39,13 +40,15 @@ export default function AppNavigator() {
                 component={FeedNavigator}
                 options = {{
                     tabBarIcon: ({color, size})=> <MaterialCommunityIcons name="home" color={color} size={size} />,
-                    tabBarBadge: 3,
+                    tabBarBadge: true,
                     tabBarBadgeStyle: {
                         display: "flex",
                         justifyContent: "center",
                         alignItems: "center",
-                        flexDirection: "column"
-                    }
+                        flexDirection: "column",
+                        backgroundColor: Colors.secondary
+                    },
+                    tabBarBadgeSize: 1
                 }}
             />
 

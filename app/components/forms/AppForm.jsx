@@ -8,7 +8,7 @@ export default function AppForm({initialValues, onSubmit, validationSchema, chil
     return (
         <Formik
             initialValues={initialValues}
-            onSubmit={(values)=>console.log(values)}
+            onSubmit={(values, {resetForm})=>onSubmit(values, resetForm)}
             validationSchema={validationSchema}
         >
             {()=>(

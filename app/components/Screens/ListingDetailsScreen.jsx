@@ -36,7 +36,7 @@ export default function ListingDetailScren({route}){
                     subTitle="5 Listings"
                     image={image}
                     showChevron
-                    style={{marginTop: 20}}
+                    style={{marginTop: 1}}
                 />
 
             </View>

@@ -1,10 +1,19 @@
 import React, {useEffect, useState} from 'react'
-import { View, Text, StyleSheet, Alert} from 'react-native'
+import { Alert, View, Text, StyleSheet, Modal, Pressable} from 'react-native'
+
+
+//API
+import listingsAPI from '../../api/listings'
+
 
 //Components
 import {AppForm, AppFormField, AppFormPicker,SubmitButton, FormImagePicker} from '../forms'
 import AppPicker from '../AppPicker'
+import AppText from '../AppText'
+import MapView from '../MapView'
+import MapScreen from './MapScreen'
 import SafeAreaScreen from './SafeAreaScreen'
+import UploadScreen from './UploadScreen'
 
 //Hooks
 import useLocation from '../../hooks/useLocation'
@@ -92,13 +101,56 @@ export default function ListingEditScreen() {
 
     const Location = useLocation()
 
+    const [progress, setProgress] = useState(0)
+    const [uploadVisible, setUploadVisible] = useState(false)
+    const [isMapShown, setIsMapShown] = useState(false)
+
+
+    const handleSubmit = (listings, resetForm)=>{
+
+        return new Promise((resolve, reject)=>{
+
+
+            setUploadVisible(true)
+
+            listingsAPI.addListing({...listings, Location}, (progress)=>setProgress(progress))
+            .then((result)=>{
+
+                setProgress(0)
+
+                if(!result.ok){
+                    alert("Could not save the listing")
+                    setUploadVisible(false)
+                    reject()
+                }else{
+                    // setTimeout(() => {
+                    //     setUploadVisible(false)
+                    // }, 1000);
+                    resetForm()
+                    resolve()
+                }
+
+            })
+
+        })
+
+    }
+
+    const handleOnMapPress = ()=>{
+        setIsMapShown(true)
+        console.log(isMapShown);
+    }
+
     return (
         <SafeAreaScreen>
             
             <View style={styles.container}>
+
+                <UploadScreen onDone={()=>setUploadVisible(false)} progress={progress} visible={uploadVisible} />
+
                 <AppForm
                     initialValues={{title: "", price: "", category: null, description: "", images: []}}
-                    onSubmit={(values)=>console.log(values)}
+                    onSubmit={(values, resetForm)=>handleSubmit(values, resetForm)}
                     validationSchema={validationSchema}
                 >
 
@@ -115,10 +167,10 @@ export default function ListingEditScreen() {
                     />
 
                     <AppFormPicker 
-                        name="category"
-                        placeholder="Category"
                         items={categories}
+                        name="category"
                         onSelectItem={(item)=>console.log(item)}
+                        placeholder="Category"
                         style={{width: "60%"}}
                     />
 
@@ -142,13 +194,29 @@ export default function ListingEditScreen() {
                         // textContentType="name"
                     />
 
+                    <Pressable onPress={handleOnMapPress}>
+                        <View style={styles.mapViewWrapper}>
+                            <MapView />
+                            <AppText>
+                                Accra, Ghana
+                            </AppText>
+                        </View>
+                    </Pressable>
+
                     <SubmitButton 
                         title="Post"
                     />
 
 
                 </AppForm>
+
+                <Modal visible={isMapShown} animationType="slide">
+                    <MapScreen />
+                </Modal>
+
             </View>
+
+
             
         </SafeAreaScreen>
     )
@@ -166,6 +234,9 @@ const styles = StyleSheet.create({
         backgroundColor: "red",
         justifyContent: "center",
         alignItems: "center",
+    },
+    mapViewWrapper:{
+        
     }
 })
 
