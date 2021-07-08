@@ -24,6 +24,8 @@ import useAPI from '../../hooks/useAPI'
 
 export default function ListingsScreen({navigation}) {
 
+    
+
     const {data: listings, hasError, isLoading, request: loadListings} = useAPI(listingsAPI.getListings)
 
     useEffect(() => {
@@ -62,6 +64,7 @@ export default function ListingsScreen({navigation}) {
                                 onPress={()=>{
                                     navigation.navigate(routes.LISTING_DETAILS, item)
                                 }}
+                                thumbnailUrl={item.images[0].thumbnailUrl}
                             />
                         )
                     }

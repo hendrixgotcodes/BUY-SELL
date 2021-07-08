@@ -1,5 +1,6 @@
 import React from 'react'
-import {View, StyleSheet, Platform, SafeAreaView, StatusBar, Image} from 'react-native'
+import {View, StyleSheet, Platform, SafeAreaView, StatusBar} from 'react-native'
+import {Image} from 'react-native-expo-image-cache'
 
 //Components
 import AppText from '../AppText'
@@ -21,9 +22,10 @@ export default function ListingDetailScren({route}){
 
             <View>
                 <View style={styles.cardContainer}>
-                    <Image style={styles.cardImage} source={{uri: item.images[0].url}} />
+                    {/* <Image style={styles.cardImage} source={{uri: item.images[0].url}} /> */}
+                    <Image preview={{uri:item.images[0].thumbnailUrl}} tint="light" style={styles.cardImage} uri={item.images[0].url} />
                     <View style={styles.captionsWrapper}>
-                        <AppText numberOfLines={1}>{item.title}</AppText>
+                        <AppText style={{fontWeight: "bold"}} numberOfLines={2}>{item.title}</AppText>
                         <AppText numberOfLines={1}
                             style={{color: Colors.secondary, fontWeight: "bold"}}
                         >

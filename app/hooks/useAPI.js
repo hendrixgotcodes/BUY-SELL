@@ -13,6 +13,7 @@ const useAPI = (apiFunc)=>{
 
         const response = await apiFunc()
 
+
         if(!response.ok)
         {
             setHasError(true)

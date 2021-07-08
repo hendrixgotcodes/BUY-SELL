@@ -1,5 +1,6 @@
 import React from 'react'
-import {View, StyleSheet, Image, Pressable} from 'react-native'
+import {View, StyleSheet, Pressable} from 'react-native'
+import {Image} from 'react-native-expo-image-cache'
 
 //Components
 import AppText from './AppText'
@@ -7,12 +8,13 @@ import AppText from './AppText'
 //Assets
 import Colors from '../assets/_colors'
 
-export default function Card({title, subTitle, imageUrl, style, onPress, borderRadius}){
+export default function Card({title, subTitle, imageUrl, style, thumbnailUrl, onPress, borderRadius}){
 
     return(
         <Pressable onPress={onPress}>
             <View style={[styles.container, {...style}]}>
-                <Image style={styles.image} source={{uri: imageUrl}} />
+                {/* <Image style={styles.image} source={{uri: imageUrl}} /> */}
+                <Image style={styles.image} tint="light" uri={imageUrl} preview={{uri: thumbnailUrl}} />
                 <View style={styles.captionsWrapper}>
                     <AppText numberOfLines={1}>{title}</AppText>
                     <AppText numberOfLines={1}

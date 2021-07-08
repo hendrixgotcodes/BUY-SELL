@@ -4,7 +4,14 @@ import client from './client'
 const endPoint = "/listings"
 
 const getListings = ()=>{
-    return client.get(endPoint)
+    return new Promise((resolve, reject)=>{
+
+        client.get(endPoint)
+        .then((result)=>{
+            resolve(result);
+        })
+
+    })
 }
 
 const addListing = (listing, onUploadProgress)=>{
