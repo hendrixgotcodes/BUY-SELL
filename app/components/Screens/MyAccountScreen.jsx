@@ -1,4 +1,4 @@
-import React from 'react'
+import React, {useContext} from 'react'
 import {View, StyleSheet, FlatList, Pressable} from 'react-native'
 
 
@@ -6,15 +6,19 @@ import {View, StyleSheet, FlatList, Pressable} from 'react-native'
 import SafeAreaScreen from './SafeAreaScreen'
 
 //Assets
+import AuthContext from '../../auth/context'
 import Colors from '../../assets/_colors'
 import { MaterialCommunityIcons } from '@expo/vector-icons';
+import AppText from '../AppText'
 
 //Component
-import AppText from '../AppText'
 import ListItem, {MenuListItem} from '../ListItem'
 import ListItemSeperator from '../ListItemSeperator'
 
 export default function MyAccountScreen({navigation}){
+
+    const {user, setUser} = useContext(AuthContext)
+
 
     const listDetails= [
         {
@@ -44,7 +48,7 @@ export default function MyAccountScreen({navigation}){
             
                 <ListItem
                         title="Samuel Opoku Asare" 
-                        subTitle="asare11samuel@gmail.com"
+                        subTitle={user.email}
                         image= {require("../../assets/img/dp.jpg")}
                 />
             
@@ -75,6 +79,7 @@ export default function MyAccountScreen({navigation}){
                 description="Log Out"
                 backgroundColor={Colors.complementary} 
                 icon={<MaterialCommunityIcons name="logout" size={20} color={Colors.plain} />}
+                onPress={()=>setUser(null)}
             />
 
         </SafeAreaScreen>
