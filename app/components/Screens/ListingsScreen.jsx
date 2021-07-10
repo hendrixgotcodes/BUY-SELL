@@ -1,5 +1,6 @@
 import React, {useState, useEffect} from 'react'
 import { View, FlatList, StyleSheet} from 'react-native'
+import {useNetInfo} from '@react-native-community/netinfo'
 
 //Screens
 import SafeAreaScreen from './SafeAreaScreen'
@@ -27,15 +28,18 @@ export default function ListingsScreen({navigation}) {
     
 
     const {data: listings, hasError, isLoading, request: loadListings} = useAPI(listingsAPI.getListings)
+    const NetInfo = useNetInfo()
 
     useEffect(() => {
         loadListings()
     }, [])
 
 
+
     return (
 
         <SafeAreaScreen>
+
 
             <View style={styles.wrapper}>
 

@@ -25,7 +25,7 @@ export default function ListingDetailScren({route}){
                     {/* <Image style={styles.cardImage} source={{uri: item.images[0].url}} /> */}
                     <Image preview={{uri:item.images[0].thumbnailUrl}} tint="light" style={styles.cardImage} uri={item.images[0].url} />
                     <View style={styles.captionsWrapper}>
-                        <AppText style={{fontWeight: "bold"}} numberOfLines={2}>{item.title}</AppText>
+                        <AppText style={styles.header} numberOfLines={2}>{item.title}</AppText>
                         <AppText numberOfLines={1}
                             style={{color: Colors.secondary, fontWeight: "bold"}}
                         >
@@ -69,6 +69,10 @@ const styles = StyleSheet.create({
         flexDirection: "column",
         paddingVertical: 10,
         paddingHorizontal: 10
+    },
+    header:{
+        fontWeight: "bold", 
+        fontSize: Platform.OS === "android" ? 30 : 30
     }
 
 })

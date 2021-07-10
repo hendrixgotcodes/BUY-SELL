@@ -22,7 +22,7 @@ const useLocation = ()=>{
                 if(granted !== true){
                     Alert.alert(
                         "Permissions",
-                        "Sorry, we need location permissions to make this work!"
+                        "Sorry. We need your location service to make this work."
                     )
                 }else{
                     Location.getCurrentPositionAsync()
@@ -41,7 +41,7 @@ const useLocation = ()=>{
                     .catch((error)=>{
                         Alert.alert(
                             "Error",
-                            "Sorry, Failed to access location services",
+                            "Cannot access your location at the moment. Please ensure your location services is turned on",
                         )
                     })
                 }
