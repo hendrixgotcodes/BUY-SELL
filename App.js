@@ -10,9 +10,11 @@ import LoginScreen from './app/components/Screens/LoginScreen'
 import NotificationBanner from './app/components/NotificationBanner'
 
 //Assets
-import myTheme from './app/components/navigators/navigationTheme'
 import AuthContext from './app/auth/context'
 import authStorage from './app/auth/storage'
+import myTheme from './app/components/navigators/navigationTheme'
+import navigationRef from './app/components/navigators/rootNavigation'
+
 
 
 export default function App() {
@@ -20,6 +22,7 @@ export default function App() {
   const NetInfo = useNetInfo()
   const [isAppReady, setIsAppReady] = useState(false)
   const [user, setUser] = useState()
+
  
 
   const restoreUser = async ()=>{
@@ -42,7 +45,7 @@ export default function App() {
         } 
         {/* <NotificationBanner /> */}
         <AuthContext.Provider value={{user, setUser}}>
-          <NavigationContainer theme={myTheme}>
+          <NavigationContainer ref={navigationRef} theme={myTheme}>
             {user ? <AppNavigator /> : <AuthNavigator />}
           </NavigationContainer>
         </AuthContext.Provider>
