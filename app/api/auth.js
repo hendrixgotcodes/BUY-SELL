@@ -55,6 +55,7 @@ const register = async (email, password)=>{
             case "auth/user-not-found":
                 throw new Error("It appears you have no account with us. Please try sign up.")
             default: 
+                console.log(error);
                 throw new Error("An unknown error occured")
 
         }

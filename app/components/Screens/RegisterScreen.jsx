@@ -3,10 +3,12 @@ import { View, StyleSheet, Image } from 'react-native'
 
 //Components
 import {AppForm, AppFormField, ErrorMessage, SubmitButton} from '../forms'
+import ActivityIndicator from '../ActivityIndicator'
 import SafeAreaScreen from './SafeAreaScreen'
 
 //Assets
 import useAuth from '../../auth/useAuth'
+import useAPI from '../../hooks/useAPI'
 const logo = require("../../assets/logo-red.png")
 
 //Extra
@@ -23,19 +25,28 @@ export default function RegisterScreen({}) {
 
     const [hasLoginFailed, setHasLoginFailed] = useState(false)
     const [errorMessage, setErrorMessage] = useState("")
+    const [isLoading, setIsLoading] = useState(false)
 
     const {logIn} = useAuth()
+    // const registerAPI = useAPI(authApi.register)
 
     const handleSubmit = async ({email, password})=>{
 
+        setIsLoading(true)
+
         try {
+
             const user  =  await authApi.register(email, password)
             logIn(user)
+
         } catch (error) {
             setHasLoginFailed(true)
             setErrorMessage(error.message)
             // console.log(error);
         }
+
+        setIsLoading(false)
+
 
     }
 
@@ -86,6 +97,12 @@ export default function RegisterScreen({}) {
                     />
 
                 </AppForm>
+
+                <View>
+                    <ActivityIndicator visible={isLoading}  />
+                </View>
+
+
 
             </View>
 
