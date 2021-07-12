@@ -1,8 +1,7 @@
 import React, {useEffect} from 'react'
 import { View, StyleSheet } from 'react-native'
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs'
-import * as Notifications from 'expo-notifications'
-import * as Permissions from 'expo-permissions'
+
 
 //Components
 import AccountNavigator from './AccountNavigator'
@@ -15,9 +14,9 @@ import NewListingButton from './NewListingButton'
 
 //Assets
 import Colors from '../../assets/_colors'
-import expoPushTokensApi from '../../api/expoPushTokens'
 import {navigate} from './rootNavigation'
 import {MaterialCommunityIcons, Ionicons} from '@expo/vector-icons'
+import useNotifications from '../../hooks/useNotifications'
 
 
 //Variable
@@ -26,30 +25,7 @@ const Tab = createBottomTabNavigator()
  
 export default function AppNavigator() {
 
-    useEffect(() => {
-        registerForPushNotifications()
-
-        Notifications.addNotificationResponseReceivedListener((notifications)=>navigate("Account"))
-    }, [])
-
-    const registerForPushNotifications = async ()=>{
-
-        try {
-            const permissionResponse = await Permissions.askAsync(Permissions.NOTIFICATIONS)
-            if(!permissionResponse.granted){
-                alert("Cannot work without Notification service")
-                return
-            }
-
-            const token = await Notifications.getExpoPushTokenAsync()
-            expoPushTokensApi.register(token.data);
-            
-        } catch (error) {
-            console.log(error);
-        }
-
-
-    }
+    useNotifications()
 
     return (
         <Tab.Navigator
