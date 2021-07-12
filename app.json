@@ -6,9 +6,10 @@
     "orientation": "default",
     "icon": "./app/assets/logo-red.png",
     "splash": {
-      "image": "./app/assets/logo-red.png",
-      "resizeMode": "contain",
-      "backgroundColor": "#ffffff"
+      "image": "./app/assets/splash.png",
+      "resizeMode": "cover",
+      // "backgroundColor": "#e63e4b",
+      "backgroundColor": "#fff"
     },
     "updates": {
       "fallbackToCacheTimeout": 0

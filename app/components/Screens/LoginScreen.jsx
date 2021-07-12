@@ -8,12 +8,13 @@ import {AppForm, ErrorMessage, AppFormField, SubmitButton} from '../forms'
 
 
 //Assets
-const logo = require("../../assets/logo-red.png")
 import AuthContext from '../../auth/context'
+import authStorage from '../../auth/storage'
+const logo = require("../../assets/logo-red.png")
 
 //Extra
-import * as Yup from 'yup'
 import authApi from '../../api/auth'
+import * as Yup from 'yup'
 
 //Variables
 const validationSchema = Yup.object().shape({
@@ -35,6 +36,7 @@ export default function LoginScreen(){
         try {
             const user  =  await authApi.login(email, password)
             authContext.setUser(user)
+            authStorage.storeToken(user)
         } catch (error) {
             setHasLoginFailed(true)
             setErrorMessage(error.message)

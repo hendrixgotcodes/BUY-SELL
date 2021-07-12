@@ -7,6 +7,7 @@ import SafeAreaScreen from './SafeAreaScreen'
 
 //Assets
 import AuthContext from '../../auth/context'
+import authStorage from '../../auth/storage'
 import Colors from '../../assets/_colors'
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import AppText from '../AppText'
@@ -41,6 +42,14 @@ export default function MyAccountScreen({navigation}){
         //     icon: <MaterialCommunityIcons name="email" size={24} color={Colors.plain} />
         // },
     ]
+
+    const handleLogOut = ()=>{
+
+        authStorage.removeToken()
+
+        setUser(null)
+
+    }
 
     return(
         <SafeAreaScreen>
@@ -79,7 +88,7 @@ export default function MyAccountScreen({navigation}){
                 description="Log Out"
                 backgroundColor={Colors.complementary} 
                 icon={<MaterialCommunityIcons name="logout" size={20} color={Colors.plain} />}
-                onPress={()=>setUser(null)}
+                onPress={handleLogOut}
             />
 
         </SafeAreaScreen>
