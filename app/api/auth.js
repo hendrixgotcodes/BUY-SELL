@@ -32,6 +32,40 @@ const login = async (email, password)=>{
 
 }
 
+const register = async (email, password)=>{
+
+    try {
+
+        const {user} = await firebase.auth().createUserWithEmailAndPassword(email, password)
+        return user
+
+    } catch (error) {
+
+        switch(error.code){
+
+            case "auth/invalid-password": 
+                throw new Error("Invalid password")
+                break
+            case "auth/email-already-in-use":
+                throw new Error("Email already existes")
+                break
+            case "auth/wrong-password":
+                throw new Error("Incorrect password")
+                break
+            case "auth/user-not-found":
+                throw new Error("It appears you have no account with us. Please try sign up.")
+            default: 
+                throw new Error("An unknown error occured")
+
+        }
+
+
+
+    }
+
+}
+
 export default {
-    login
+    login,
+    register
 }

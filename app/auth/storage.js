@@ -27,6 +27,18 @@ const getToken = async ()=>{
 
 }
 
+const getUser = async ()=>{
+
+    try {
+        const token = await getToken()
+
+        return (token) ? token : null
+    } catch (error) {
+        
+    }
+
+}
+
 const removeToken = async ()=>{
 
     try {
@@ -38,4 +50,4 @@ const removeToken = async ()=>{
 
 }
 
-export default {storeToken, getToken, removeToken}
+export default {storeToken, getToken, getUser, removeToken}

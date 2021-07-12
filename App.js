@@ -22,17 +22,17 @@ export default function App() {
   const [user, setUser] = useState()
  
 
-  const restoreToken = async ()=>{
+  const restoreUser = async ()=>{
 
-    const token = await authStorage.getToken()
+    const user = await authStorage.getUser()
 
-    if(!token) return
-    setUser(token)
+    if(!user) return
+    setUser(user)
 
   }
 
   if(!isAppReady){
-    return (<AppLoading startAsync={restoreToken} onFinish={()=> setIsAppReady(true)} onError={(error)=>console.log(error)} />)
+    return (<AppLoading startAsync={restoreUser} onFinish={()=> setIsAppReady(true)} onError={(error)=>console.log(error)} />)
   }
 
   return (

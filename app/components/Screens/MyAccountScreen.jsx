@@ -1,4 +1,4 @@
-import React, {useContext} from 'react'
+import React from 'react'
 import {View, StyleSheet, FlatList, Pressable} from 'react-native'
 
 
@@ -6,19 +6,18 @@ import {View, StyleSheet, FlatList, Pressable} from 'react-native'
 import SafeAreaScreen from './SafeAreaScreen'
 
 //Assets
-import AuthContext from '../../auth/context'
-import authStorage from '../../auth/storage'
 import Colors from '../../assets/_colors'
 import { MaterialCommunityIcons } from '@expo/vector-icons';
-import AppText from '../AppText'
+import useAuth from '../../auth/useAuth'
 
 //Component
+import AppText from '../AppText'
 import ListItem, {MenuListItem} from '../ListItem'
 import ListItemSeperator from '../ListItemSeperator'
 
 export default function MyAccountScreen({navigation}){
 
-    const {user, setUser} = useContext(AuthContext)
+    const {user, logOut} = useAuth()
 
 
     const listDetails= [
@@ -43,13 +42,6 @@ export default function MyAccountScreen({navigation}){
         // },
     ]
 
-    const handleLogOut = ()=>{
-
-        authStorage.removeToken()
-
-        setUser(null)
-
-    }
 
     return(
         <SafeAreaScreen>
@@ -88,7 +80,7 @@ export default function MyAccountScreen({navigation}){
                 description="Log Out"
                 backgroundColor={Colors.complementary} 
                 icon={<MaterialCommunityIcons name="logout" size={20} color={Colors.plain} />}
-                onPress={handleLogOut}
+                onPress={logOut}
             />
 
         </SafeAreaScreen>

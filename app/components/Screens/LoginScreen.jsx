@@ -1,4 +1,4 @@
-import React, {useState, useContext} from 'react'
+import React, {useState} from 'react'
 import {View, StyleSheet, Image, TextInput} from 'react-native'
 
 //Components
@@ -10,6 +10,7 @@ import {AppForm, ErrorMessage, AppFormField, SubmitButton} from '../forms'
 //Assets
 import AuthContext from '../../auth/context'
 import authStorage from '../../auth/storage'
+import useAuth from '../../auth/useAuth'
 const logo = require("../../assets/logo-red.png")
 
 //Extra
@@ -29,14 +30,13 @@ export default function LoginScreen(){
     const [hasLoginFailed, setHasLoginFailed] = useState(false)
     const [errorMessage, setErrorMessage] = useState("")
 
-    const authContext = useContext(AuthContext)
+    const {logIn} = useAuth()
 
     const handleSubmit = async ({email, password})=>{
 
         try {
             const user  =  await authApi.login(email, password)
-            authContext.setUser(user)
-            authStorage.storeToken(user)
+            logIn(user)
         } catch (error) {
             setHasLoginFailed(true)
             setErrorMessage(error.message)

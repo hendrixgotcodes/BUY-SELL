@@ -1,14 +1,16 @@
-import React from 'react'
+import React, {useState} from 'react'
 import { View, StyleSheet, Image } from 'react-native'
 
 //Components
-import {AppForm, AppFormField, SubmitButton} from '../forms'
+import {AppForm, AppFormField, ErrorMessage, SubmitButton} from '../forms'
 import SafeAreaScreen from './SafeAreaScreen'
 
 //Assets
+import useAuth from '../../auth/useAuth'
 const logo = require("../../assets/logo-red.png")
 
 //Extra
+import authApi from '../../api/auth'
 import * as Yup from 'yup'
 
 const validationSchema = Yup.object().shape({
@@ -17,17 +19,37 @@ const validationSchema = Yup.object().shape({
     password: Yup.string().required().min(5).max(10).label("Password")
 })
 
-export default function RegisterScreen() {
+export default function RegisterScreen({}) {
+
+    const [hasLoginFailed, setHasLoginFailed] = useState(false)
+    const [errorMessage, setErrorMessage] = useState("")
+
+    const {logIn} = useAuth()
+
+    const handleSubmit = async ({email, password})=>{
+
+        try {
+            const user  =  await authApi.register(email, password)
+            logIn(user)
+        } catch (error) {
+            setHasLoginFailed(true)
+            setErrorMessage(error.message)
+            // console.log(error);
+        }
+
+    }
+
     return (
         <SafeAreaScreen>
             
             <View style={styles.container}>
 
                 <Image source={logo} style={styles.logo} />
-
+                
+                {hasLoginFailed === true && <ErrorMessage message={errorMessage} />}
                 <AppForm
                     initialValues={{name: "", email: "", password: ""}}
-                    onSubmit={(values)=>console.log(values)}
+                    onSubmit={(res)=>handleSubmit(res)}
                     validationSchema={validationSchema}
                 >
                     <AppFormField
