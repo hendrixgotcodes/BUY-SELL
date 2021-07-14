@@ -1,5 +1,5 @@
 import React from 'react'
-import {View, StyleSheet, TextInput, Platform, FlatList, Text, Pressable} from 'react-native'
+import {Animated, View, StyleSheet, TextInput, Platform, FlatList, Text, Pressable} from 'react-native'
 
 //Components
 import AppText from './AppText'
@@ -57,10 +57,10 @@ export default function AppTextInput({autoComplete=false, autoCompleteData, onAu
     return(
 
         <>
-            <View style={[styles.textIputWrapper, style]}>
+            <Animated.View style={[styles.textIputWrapper, style]}>
                 {icon && <MaterialCommunityIcons name={icon} size={20} color={Colors.medium} style={styles.icon} />}
                 <TextInput style={defaultStyles.text} {...rest} />
-            </View>
+            </Animated.View>
 
             {
                 autoComplete==true && (
@@ -100,7 +100,8 @@ const styles = StyleSheet.create({
         marginRight: 10
     },
     text:{
-        flex: 1
+        flex: 1,
+        width: "100%"
     },
     flatList:{
         marginTop: 10

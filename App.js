@@ -7,6 +7,7 @@ import AppLoading from 'expo-app-loading'
 import AppNavigator from './app/components/navigators/AppNavigator'
 import AuthNavigator from './app/components/navigators/AuthNavigator'
 import LoginScreen from './app/components/Screens/LoginScreen'
+import ChatScreen from './app/components/Screens/ChatScreen'
 import NotificationBanner from './app/components/NotificationBanner'
 
 //Assets
@@ -50,7 +51,7 @@ export default function App() {
           </NavigationContainer>
         </AuthContext.Provider>
       </>
-      // <LoginScreen />
+      // <ChatScreen />
 
   )
   

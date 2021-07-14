@@ -17,7 +17,16 @@ export default useNotifications = ()=>{
     const registerForPushNotifications = async ()=>{
 
         try {
-            const permissionResponse = await Permissions.askAsync(Permissions.NOTIFICATIONS)
+            const permissionResponse = await Notifications.requestPermissionsAsync({
+                allowAlert: true,
+                allowBadge: true,
+                allowSound: true,
+                allowDisplayInCarPlay: true,
+                allowCriticalAlerts: true,
+                provideAppNotificationSettings: true,
+                allowProvisional: true,
+                allowAnnouncements: true
+            })
             if(!permissionResponse.granted){
                 alert("Cannot work without Notification service")
                 return
@@ -25,6 +34,7 @@ export default useNotifications = ()=>{
 
             const token = await Notifications.getExpoPushTokenAsync()
             expoPushTokensApi.register(token.data);
+            console.log(token.data);
             
         } catch (error) {
             console.log(error);

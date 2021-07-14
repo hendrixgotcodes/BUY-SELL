@@ -1,13 +1,14 @@
 import React, {useRef, useEffect, useState} from 'react'
-import { View, StyleSheet, Dimensions, Platform } from 'react-native'
+import {Animated, View, StyleSheet, Dimensions, Platform, Pressable } from 'react-native'
 
 //Assets
 import Colors from '../../assets/_colors'
+import { MaterialCommunityIcons } from '@expo/vector-icons';
 
 //Components
 import AppTextInput from '../AppTextInput'
 import * as Location from 'expo-location'
-import MapView, {Animated, AnimatedRegion, Marker} from 'react-native-maps'
+import MapView, { AnimatedRegion, Marker} from 'react-native-maps'
 import SafeAreaScreen from './SafeAreaScreen'
 
 
@@ -204,7 +205,7 @@ const DELTA = {
 }
 
 
-export default function MapScreen() {
+export default function MapScreen({dismiss}) {
 
     // useEffect(()=>{
     //     Location.setGoogleApiKey("AIzaSyAkV66qhT6lHIkWcKD7pIbHofxKUvnBTqA")
@@ -217,6 +218,11 @@ export default function MapScreen() {
 
     const [autoCompleteData, setAutoCompleteData] = useState([])
     const [map, setMap] = useState(null)
+
+    const formAnimation = useRef(new Animated.Value(-400)).current
+    const searchBoxAnimation = useRef(new Animated.Value(1500)).current
+
+    // console.log(formAnimation, searchBoxAnimation);
 
     const handleOnTextInput = ({nativeEvent: {text}})=>{
 
@@ -271,21 +277,80 @@ export default function MapScreen() {
 
     }
 
+    const handleSearchBoxOnFocus = ()=>{
+
+      // maximizeForm()
+      shrinkSearchBox()
+
+    }
+
+    const maximizeForm = ()=>{
+
+        Animated.timing(formAnimation,{
+          toValue: -50,
+          duration: 300,
+          useNativeDriver: false
+        }).start()
+
+    }
+
+    const minimizeForm = ()=>{
+      Animated.timing(formAnimation,{
+        toValue: -400,
+        duration: 300,
+        useNativeDriver: false
+      }).start()
+    }
+
+    const maximizeSearchBox = ()=>{
+
+        Animated.timing(searchBoxAnimation, {
+          toValue: 1500,
+          duration: 300,
+          useNativeDriver: false
+        })
+
+    }
+
+    const shrinkSearchBox = ()=>{
+
+        Animated.timing(searchBoxAnimation, {
+          toValue: 1,
+          duration: 300,
+          useNativeDriver: true
+        })
+
+    }
+
     return (
             <View style={styles.container}>
 
-                <View style={styles.inputWrapper}>
-                    <AppTextInput
-                        autoComplete={true}
-                        autoCompleteData={autoCompleteData}
-                        autoCompleteType="street-address"
-                        icon="map-search" 
-                        onSubmitEditing={handleOnTextInput}
-                        onAutoCompleteItemPress={handleOnAutoCompleteItemPress}
-                        placeholder="Search city, town, etc"
-                        placeholderTextColor={Colors.light}
-                    />
-                </View>
+                  <View style={styles.return}>
+                      <Pressable onPress={dismiss}>
+                        <MaterialCommunityIcons name="chevron-left" size={24} color={Colors.medium} />
+                      </Pressable>
+                  </View>
+
+                <Animated.View style={[styles.form, {bottom: formAnimation}]}>
+                  <View style={styles.inputWrapper}>
+                      <AppTextInput
+                          autoComplete={true}
+                          autoCompleteData={autoCompleteData}
+                          autoCompleteType="street-address"
+                          icon="map-search"
+                          onBlur={minimizeForm}
+                          onFocus={handleSearchBoxOnFocus}
+                          onSubmitEditing={handleOnTextInput}
+                          onAutoCompleteItemPress={handleOnAutoCompleteItemPress}
+                          placeholder="Search city, town, etc"
+                          placeholderTextColor={Colors.light}
+                          style={{backgroundColor: Colors.offwhite, flex: searchBoxAnimation}}
+                      />
+                      <View style={styles.inputClose}>
+                        <MaterialCommunityIcons name="close" size={24} color="black" />
+                      </View>
+                  </View>
+                </Animated.View>
 
                 <View style={styles.mapViewWrapper}>
                     <MapView 
@@ -316,20 +381,58 @@ const styles = StyleSheet.create({
     container: {
         width: "100%",
         height: "100%",
-        // padding: 20
+        display: "flex",
+        // flexDirection: "row"
+    },
+    form:{
+      // bottom: -400,
+      position: "absolute",
+      borderTopLeftRadius: 20,
+      borderTopRightRadius: 20,
+      left: 0,
+      height: "90%",
+      width: "100%",
+      backgroundColor: Colors.plain,
+      zIndex: 2,
+    },
+    inputClose:{
+      alignItems: "center",
+      borderRadius: 10,
+      height: 47,
+      marginRight: "auto",
+      backgroundColor: Colors.offwhite,
+      flex: 1,
+      justifyContent: "center", 
     },
     inputWrapper:{
-        position: "absolute",
-        top:  Platform.OS === "android" ? 10 : 30,
+        // position: "absolute",
+        // top:  Platform.OS === "android" ? 10 : 30,
+        alignItems: "center",
+        flexDirection: "row",
+        justifyContent: "center",
         left: 10,
+        overflow: "hidden",
         zIndex: 2,
         width: "95%"
     },
     mapViewWrapper:{
-        // height: "80%"
+        height: "70%",
+        width: "100%"
     },
     mapView:{
         width: "100%",
         height: "100%"
+    },
+    return:{
+      alignItems: "center",
+      backgroundColor: Colors.plain,
+      borderRadius: 10,
+      height: 45,
+      justifyContent: "center",
+      left: 10,
+      position: "absolute",
+      top: Platform.OS==="ios" ? 50 : 20,
+      width: 45,
+      zIndex: 3,
     }
 })

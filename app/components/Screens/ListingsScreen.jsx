@@ -1,5 +1,5 @@
 import React, {useState, useEffect} from 'react'
-import { View, FlatList, StyleSheet} from 'react-native'
+import {  FlatList, Image, Pressable, StatusBar, StyleSheet, View,} from 'react-native'
 import {useNetInfo} from '@react-native-community/netinfo'
 
 //Screens
@@ -10,7 +10,7 @@ import listingsAPI from '../../api/listings'
 
 //Assets
 import Colors from '../../assets/_colors'
-import { MaterialCommunityIcons } from '@expo/vector-icons';
+import { MaterialCommunityIcons, Ionicons, Feather } from '@expo/vector-icons';
 import routes from '../navigators/routes'
 
 //Component
@@ -26,19 +26,86 @@ import useAPI from '../../hooks/useAPI'
 export default function ListingsScreen({navigation}) {
 
     
-
+    const [isRefreshing, setIsRefreshing] = useState(false)
     const {data: listings, hasError, isLoading, request: loadListings} = useAPI(listingsAPI.getListings)
     const NetInfo = useNetInfo()
 
     useEffect(() => {
         loadListings()
+
+        StatusBar.setBarStyle('dark-content', true)
+
     }, [])
+
+    // const refresh = ()=>{
+
+    //     setIsRefreshing(true)
+    //     loadListings()
+
+    // }
 
 
 
     return (
 
-        <SafeAreaScreen>
+        <SafeAreaScreen style={styles.container}>
+
+            <View>
+                <View style={styles.header}>
+
+                    <Pressable>
+                        <Ionicons 
+                            color={Colors.medium}
+                            hitSlop = {20}
+                            name="add-circle-outline" 
+                            size={26} 
+                            style={styles.messageIcon} 
+                        />
+                    </Pressable>
+
+                    <Image 
+                        style={styles.logo} 
+                        color={Colors.medium} 
+                        source={require("../../assets/logo-red.png")} 
+                    />
+
+                    <Pressable 
+                        onPress={()=>navigation.navigate("Messages")}
+                        hitSlop={20}
+                    >
+                        <View>
+                            <MaterialCommunityIcons 
+                                style={styles.messageIcon} 
+                                color={Colors.medium} 
+                                name="email-outline" 
+                                size={24} 
+                            />
+                            <View style={styles.badge} />
+                        </View>
+                    </Pressable>
+
+                </View>
+
+                <View style={styles.subHeader}>
+
+                    <View style={{ borderRightWidth: 0.2, flexDirection: "row", justifyContent: "center", alignItems: "center", width: "30%"}}>
+                        <MaterialCommunityIcons name="map-marker" size={16} color={Colors.light} />
+                        <AppText style={{color: Colors.light, fontSize: 16}}>
+                            Ghana
+                        </AppText>
+                    </View>
+
+                    <View style={{borderRightWidth: 0.2, flexDirection: "row", justifyContent: "center", alignItems: "center", width: "30%"}}>
+                        <MaterialCommunityIcons name="tag" size={16} color={Colors.light} />
+                        <AppText style={{color: Colors.light, fontSize: 16}}>
+                            Category
+                        </AppText>
+                    </View>
+
+                    <MaterialCommunityIcons name="filter" size={16} color={Colors.light} />
+
+                </View>
+            </View>
 
 
             <View style={styles.wrapper}>
@@ -54,15 +121,17 @@ export default function ListingsScreen({navigation}) {
 
                 <FlatList
                     data={listings}
-                    ItemSeparatorComponent = {()=>(
-                        <ListItemSeperator gap={20} />
-                    )}
+                    // ItemSeparatorComponent = {()=>(
+                    //     <ListItemSeperator gap={20} />
+                    // )}
                     keyExtractor={(card)=>card.id.toString()}
+                    onRefresh={loadListings}
+                    refreshing={isLoading}
                     renderItem={
                         ({item})=>(
                             <Card
                                 title={item.title}
-                                subTitle={item.price}
+                                subTitle={"₵"+item.price}
                                 imageUrl={item.images[0].url}
                                 style={styles.card}
                                 onPress={()=>{
@@ -82,11 +151,49 @@ export default function ListingsScreen({navigation}) {
 }
 
 const styles = StyleSheet.create({
-    wrapper:{
-        paddingHorizontal: 15,
-        flex: 1
+    badge:{
+        position: "absolute",
+        width: 10,
+        height: 10,
+        top: 0,
+        right: 0,
+        backgroundColor: Colors.secondary,
+        borderRadius: 100
     },
     card: {
         borderRadius: 10,
-    }
+        marginTop: 20
+    },
+    container:{
+        backgroundColor: Colors.plain
+    },
+    header:{
+        alignItems: "center",
+        backgroundColor: Colors.plain,
+        display: "flex",
+        flexDirection: "row",
+        height: 50,
+        justifyContent: "space-between",
+        paddingHorizontal: 15,
+        width: "100%",
+    },
+    logo:{
+        height: 30,
+        width: 30
+    },
+    subHeader: {
+        width: "100%",
+        height: 50,
+        flexDirection: "row",
+        justifyContent: "space-evenly",
+        alignItems: "center",
+        borderTopWidth: 0.2,
+        // borderBottomWidth: 0.2,
+        borderColor: Colors.light
+    },
+    wrapper:{
+        flex: 1,
+        paddingHorizontal: 15,
+        backgroundColor: Colors.offwhite
+    },
 })

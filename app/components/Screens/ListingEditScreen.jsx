@@ -138,7 +138,6 @@ export default function ListingEditScreen() {
 
     const handleOnMapPress = ()=>{
         setIsMapShown(true)
-        console.log(isMapShown);
     }
 
     return (
@@ -211,7 +210,7 @@ export default function ListingEditScreen() {
                 </AppForm>
 
                 <Modal visible={isMapShown} animationType="slide">
-                    <MapScreen />
+                    <MapScreen dismiss={()=>setIsMapShown(false)} />
                 </Modal>
 
             </View>

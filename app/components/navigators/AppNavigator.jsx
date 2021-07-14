@@ -1,6 +1,7 @@
-import React, {useEffect} from 'react'
+import React, {useContext, useEffect, useState} from 'react'
 import { View, StyleSheet } from 'react-native'
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs'
+import { getFocusedRouteNameFromRoute } from '@react-navigation/native'
 
 
 //Components
@@ -22,8 +23,25 @@ import useNotifications from '../../hooks/useNotifications'
 //Variable
 const Tab = createBottomTabNavigator()
 
+
+const getTabBarVisibility = (route)=>{
+    
+    return getFocusedRouteNameFromRoute(route) === "Messages" ? false : true
+
+}
  
-export default function AppNavigator() {
+export default function AppNavigator({routes}) {
+
+    const [tabBarVisible, setTabBarVisbile] = useState(true)
+    
+    const TabBarVisbilityContext = React.createContext([tabBarVisible, setTabBarVisbile])
+
+    const FeedNavigatorContexted = ()=>{
+        <TabBarVisbilityContext.Provider>
+            <FeedNavigator />
+        </TabBarVisbilityContext.Provider>
+    }
+
 
     useNotifications()
 
@@ -44,7 +62,8 @@ export default function AppNavigator() {
             <Tab.Screen 
                 name="Feed" 
                 component={FeedNavigator}
-                options = {{
+                options = {({route})=>({
+                    tabBarVisible: getTabBarVisibility(route),
                     tabBarIcon: ({color, size})=> <MaterialCommunityIcons name="home" color={color} size={size} />,
                     tabBarBadge: true,
                     tabBarBadgeStyle: {
@@ -55,7 +74,7 @@ export default function AppNavigator() {
                         backgroundColor: Colors.secondary
                     },
                     tabBarBadgeSize: 1
-                }}
+                })}
             />
 
             <Tab.Screen 
