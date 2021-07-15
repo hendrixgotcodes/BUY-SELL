@@ -18,9 +18,9 @@ const initialMessages = [
 
     {
         id: 1,
-        title: "Godwin Owusu",
+        title: "Serwaa Bonsu",
         description: 'Nice couch. Can i get it for 500 ?',
-        image: require('../../assets/img/mosh.jpg')
+        image: require('../../assets/img/serwaaBonsu.jpg')
     },
     {
         id: 2,
@@ -68,8 +68,8 @@ export default function MessagesScreen({navigation}) {
                     hitSlop={{
                         bottom: 20,
                         top: 20,
-                        left: null,
-                        right: null
+                        left: 0,
+                        right: 0
                     }}
                     onPress={handleReturnOnPress}
                     style={styles.return} 
@@ -77,7 +77,7 @@ export default function MessagesScreen({navigation}) {
 
                     <MaterialCommunityIcons name="chevron-left" size={32} color={Colors.primary} />
                     
-                    <Text style={{fontSize: 16}}>Listings</Text>
+                    <Text style={{fontSize: 20,}}>Listings</Text>
                 </Pressable>
 
                 <AppText style={styles.headerTitle}>

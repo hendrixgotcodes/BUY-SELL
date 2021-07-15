@@ -4,7 +4,7 @@ import {View, StyleSheet, Image, TextInput} from 'react-native'
 //Components
 import AppText from '../AppText'
 import SafeAreaScreen from './SafeAreaScreen'
-import {AppForm, ErrorMessage, AppFormField, SubmitButton} from '../forms'
+import {AppForm, ErrorMessage, AppFormField, SubmitButtonLoading} from '../forms'
 
 
 //Assets
@@ -29,10 +29,14 @@ export default function LoginScreen(){
 
     const [hasLoginFailed, setHasLoginFailed] = useState(false)
     const [errorMessage, setErrorMessage] = useState("")
+    const [isLoading, setIsLoading] = useState(false) 
 
     const {logIn} = useAuth()
 
     const handleSubmit = async ({email, password})=>{
+
+
+        setIsLoading(true)
 
         try {
             const user  =  await authApi.login(email, password)
@@ -42,6 +46,8 @@ export default function LoginScreen(){
             setErrorMessage(error.message)
             // console.log(error);
         }
+
+        setIsLoading(false)
 
     }
 
@@ -77,8 +83,9 @@ export default function LoginScreen(){
                         textContentType="password"
                     />
                     
-                    <SubmitButton 
+                    <SubmitButtonLoading 
                         title="Login"
+                        isLoading={isLoading}
                     />
 
                 </AppForm>

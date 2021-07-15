@@ -1,5 +1,7 @@
 import React, { useCallback, useEffect, useState} from 'react'
+import * as Linking from 'expo-linking'
 import { View, StyleSheet, Pressable, Text } from 'react-native'
+import {Video, Audio} from 'expo-av'
 
 //Assets
 import Colors from '../../assets/_colors'
@@ -20,40 +22,50 @@ export default function ChatScreen({navigation}) {
         setMessages([
             {
                 _id: 1,
-                text: 'Hello developer',
+                text: 'Nice couch. Can i get it for 500',
                 createdAt: new Date(),
                 user: {
                 _id: 1,
                 name: 'React Native',
-                avatar: 'https://placeimg.com/140/140/any',
+                avatar: require('../../assets/img/serwaaBonsu.jpg'),
                 },
             },
-            {
-                _id: 2,
-                text: 'My message',
-                createdAt: new Date(Date.UTC(2016, 5, 11, 17, 20, 0)),
-                user: {
-                    _id: 2,
-                    name: 'React Native',
-                    avatar: 'https://facebook.github.io/react/img/logo_og.png',
-                },
-                image: 'https://facebook.github.io/react/img/logo_og.png',
-                // You can also add a video prop:
-                video: 'http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ElephantsDream.mp4',
-                // Mark the message as sent, using one tick
-                sent: true,
-                // Mark the message as received, using two tick
-                received: true,
-                // Mark the message as pending with a clock loader
-                pending: true,
-                // Any additional custom parameters are passed through
-            }
+            // {
+            //     _id: 2,
+            //     text: 'My message',
+            //     createdAt: new Date(Date.UTC(2016, 5, 11, 17, 20, 0)),
+            //     user: {
+            //         _id: 2,
+            //         name: 'React Native',
+            //         avatar: 'https://facebook.github.io/react/img/logo_og.png',
+            //     },
+            //     image: 'https://facebook.github.io/react/img/logo_og.png',
+            //     // You can also add a video prop:
+            //     video: 'http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ElephantsDream.mp4',
+            //     // Mark the message as sent, using one tick
+            //     sent: true,
+            //     // Mark the message as received, using two tick
+            //     received: true,
+            //     // Mark the message as pending with a clock loader
+            //     pending: true,
+            //     // Any additional custom parameters are passed through
+            // }
         ])
     }, [])
 
     const handleReturnOnPress = ()=>{
 
         navigation.goBack()
+
+    }
+
+    const handlePhoneOnPress = ()=>{
+        
+        try {
+            Linking.openURL('tel:+233506000705')
+        } catch (error) {
+            console.log(error);
+        }
 
     }
 
@@ -91,6 +103,27 @@ export default function ChatScreen({navigation}) {
                 {...props}
                 containerStyle={styles.inputToolbar}
             />
+        )
+
+    }
+
+    const renderMessageVideo = (props: any)=>{
+        const {currentMessage} = props
+
+        return(
+
+            <View style={{paddingHorizontal: 10}}>
+                <Video
+                    posterSource={{uri: currentMessage.image}}
+                    resizeMode={Video.RESIZE_MODE_COVER}
+                    useNativeControls={false}
+                    usePoster={true}
+                    shouldPlay={false}
+                    source={{uri: currentMessage.video}}
+                    style={{width: 200, height: 200,}}
+                />
+            </View>
+
         )
 
     }
@@ -136,8 +169,10 @@ export default function ChatScreen({navigation}) {
                     Messages
                 </AppText>
 
-                <View style={styles.phone}>
-                    <MaterialCommunityIcons name="phone-outline" size={24} />
+                <View style={styles.phone} >
+                    <Pressable onPress={handlePhoneOnPress}>
+                        <MaterialCommunityIcons name="phone-outline" size={24} />
+                    </Pressable>
                 </View>
 
             </View>
@@ -148,6 +183,7 @@ export default function ChatScreen({navigation}) {
                 onSend={onSend}
                 renderBubble={renderBubble}
                 renderInputToolbar={renderInputToolbar}
+                renderMessageVideo={renderMessageVideo}
                 renderSend={renderSend}
                 scrollToBottom
                 scrollToBottomComponent={scrollToBottomComponent}

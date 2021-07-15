@@ -279,7 +279,7 @@ export default function MapScreen({dismiss}) {
 
     const handleSearchBoxOnFocus = ()=>{
 
-      // maximizeForm()
+      maximizeForm()
       shrinkSearchBox()
 
     }

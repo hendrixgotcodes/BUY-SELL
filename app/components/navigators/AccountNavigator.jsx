@@ -14,15 +14,22 @@ export default function FeedNavigator() {
     return (
         <Stack.Navigator>
 
-            <Stack.Screen name="My Account" component={MyAccountScreen} />
-            <Stack.Screen name="My Listings" component={ListingsScreen} />
+            <Stack.Screen 
+                component={MyAccountScreen}
+                name="My Account" 
+                options={{
+                    headerShown: false
+                }}
+            />
+
+            <Stack.Screen 
+                name="My Listings" 
+                component={ListingsScreen} 
+            />
 
             <Stack.Screen 
                 name="Messages" 
                 component={MessagesScreen} 
-                // options={{
-                //     headerShown: false
-                // }}
             />
 
         </Stack.Navigator>

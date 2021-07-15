@@ -44,44 +44,60 @@ export default function MyAccountScreen({navigation}){
 
 
     return(
-        <SafeAreaScreen>
+        <SafeAreaScreen style={styles.container}>
 
-            
+            <View style={styles.header}>
+                <AppText style={styles.headerTitle}>
+                    My Account
+                </AppText>
+            </View>
+
+            <View style={styles.mainWrapper}>
+
                 <ListItem
                         title="Samuel Opoku Asare" 
                         subTitle={user.email}
                         image= {require("../../assets/img/dp.jpg")}
                 />
-            
+                
 
-           <View style={styles.listWrapper}>
+                <View style={styles.listWrapper}>
 
-                <FlatList
+                        <FlatList
 
-                    data={listDetails}
-                    keyExtractor={(items)=>items.id.toString()}
-                    // ItemSeparatorComponent= {()=><ListItemSeperator gap={2} />}
-                    renderItem={
-                        ({item})=>(
-                            <MenuListItem
-                                description={item.description}
-                                backgroundColor= {item.backgroundColor}
-                                icon={item.icon}
-                                onPress={()=>navigation.navigate(item.targetScreen)}
-                            />
-                        )
-                    }
+                            data={listDetails}
+                            keyExtractor={(items)=>items.id.toString()}
+                            ItemSeparatorComponent= {()=><ListItemSeperator gap={1} />}
+                            renderItem={
+                                ({item})=>(
+                                    <MenuListItem
+                                        description={item.description}
+                                        backgroundColor= {item.backgroundColor}
+                                        icon={item.icon}
+                                        onPress={()=>navigation.navigate(item.targetScreen)}
+                                    />
+                                )
+                            }
 
+                        />
+
+                </View>
+
+                <MenuListItem
+                        description="Settings"
+                        backgroundColor={Colors.medium} 
+                        icon={<MaterialCommunityIcons name="cog" size={20} color={Colors.plain} />}
+                        onPress={logOut}
+                />
+                <ListItemSeperator gap={1} />
+                <MenuListItem
+                        description="Log Out"
+                        backgroundColor={Colors.complementary} 
+                        icon={<MaterialCommunityIcons name="logout" size={20} color={Colors.plain} />}
+                        onPress={logOut}
                 />
 
-           </View>
-
-           <MenuListItem
-                description="Log Out"
-                backgroundColor={Colors.complementary} 
-                icon={<MaterialCommunityIcons name="logout" size={20} color={Colors.plain} />}
-                onPress={logOut}
-            />
+            </View>
 
         </SafeAreaScreen>
     )
@@ -89,8 +105,32 @@ export default function MyAccountScreen({navigation}){
 }
 
 const styles = StyleSheet.create({
+    container:{
+        backgroundColor: Colors.plain
+    },
     listWrapper: {
         marginTop: 30,
         marginBottom: 15
-    }
+    },
+    header: {
+        alignItems: "center",
+        backgroundColor: Colors.plain,
+        borderColor: Colors.light,
+        borderBottomWidth: 0.17,
+        display: "flex",
+        flexDirection: "row",
+        height: 50,
+        justifyContent: "center",
+        paddingHorizontal: 15,
+        width: "100%",
+    },
+    mainWrapper:{
+        backgroundColor: Colors.offwhite,
+        flex: 1
+    },
+    headerTitle: {
+        textAlign: "center", 
+        fontWeight: "bold", 
+        fontSize: 24
+    },
 })
