@@ -205,7 +205,7 @@ const DELTA = {
 }
 
 
-export default function MapScreen({dismiss}) {
+export default function MapScreen({dismiss, onLocationSelected}) {
 
     // useEffect(()=>{
     //     Location.setGoogleApiKey("AIzaSyAkV66qhT6lHIkWcKD7pIbHofxKUvnBTqA")
@@ -258,6 +258,8 @@ export default function MapScreen({dismiss}) {
 
       setCurrentLocation(item)
       setAutoCompleteData([])
+
+      onLocationSelected(item)
 
       // map.animateToRegion({
       //   ...item,
@@ -368,7 +370,7 @@ export default function MapScreen({dismiss}) {
                         <Marker
                             draggable
                             coordinate={currentLocation}
-                            onDragEnd={(e) => console.log({ x: e.nativeEvent.coordinate })}
+                            // onDragEnd={(e) => console.log({ x: e.nativeEvent.coordinate })}
                         />
                     </MapView>
                 </View>

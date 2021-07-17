@@ -1,5 +1,5 @@
 import React from 'react'
-import { View, Text, StyleSheet, Pressable } from 'react-native'
+import { View, Text, StyleSheet, TouchableOpacity } from 'react-native'
 
 //Components
 import AppText from './AppText'
@@ -10,7 +10,7 @@ import {MaterialCommunityIcons} from '@expo/vector-icons'
 
 export default function Button({style, title, icon, onPress}) {
     return (
-        <Pressable onPress={onPress}>
+        <TouchableOpacity activeOpacity={0.7} onPress={onPress}>
             <View style={[styles.button, {...style}]}>
                 {
                     icon && <MaterialCommunityIcons name={icon} size={20} color={Colors.plain} />
@@ -19,7 +19,7 @@ export default function Button({style, title, icon, onPress}) {
                     {title}
                 </AppText>
             </View>
-        </Pressable>
+        </TouchableOpacity>
     )
 }
 

@@ -1,5 +1,5 @@
 import React, {useEffect} from 'react'
-import { View, StyleSheet, Pressable} from 'react-native'
+import { View, StyleSheet, TouchableOpacity} from 'react-native'
 import * as ImagePicker from 'expo-image-picker'
 
 //Assets
@@ -62,11 +62,11 @@ export default function ImageInput({onChangeImage, onAddImage, style}) {
     }
 
     return (
-        <Pressable onPress={()=>(openMediaLibrary(onAddImage))}>
+        <TouchableOpacity onPress={()=>(openMediaLibrary(onAddImage))}>
             <View style={[styles.container, {...style}]}>
                 <MaterialCommunityIcons size={34} name="camera" color={Colors.medium} />
             </View>
-        </Pressable>
+        </TouchableOpacity>
     )
 }
  

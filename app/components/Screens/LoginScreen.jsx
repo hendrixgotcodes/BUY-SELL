@@ -44,10 +44,11 @@ export default function LoginScreen(){
         } catch (error) {
             setHasLoginFailed(true)
             setErrorMessage(error.message)
+            
+            setIsLoading(false)
             // console.log(error);
         }
 
-        setIsLoading(false)
 
     }
 

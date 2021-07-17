@@ -46,11 +46,11 @@ export default function test({imageURIs, onRemoveURI, onAddURI}) {
                                             "Are you sure you want to remove this item?",
                                             [
                                                 {
-                                                    text: "Yes, Delete",
+                                                    text: "Remove",
                                                     onPress: ()=>onRemoveURI(item)
                                                 },
                                                 {
-                                                    text: "No, Keep",
+                                                    text: "Keep",
                                                 }
                                             ]
                                         )

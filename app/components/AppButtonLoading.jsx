@@ -1,5 +1,5 @@
 import React from 'react'
-import { ActivityIndicator, View, Text, StyleSheet, Pressable } from 'react-native'
+import { ActivityIndicator, View, Text, StyleSheet, TouchableOpacity } from 'react-native'
 
 //Components
 import AppText from './AppText'
@@ -10,7 +10,7 @@ import {MaterialCommunityIcons} from '@expo/vector-icons'
 
 export default function Button({style, title, isLoading, onPress}) {
     return (
-        <Pressable onPress={onPress}>
+        <TouchableOpacity activeOpacity={0.7} onPress={onPress}>
             <View style={[styles.button, {...style}]}>
                 {
                     isLoading && (
@@ -23,7 +23,7 @@ export default function Button({style, title, isLoading, onPress}) {
                     {title}
                 </AppText>
             </View>
-        </Pressable>
+        </TouchableOpacity>
     )
 }
 

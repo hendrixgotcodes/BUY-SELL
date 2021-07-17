@@ -99,11 +99,13 @@ const categories=[
 
 export default function ListingEditScreen() {
 
-    const Location = useLocation()
 
     const [progress, setProgress] = useState(0)
     const [uploadVisible, setUploadVisible] = useState(false)
     const [isMapShown, setIsMapShown] = useState(false)
+    const [location, setLocation] = useState(null)
+
+    // const location = useLocation()
 
 
     const handleSubmit = (listings, resetForm)=>{
@@ -113,14 +115,14 @@ export default function ListingEditScreen() {
 
             setUploadVisible(true)
 
-            listingsAPI.addListing({...listings, Location}, (progress)=>setProgress(progress))
+            listingsAPI.addListing({...listings, location}, (progress)=>setProgress(progress))
             .then((result)=>{
 
                 setProgress(0)
+                setUploadVisible(false)
 
                 if(!result.ok){
                     alert("Could not save the listing")
-                    setUploadVisible(false)
                     reject()
                 }else{
                     // setTimeout(() => {
@@ -168,7 +170,7 @@ export default function ListingEditScreen() {
                     <AppFormPicker 
                         items={categories}
                         name="category"
-                        onSelectItem={(item)=>console.log(item)}
+                        onSelectItem={(item)=>{}}
                         placeholder="Category"
                         style={{width: "60%"}}
                     />
@@ -195,7 +197,7 @@ export default function ListingEditScreen() {
 
                     <Pressable onPress={handleOnMapPress}>
                         <View style={styles.mapViewWrapper}>
-                            <MapView />
+                            <MapView coordinates={location} />
                             <AppText>
                                 Accra, Ghana
                             </AppText>
@@ -210,7 +212,7 @@ export default function ListingEditScreen() {
                 </AppForm>
 
                 <Modal visible={isMapShown} animationType="slide">
-                    <MapScreen dismiss={()=>setIsMapShown(false)} />
+                    <MapScreen dismiss={()=>setIsMapShown(false)} onLocationSelected={(location)=>setLocation(location)} />
                 </Modal>
 
             </View>

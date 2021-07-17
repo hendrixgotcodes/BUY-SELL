@@ -1,6 +1,6 @@
 import React, { useCallback, useEffect, useState} from 'react'
 import * as Linking from 'expo-linking'
-import { View, StyleSheet, Pressable, Text } from 'react-native'
+import { View, StyleSheet, Pressable, Text, TouchableOpacity } from 'react-native'
 import {Video, Audio} from 'expo-av'
 
 //Assets
@@ -166,13 +166,13 @@ export default function ChatScreen({navigation}) {
                 </Pressable>
 
                 <AppText style={styles.headerTitle}>
-                    Messages
+                    Serwaa Bonsu
                 </AppText>
 
                 <View style={styles.phone} >
-                    <Pressable onPress={handlePhoneOnPress}>
+                    <TouchableOpacity activeOpacity={0.3} onPress={handlePhoneOnPress}>
                         <MaterialCommunityIcons name="phone-outline" size={24} />
-                    </Pressable>
+                    </TouchableOpacity>
                 </View>
 
             </View>
