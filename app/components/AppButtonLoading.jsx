@@ -1,12 +1,11 @@
 import React from 'react'
-import { ActivityIndicator, View, Text, StyleSheet, TouchableOpacity } from 'react-native'
+import { ActivityIndicator, View, StyleSheet, TouchableOpacity } from 'react-native'
 
 //Components
 import AppText from './AppText'
 
 //Assets
 import Colors from '../assets/_colors'
-import {MaterialCommunityIcons} from '@expo/vector-icons'
 
 export default function Button({style, title, isLoading, onPress}) {
     return (

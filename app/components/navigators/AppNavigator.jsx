@@ -18,6 +18,8 @@ import Colors from '../../assets/_colors'
 import {navigate} from './rootNavigation'
 import {MaterialCommunityIcons, Ionicons} from '@expo/vector-icons'
 import useNotifications from '../../hooks/useNotifications'
+import FavoritesScreen from '../Screens/FavoritesScreen'
+import MessagesScreen from '../Screens/MessagesScreen'
 
 
 //Variable
@@ -49,7 +51,7 @@ export default function AppNavigator({routes}) {
         <Tab.Navigator
             tabBarOptions = {{
                 labelStyle: {
-                    fontSize: 14,
+                    fontSize: 12,
                 },
                 style:{
                     // height: "9%"
@@ -64,7 +66,7 @@ export default function AppNavigator({routes}) {
                 component={FeedNavigator}
                 options = {({route})=>({
                     tabBarVisible: getTabBarVisibility(route),
-                    tabBarIcon: ({color, size})=> <MaterialCommunityIcons name="home" color={color} size={size} />,
+                    tabBarIcon: ({color, size})=> <MaterialCommunityIcons name="home-outline" color={color} size={size} />,
                     tabBarBadge: true,
                     tabBarBadgeStyle: {
                         display: "flex",
@@ -78,6 +80,14 @@ export default function AppNavigator({routes}) {
             />
 
             <Tab.Screen 
+                name="Favorites"
+                component={FavoritesScreen}
+                options={{
+                    tabBarIcon: ({color, size})=> <MaterialCommunityIcons name="heart-outline" color={color} size={size} />
+                }}
+            />
+
+            <Tab.Screen 
                 name="listingEdit" 
                 component={ListingEditScreen}
                 options = {({navigation})=>(
@@ -88,12 +98,21 @@ export default function AppNavigator({routes}) {
             />
 
             <Tab.Screen 
+                name="Messages"
+                component={MessagesScreen}
+                options={{
+                    tabBarIcon: ({color, size})=> <MaterialCommunityIcons name="email-outline" color={color} size={size} />
+                }}
+            />
+
+            <Tab.Screen 
                 name="Account" 
                 component={AccountNavigator}
                 options = {{
-                    tabBarIcon: ({color, size})=> <MaterialCommunityIcons name="account" color={color} size={size} />
+                    tabBarIcon: ({color, size})=> <MaterialCommunityIcons name="account-outline" color={color} size={size} />
                 }}
             />
+            
 
         </Tab.Navigator>
     )

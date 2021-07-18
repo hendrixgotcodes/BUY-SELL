@@ -1,15 +1,12 @@
-import React, {useState} from 'react'
-import {View, StyleSheet, Image, TextInput} from 'react-native'
+import React, {useEffect, useState} from 'react'
+import {View, StyleSheet, Image, StatusBar} from 'react-native'
 
 //Components
-import AppText from '../AppText'
 import SafeAreaScreen from './SafeAreaScreen'
 import {AppForm, ErrorMessage, AppFormField, SubmitButtonLoading} from '../forms'
 
 
 //Assets
-import AuthContext from '../../auth/context'
-import authStorage from '../../auth/storage'
 import useAuth from '../../auth/useAuth'
 const logo = require("../../assets/logo-red.png")
 
@@ -30,6 +27,10 @@ export default function LoginScreen(){
     const [hasLoginFailed, setHasLoginFailed] = useState(false)
     const [errorMessage, setErrorMessage] = useState("")
     const [isLoading, setIsLoading] = useState(false) 
+
+    // useEffect(() => {
+    //     StatusBar.setBarStyle('dark-content', true)
+    // }, [])
 
     const {logIn} = useAuth()
 

@@ -64,7 +64,7 @@ export default function MessagesScreen({navigation}) {
         <SafeAreaView style={styles.safeArea}>
             <View style={styles.header}>
 
-                <Pressable 
+                {/* <Pressable 
                     hitSlop={{
                         bottom: 20,
                         top: 20,
@@ -78,7 +78,7 @@ export default function MessagesScreen({navigation}) {
                     <MaterialCommunityIcons name="chevron-left" size={32} color={Colors.primary} />
                     
                     <Text style={{fontSize: 20,}}>Listings</Text>
-                </Pressable>
+                </Pressable> */}
 
                 <AppText style={styles.headerTitle}>
                     Messages
@@ -132,14 +132,14 @@ const styles = StyleSheet.create({
         padding: 20
     },
     header:{
+        alignItems: "center",
+        backgroundColor: Colors.plain,
+        borderBottomWidth: 0.17,
+        borderColor: Colors.light,
         flexDirection: "row",
         height: 50,
-        width: "100%",
-        backgroundColor: Colors.plain,
         justifyContent: "center",
-        alignItems: "center",
-        borderBottomWidth: 0.17,
-        borderColor: Colors.light
+        width: "100%",
     },
     return: {
         alignItems: "center",

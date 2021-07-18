@@ -1,7 +1,7 @@
 import React, { useCallback, useEffect, useState} from 'react'
 import * as Linking from 'expo-linking'
 import { View, StyleSheet, Pressable, Text, TouchableOpacity } from 'react-native'
-import {Video, Audio} from 'expo-av'
+import {Video} from 'expo-av'
 
 //Assets
 import Colors from '../../assets/_colors'
@@ -10,7 +10,7 @@ import {MaterialCommunityIcons, FontAwesome} from '@expo/vector-icons'
 //Components
 import AppText from  '../AppText'
 import SafeAreaScreen from './SafeAreaScreen'
-import {Bubble, Composer, GiftedChat, Send, InputToolbar } from 'react-native-gifted-chat'
+import {Bubble, GiftedChat, Send, InputToolbar } from 'react-native-gifted-chat'
  
 export default function ChatScreen({navigation}) {
 

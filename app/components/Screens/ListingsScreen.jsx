@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from 'react'
+import React, { useEffect} from 'react'
 import {  FlatList, Image, Pressable, StatusBar, StyleSheet, View,} from 'react-native'
 import {useNetInfo} from '@react-native-community/netinfo'
 
@@ -18,7 +18,6 @@ import ActivityIndicator from '../ActivityIndicator'
 import AppButton from '../AppButton'
 import AppText from '../AppText'
 import Card from '../Card'
-import ListItemSeperator from '../ListItemSeperator'
 
 //Hooks
 import useAPI from '../../hooks/useAPI'
@@ -26,7 +25,6 @@ import useAPI from '../../hooks/useAPI'
 export default function ListingsScreen({navigation}) {
 
     
-    const [isRefreshing, setIsRefreshing] = useState(false)
     const {data: listings, hasError, isLoading, request: loadListings} = useAPI(listingsAPI.getListings)
     const NetInfo = useNetInfo()
 
@@ -53,36 +51,31 @@ export default function ListingsScreen({navigation}) {
             <View>
                 <View style={styles.header}>
 
-                    <Pressable>
-                        <Ionicons 
-                            color={Colors.medium}
-                            hitSlop = {20}
-                            name="add-circle-outline" 
-                            size={26} 
-                            style={styles.messageIcon} 
-                        />
-                    </Pressable>
-
                     <Image 
                         style={styles.logo} 
                         color={Colors.medium} 
                         source={require("../../assets/logo-red.png")} 
                     />
 
-                    <Pressable 
-                        onPress={()=>navigation.navigate("Messages")}
-                        hitSlop={20}
-                    >
-                        <View>
+                   
+                    <View style={styles.messageWrapper}>
+
+                        <Pressable
+                            onPress={()=>navigation.navigate("Messages")}
+                            hitSlop={20}
+                        >
+
                             <MaterialCommunityIcons 
                                 style={styles.messageIcon} 
                                 color={Colors.medium} 
-                                name="email-outline" 
+                                name="magnify" 
                                 size={24} 
                             />
-                            <View style={styles.badge} />
-                        </View>
-                    </Pressable>
+
+                        </Pressable>
+
+                    </View>
+
 
                 </View>
 
@@ -173,13 +166,17 @@ const styles = StyleSheet.create({
         display: "flex",
         flexDirection: "row",
         height: 50,
-        justifyContent: "space-between",
+        justifyContent: "center",
         paddingHorizontal: 15,
         width: "100%",
     },
     logo:{
         height: 30,
         width: 30
+    },
+    messageWrapper:{
+        position: "absolute",
+        right: 10
     },
     subHeader: {
         width: "100%",
