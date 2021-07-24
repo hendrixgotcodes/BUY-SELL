@@ -34,11 +34,13 @@ export default function MyAccountScreen({navigation}){
             backgroundColor: Colors.secondary,
             icon: <MaterialCommunityIcons name="email" size={20} color={Colors.plain} />,
             targetScreen: "Messages"
-        }
+        },
         // {
+        //     id:3,
         //     description: "My Messages",
         //     backgroundColor: Colors.secondary,
-        //     icon: <MaterialCommunityIcons name="email" size={24} color={Colors.plain} />
+        //     icon: <MaterialCommunityIcons name="credit-card" size={24} color={Colors.plain} />,
+        //     targetScreen: "Messages"
         // },
     ]
 

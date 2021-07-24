@@ -1,6 +1,7 @@
 import React from 'react'
-import {Keyboard, KeyboardAvoidingView, Platform, StyleSheet, SafeAreaView, StatusBar, View} from 'react-native'
+import {Keyboard, KeyboardAvoidingView, Platform, StyleSheet, SafeAreaView, StatusBar, View, ScrollView} from 'react-native'
 import {Image} from 'react-native-expo-image-cache'
+import {useNavigation} from '@react-navigation/native'
 
 //Components
 import AppText from '../AppText'
@@ -13,6 +14,9 @@ import SafeAreaScreen from './SafeAreaScreen'
 import Colors from '../../assets/_colors'
 import messagesApi from '../../api/messages'
 import * as Yup from 'yup'
+import { MaterialCommunityIcons } from '@expo/vector-icons'
+import AppSocialBar from '../AppSocialBar'
+import MapView from 'react-native-maps'
 
 //Constants
 const validationSchema = Yup.object().shape({
@@ -22,16 +26,17 @@ const validationSchema = Yup.object().shape({
 
 export default function ListingDetailScren({route}){
 
-    const item = route.params
-    const image = require("../../assets/img/dp.jpg")
+    const listing = route.params
 
-    console.log();
+    console.log(listing);
+
+    const navigation = useNavigation()
 
     const handleSubmit= async ({message}, resetForm)=>{
 
         Keyboard.dismiss()
 
-        const result = await messagesApi.send(message, item.id)
+        const result = await messagesApi.send(message, listing.id)
 
         if(!result.ok){
             console.log(result);
@@ -41,6 +46,11 @@ export default function ListingDetailScren({route}){
         resetForm()
 
     }
+
+    const handleOnMessage = ()=>{
+        navigation.navigate("Messages")
+    }
+
 
     return(
 
@@ -52,25 +62,37 @@ export default function ListingDetailScren({route}){
             >
                 <View style={styles.cardContainer}>
                     {/* <Image style={styles.cardImage} source={{uri: item.images[0].url}} /> */}
-                    <Image preview={{uri:item.images[0].thumbnailUrl}} tint="light" style={styles.cardImage} uri={item.images[0].url} />
+                    <Image preview={{uri:listing.item.images[0].thumbnailUrl}} tint="light" style={styles.cardImage} uri={listing.item.images[0].url} />
                     <View style={styles.captionsWrapper}>
-                        <AppText style={styles.header} numberOfLines={2}>{item.title}</AppText>
+                        <AppText style={styles.header} numberOfLines={2}>{listing.item.title}</AppText>
                         <AppText numberOfLines={1}
                             style={{color: Colors.secondary, fontWeight: "bold"}}
                         >
-                            ₵{item.price}
+                            ₵{listing.item.price}
                         </AppText>
                     </View>
                 </View>
-                <ListItem 
-                    title="Samuel Opoku Asare"
-                    subTitle="5 Listings"
-                    image={image}
-                    showChevron
-                    style={{marginTop: 1}}
-                />
 
-                <View style={styles.inputView}>
+                {/* <ListItem 
+                    title={listing.user.fullName}
+                    subTitle={listing.user.totalListings + ' Listings'}
+                    image={listing.user.img}
+                    // showChevron
+                    style={{marginTop: 1}}
+                /> */}
+                <View>
+                    <AppSocialBar handleOnMessage={handleOnMessage} />
+                </View>
+
+                <ScrollView
+                    style={{padding: 10}}
+                >
+                    <AppText style={{color: Colors.medium, fontSize: 16}}>
+                        {listing.item.description}
+                    </AppText>
+                </ScrollView>
+
+                {/* <View style={styles.inputView}>
 
                     <AppForm
                         initialValues={{message: ""}}
@@ -88,7 +110,7 @@ export default function ListingDetailScren({route}){
                         />
                     </AppForm>
 
-                </View>
+                </View> */}
 
             </KeyboardAvoidingView>
             
@@ -109,7 +131,7 @@ const styles = StyleSheet.create({
     },
     cardImage:{
         width: "100%",
-        height: 300,
+        height: 410,
         borderTopLeftRadius: 0,
         borderTopRightRadius: 0,
     },
@@ -119,6 +141,18 @@ const styles = StyleSheet.create({
         paddingVertical: 10,
         paddingHorizontal: 10
     },
+    favoriteButon:{
+        alignItems: "center",
+        position: "absolute",
+        right: 15,
+        top: 40,
+        zIndex: 1,
+        width: 30,
+        height: 30,
+        backgroundColor: "rgba(255, 255, 255, 0.5)",
+        borderRadius: 100,
+        justifyContent: "center",
+    },
     inputView: {
         marginTop: 30,
         paddingHorizontal: 10
@@ -126,6 +160,6 @@ const styles = StyleSheet.create({
     header:{
         fontWeight: "bold", 
         fontSize: Platform.OS === "android" ? 30 : 30
-    }
+    },
 
 })

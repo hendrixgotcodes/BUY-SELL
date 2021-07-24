@@ -25,7 +25,7 @@ export default function FavoritesScreen() {
                 <View style={styles.animationWrapper}>
                     <LottieView
                         autoPlay
-                        loop={true}
+                        loop={false}
                         source={require("../../assets/animations/favorites.json")} 
                         style={styles.animation}
                     />
@@ -79,7 +79,7 @@ const styles = StyleSheet.create({
         textAlign: "center"
     },
     textWrapper:{
-        bottom: Platform.OS=="android" ? 200 : 150,
+        bottom: Platform.OS=="android" ? 200 : 100,
         left: "20%",
         position: "absolute",
         ...Platform.select({

@@ -34,8 +34,6 @@ const useLocation = ()=>{
                         //     console.log(result);
                         // })
 
-                        console.log(result);
-
                         // console.log({latitude, longitude});
                     })
                     .catch((error)=>{

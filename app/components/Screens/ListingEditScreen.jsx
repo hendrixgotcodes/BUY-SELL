@@ -1,5 +1,5 @@
-import React, {useEffect, useState} from 'react'
-import { Alert, View, Text, StyleSheet, Modal, Pressable} from 'react-native'
+import React, {useState} from 'react'
+import {View, StyleSheet, Modal, Pressable} from 'react-native'
 
 
 //API
@@ -8,18 +8,18 @@ import listingsAPI from '../../api/listings'
 
 //Components
 import {AppForm, AppFormField, AppFormPicker,SubmitButton, FormImagePicker} from '../forms'
-import AppPicker from '../AppPicker'
 import AppText from '../AppText'
 import MapView from '../MapView'
 import MapScreen from './MapScreen'
 import SafeAreaScreen from './SafeAreaScreen'
 import UploadScreen from './UploadScreen'
 
-//Hooks
-import useLocation from '../../hooks/useLocation'
+// //Hooks
+// import useLocation from '../../hooks/useLocation'
 
 //Extras
 import * as Yup from 'yup'
+import useAuth from '../../auth/useAuth'
 
 
 const validationSchema = Yup.object().shape({
@@ -106,16 +106,19 @@ export default function ListingEditScreen() {
     const [location, setLocation] = useState(null)
 
     // const location = useLocation()
+    const {user, logOut} = useAuth()
 
 
     const handleSubmit = (listings, resetForm)=>{
+
+        // console.log(listings);
 
         return new Promise((resolve, reject)=>{
 
 
             setUploadVisible(true)
 
-            listingsAPI.addListing({...listings, location}, (progress)=>setProgress(progress))
+            listingsAPI.addListing({...listings, location}, (progress)=>setProgress(progress), user)
             .then((result)=>{
 
                 setProgress(0)

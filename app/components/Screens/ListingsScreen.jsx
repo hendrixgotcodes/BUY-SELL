@@ -1,5 +1,5 @@
 import React, { useEffect} from 'react'
-import {  FlatList, Image, Pressable, StatusBar, StyleSheet, View,} from 'react-native'
+import {  FlatList, Image, Pressable, RefreshControl, ScrollView, StatusBar, StyleSheet, View,} from 'react-native'
 import {useNetInfo} from '@react-native-community/netinfo'
 
 //Screens
@@ -18,9 +18,16 @@ import ActivityIndicator from '../ActivityIndicator'
 import AppButton from '../AppButton'
 import AppText from '../AppText'
 import Card from '../Card'
+import LottieView from 'lottie-react-native'
 
 //Hooks
 import useAPI from '../../hooks/useAPI'
+
+const user = {
+    img: require('../../assets/img/dp.jpg'),
+    fullName: 'Samuel Opoku Asare',
+    totalListings: 5
+}
 
 export default function ListingsScreen({navigation}) {
 
@@ -112,30 +119,59 @@ export default function ListingsScreen({navigation}) {
 
                 <ActivityIndicator visible={isLoading} />
 
-                <FlatList
-                    data={listings}
-                    // ItemSeparatorComponent = {()=>(
-                    //     <ListItemSeperator gap={20} />
-                    // )}
-                    keyExtractor={(card)=>card.id.toString()}
-                    onRefresh={loadListings}
-                    refreshing={isLoading}
-                    renderItem={
-                        ({item})=>(
-                            <Card
-                                title={item.title}
-                                subTitle={"₵"+item.price}
-                                imageUrl={item.images[0].url}
-                                style={styles.card}
-                                onPress={()=>{
-                                    navigation.navigate(routes.LISTING_DETAILS, item)
-                                }}
-                                thumbnailUrl={item.images[0].thumbnailUrl}
+                {(listings.length === 0 && isLoading === false) ? (
+                    <ScrollView 
+                        style={{flex: 1}}
+                        contentContainerStyle={{flex: 1,
+                            
+                        }}
+                        refreshControl={
+                            <RefreshControl
+                                onRefresh={loadListings}
+                                refreshing={isLoading}
+                                style={{flex: 1}}
                             />
-                        )
-                    }
-                    showsVerticalScrollIndicator={false}
-                />
+                        }
+                    >
+                        <LottieView
+                            autoPlay 
+                            loop
+                            source={require("../../assets/animations/empty.json")}
+                            // style={{flex: 1}}
+                        />
+                    </ScrollView>
+                ) : (
+                    <FlatList
+                        data={listings}
+                        // ItemSeparatorComponent = {()=>(
+                        //     <ListItemSeperator gap={20} />
+                        // )}
+                        // keyExtractor={(card)=>card.id.toString()}
+                        onRefresh={loadListings}
+                        refreshing={isLoading}
+                        renderItem={
+                            ({item})=>{ 
+
+                                return (
+                                <Card
+                                    title={item.title}
+                                    subTitle={"₵"+item.price}
+                                    imageUrl={item.images[0].url}
+                                    style={styles.card}
+                                    onPress={()=>{
+                                        navigation.navigate(routes.LISTING_DETAILS, {
+                                            'item': item, 
+                                            'user': user
+                                        })
+                                    }}
+                                    thumbnailUrl={item.images[0].thumbnailUrl}
+                                />
+                            )}
+                        }
+                        showsVerticalScrollIndicator={false}
+                    />
+                )}
+                
             </View>
             
         </SafeAreaScreen>

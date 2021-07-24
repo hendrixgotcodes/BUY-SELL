@@ -5,7 +5,7 @@ import { View, StyleSheet } from 'react-native'
 import {createStackNavigator} from '@react-navigation/stack'
 import ListingsScreen from '../Screens/ListingsScreen'
 import ListingDetailsScreen from '../Screens/ListingDetailsScreen'
-import MessagesScreen from '../Screens/MessagesScreen'
+import ListingDetailNavigator from './ListingDetailNavigator'
 import MessageNavigator from './MessageNavigator'
 
 //Fields
@@ -32,12 +32,12 @@ export default function FeedNavigator() {
                 component={ListingDetailsScreen} 
             />
 
-            <Stack.Screen 
+            {/* <Stack.Screen 
                 mode="card" 
                 name="Messages" 
                 component={MessageNavigator} 
                 // options={({route})=>}
-            />
+            /> */}
 
         </Stack.Navigator>
     )

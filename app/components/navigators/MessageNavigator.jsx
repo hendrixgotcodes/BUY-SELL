@@ -10,14 +10,6 @@ import MessagesScreen from '../Screens/MessagesScreen'
 
 const Stack = createStackNavigator()
 
-const getTabBarVisibility = (route)=>{
-
-    const routeName = getFocusedRouteNameFromRoute(route)
-    
-    return true
-
-}
- 
 export default function MessageNavigator(navigation) {
 
 
