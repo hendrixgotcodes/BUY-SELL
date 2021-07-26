@@ -1,5 +1,5 @@
 import React from 'react'
-import {View, StyleSheet, Pressable} from 'react-native'
+import {View, StyleSheet, Pressable, Image as RNImage} from 'react-native'
 import {Image} from 'react-native-expo-image-cache'
 
 //Components
@@ -15,13 +15,22 @@ export default function Card({title, subTitle, imageUrl, style, thumbnailUrl, on
             <View style={[styles.container, {...style}]}>
                 {/* <Image style={styles.image} source={{uri: imageUrl}} /> */}
                 <Image style={styles.image} tint="light" uri={imageUrl} preview={{uri: thumbnailUrl}} />
-                <View style={styles.captionsWrapper}>
-                    <AppText numberOfLines={1}>{title}</AppText>
-                    <AppText numberOfLines={1}
-                        style={{color: Colors.secondary, fontWeight: "bold"}}
-                    >
-                        {subTitle}
-                    </AppText>
+                <View style={styles.cardFooter}>
+                    <View style={styles.captionsWrapper}>
+                        <AppText numberOfLines={1}>{title}</AppText>
+                        <AppText numberOfLines={1}
+                            style={{color: Colors.secondary, fontWeight: "bold"}}
+                        >
+                            {subTitle}
+                        </AppText>
+                    </View>
+                    <View style={{justifyContent: "center", alignItems: "center"}}>
+                        <RNImage
+                            source={require("../assets/img/verified.png")}
+                            style={styles.badge}
+                            
+                         />
+                    </View>
                 </View>
             </View>
         </Pressable>
@@ -31,6 +40,10 @@ export default function Card({title, subTitle, imageUrl, style, thumbnailUrl, on
 
 const styles = StyleSheet.create({
 
+    badge:{
+        width: 23,
+        height: 23,
+    },
     container: {
         backgroundColor: Colors.plain,
         width: "100%",
@@ -42,6 +55,11 @@ const styles = StyleSheet.create({
     image: {
         width: "100%",
         height: 200,
+    },
+    cardFooter:{
+        flexDirection: "row",
+        justifyContent: "space-between",
+        paddingHorizontal: 5
     },
     captionsWrapper: {
         display: "flex",

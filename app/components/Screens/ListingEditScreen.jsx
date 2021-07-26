@@ -1,5 +1,5 @@
 import React, {useState} from 'react'
-import {View, StyleSheet, Modal, Pressable} from 'react-native'
+import {View, StyleSheet, Modal, Pressable, KeyboardAvoidingView} from 'react-native'
 
 
 //API
@@ -146,83 +146,85 @@ export default function ListingEditScreen() {
     }
 
     return (
-        <SafeAreaScreen>
-            
-            <View style={styles.container}>
+        <KeyboardAvoidingView style={{flex: 1}} contentContainerStyle={{flex: 1}} behavior="position">
+            <SafeAreaScreen>
+                
+                <View style={styles.container}>
 
-                <UploadScreen onDone={()=>setUploadVisible(false)} progress={progress} visible={uploadVisible} />
+                    <UploadScreen onDone={()=>setUploadVisible(false)} progress={progress} visible={uploadVisible} />
 
-                <AppForm
-                    initialValues={{title: "", price: "", category: null, description: "", images: []}}
-                    onSubmit={(values, resetForm)=>handleSubmit(values, resetForm)}
-                    validationSchema={validationSchema}
-                >
+                    <AppForm
+                        initialValues={{title: "", price: "", category: null, description: "", images: []}}
+                        onSubmit={(values, resetForm)=>handleSubmit(values, resetForm)}
+                        validationSchema={validationSchema}
+                    >
 
-                    <FormImagePicker
-                        name="images" 
-                    />
+                        <FormImagePicker
+                            name="images" 
+                        />
 
-                    <AppFormField
-                        autoCapitalize="words"
-                        autoCorrect={true}
-                        name="title"
-                        placeholder="Title"
-                        maxLength={255}
-                    />
+                        <AppFormField
+                            autoCapitalize="words"
+                            autoCorrect={true}
+                            name="title"
+                            placeholder="Title"
+                            maxLength={255}
+                        />
 
-                    <AppFormPicker 
-                        items={categories}
-                        name="category"
-                        onSelectItem={(item)=>{}}
-                        placeholder="Category"
-                        style={{width: "60%"}}
-                    />
+                        <AppFormPicker 
+                            items={categories}
+                            name="category"
+                            onSelectItem={(item)=>{}}
+                            placeholder="Category"
+                            style={{width: "60%"}}
+                        />
 
-                    <AppFormField
-                        autoCapitalize="words"
-                        autoCorrect={true}
-                        name="price"
-                        placeholder="Price"
-                        keyboardType="numeric"
-                        maxLength={8}
-                        style={{width: "30%"}}
-                    />
-                        
-                    <AppFormField
-                        autoCapitalize="words"
-                        autoCorrect={true}
-                        name="description"
-                        placeholder="Description"
-                        multiline={true}
-                        numberOfLines={3}
-                        // textContentType="name"
-                    />
+                        <AppFormField
+                            autoCapitalize="words"
+                            autoCorrect={true}
+                            name="price"
+                            placeholder="Price"
+                            keyboardType="numeric"
+                            maxLength={8}
+                            style={{width: "30%"}}
+                        />
+                            
+                        <AppFormField
+                            autoCapitalize="sentences"
+                            autoCorrect={true}
+                            name="description"
+                            placeholder="Description"
+                            multiline={true}
+                            numberOfLines={3}
+                            // textContentType="name"
+                        />
 
-                    <Pressable onPress={handleOnMapPress}>
-                        <View style={styles.mapViewWrapper}>
-                            <MapView coordinates={location} />
-                            <AppText>
-                                Accra, Ghana
-                            </AppText>
-                        </View>
-                    </Pressable>
+                        <Pressable onPress={handleOnMapPress}>
+                            <View style={styles.mapViewWrapper}>
+                                <MapView coordinates={location} />
+                                <AppText>
+                                    Accra, Ghana
+                                </AppText>
+                            </View>
+                        </Pressable>
 
-                    <SubmitButton 
-                        title="Post"
-                    />
-
-
-                </AppForm>
-
-                <Modal visible={isMapShown} animationType="slide">
-                    <MapScreen dismiss={()=>setIsMapShown(false)} onLocationSelected={(location)=>setLocation(location)} />
-                </Modal>
-
-            </View>
+                        <SubmitButton 
+                            title="Post"
+                        />
 
 
-            
-        </SafeAreaScreen>
+                    </AppForm>
+
+                    <Modal visible={isMapShown} animationType="slide">
+                        <MapScreen dismiss={()=>setIsMapShown(false)} onLocationSelected={(location)=>setLocation(location)} />
+                    </Modal>
+
+                </View>
+
+
+                
+            </SafeAreaScreen>
+        </KeyboardAvoidingView>
     )
 }
 
