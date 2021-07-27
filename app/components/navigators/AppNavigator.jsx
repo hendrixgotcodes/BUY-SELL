@@ -25,7 +25,10 @@ const Tab = createBottomTabNavigator()
 
 const getTabBarVisibility = (route)=>{
     
-    return getFocusedRouteNameFromRoute(route) === "chat" ? false : true
+    const routeName = getFocusedRouteNameFromRoute(route)
+
+    return (routeName === "chat" || routeName === "Listing Details") ? false : true
+    
 
 }
  

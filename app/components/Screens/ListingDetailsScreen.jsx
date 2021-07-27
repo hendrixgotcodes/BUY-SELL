@@ -17,6 +17,7 @@ import * as Yup from 'yup'
 import { MaterialCommunityIcons } from '@expo/vector-icons'
 import AppSocialBar from '../AppSocialBar'
 import MapView from 'react-native-maps'
+import AppUserItem from '../AppUserItem'
 
 //Constants
 const validationSchema = Yup.object().shape({
@@ -63,23 +64,29 @@ export default function ListingDetailScren({route}){
                 <View style={styles.cardContainer}>
                     {/* <Image style={styles.cardImage} source={{uri: item.images[0].url}} /> */}
                     <Image preview={{uri:listing.item.images[0].thumbnailUrl}} tint="light" style={styles.cardImage} uri={listing.item.images[0].url} />
-                    <View style={styles.captionsWrapper}>
-                        <AppText style={styles.header} numberOfLines={2}>{listing.item.title}</AppText>
-                        <AppText numberOfLines={1}
-                            style={{color: Colors.secondary, fontWeight: "bold"}}
-                        >
-                            ₵{listing.item.price}
-                        </AppText>
+                    <View style={{flexDirection: "row", justifyContent: "space-between"}}>
+                        <View style={styles.captionsWrapper}>
+                            <AppText style={styles.header} numberOfLines={2}>{listing.item.title}</AppText>
+                            <AppText numberOfLines={1}
+                                style={{color: Colors.secondary, fontWeight: "bold"}}
+                            >
+                                ₵{listing.item.price}
+                            </AppText>
+                        </View>
+                        <View style={styles.limited}>
+                            <AppText style={styles.limited_text}>Limited</AppText>
+                        </View>
                     </View>
+
                 </View>
 
-                {/* <ListItem 
-                    title={listing.user.fullName}
+                <AppUserItem 
+                    title="Leeford Appiah Marfo"
                     subTitle={listing.user.totalListings + ' Listings'}
                     image={listing.user.img}
                     // showChevron
                     style={{marginTop: 1}}
-                /> */}
+                />
                 <View>
                     <AppSocialBar handleOnMessage={handleOnMessage} />
                 </View>
@@ -161,5 +168,20 @@ const styles = StyleSheet.create({
         fontWeight: "bold", 
         fontSize: Platform.OS === "android" ? 30 : 30
     },
+    limited:{
+        alignSelf: "center",
+        borderColor: Colors.primary,
+        borderWidth: 1,
+        borderRadius: 5,
+        justifyContent: "center",
+        marginRight: 10,
+        paddingHorizontal: 5,
+        height: 24,
+    },
+    limited_text:{
+        color: Colors.primary,
+        fontSize: 14,
+        margin: 0
+    }
 
 })

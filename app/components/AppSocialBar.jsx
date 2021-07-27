@@ -7,23 +7,11 @@ import LottieView from 'lottie-react-native'
 
 //Assets
 import Colors from '../assets/_colors'
+import AppText from './AppText'
  
 export default function AppSocialBar({handleOnMessage, onShared, onShareFailed, onLiked}) {
 
     const [hasLiked, setHasLiked] = useState(false)
-    const verifiedAnimation = useRef(null)
-
-    useEffect(()=>{
-
-        if(verifiedAnimation.current){
-            
-            setTimeout(()=>{
-                verifiedAnimation.current.play()
-            }, 1000)
-
-        }
-
-    }, [])
 
     
     const handleOnLike = ()=>{
@@ -98,14 +86,19 @@ export default function AppSocialBar({handleOnMessage, onShared, onShareFailed, 
                     <MaterialCommunityIcons name="send" size={16} color={Colors.secondary} />
                 </Pressable>
             </View>
-                <LottieView
+            <View style={styles.badgesWrapper}>
+
+               
+
+                {/* <LottieView
                     loop={false}
                     autoPlay={false}
                     source={require("../assets/animations/verified_animated.json")}
                     style={styles.animation}
                     autoSize={false}
                     ref={verifiedAnimation}
-                />
+                /> */}
+            </View>
         </View>
     )
 }
@@ -118,10 +111,8 @@ const styles = StyleSheet.create({
         width: 37,
         height: 37
     },
-    badgeWrapper:{
-        backgroundColor: "red",
-        // height: 50,
-        // width: 50,
+    badgesWrapper:{
+       flexDirection: "row"
     },
     btnLike_hasLiked:{
         backgroundColor: Colors.primary,
@@ -148,5 +139,5 @@ const styles = StyleSheet.create({
         marginRight: 10,
         padding: 8,
         width: 35,
-    }
+    },
 })

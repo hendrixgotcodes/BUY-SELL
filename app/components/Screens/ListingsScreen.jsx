@@ -68,7 +68,7 @@ export default function ListingsScreen({navigation}) {
                     <View style={styles.messageWrapper}>
 
                         <Pressable
-                            onPress={()=>navigation.navigate("Messages")}
+                            onPress={()=>navigation.navigate("search")}
                             hitSlop={20}
                         >
 

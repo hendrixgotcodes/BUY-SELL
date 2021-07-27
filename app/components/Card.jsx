@@ -17,7 +17,7 @@ export default function Card({title, subTitle, imageUrl, style, thumbnailUrl, on
                 <Image style={styles.image} tint="light" uri={imageUrl} preview={{uri: thumbnailUrl}} />
                 <View style={styles.cardFooter}>
                     <View style={styles.captionsWrapper}>
-                        <AppText numberOfLines={1}>{title}</AppText>
+                        <AppText style={{fontWeight: "bold"}} numberOfLines={1}>{title}</AppText>
                         <AppText numberOfLines={1}
                             style={{color: Colors.secondary, fontWeight: "bold"}}
                         >

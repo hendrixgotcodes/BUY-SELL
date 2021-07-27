@@ -146,7 +146,6 @@ export default function ListingEditScreen() {
     }
 
     return (
-        <KeyboardAvoidingView style={{flex: 1}} contentContainerStyle={{flex: 1}} behavior="position">
             <SafeAreaScreen>
                 
                 <View style={styles.container}>
@@ -224,7 +223,6 @@ export default function ListingEditScreen() {
 
                 
             </SafeAreaScreen>
-        </KeyboardAvoidingView>
     )
 }
 
