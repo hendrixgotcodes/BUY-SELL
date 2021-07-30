@@ -1,14 +1,16 @@
+import { BlurView } from 'expo-blur'
 import React from 'react'
 import {Keyboard, KeyboardAvoidingView, Platform, StyleSheet, SafeAreaView, StatusBar, View, ScrollView} from 'react-native'
 import {Image} from 'react-native-expo-image-cache'
 import {useNavigation} from '@react-navigation/native'
+import {getStatusBarHeight} from 'react-native-status-bar-height'
 
 //Components
 import AppText from '../AppText'
-import {AppForm, AppFormField, SubmitButton} from '../forms'
-import Card from '../Card'
-import ListItem from '../ListItem'
-import SafeAreaScreen from './SafeAreaScreen'
+// import {AppForm, AppFormField, SubmitButton} from '../forms'
+// import Card from '../Card'
+// import ListItem from '../ListItem'
+// import SafeAreaScreen from './SafeAreaScreen'
 
 //Assets
 import Colors from '../../assets/_colors'
@@ -16,8 +18,8 @@ import messagesApi from '../../api/messages'
 import * as Yup from 'yup'
 import { MaterialCommunityIcons } from '@expo/vector-icons'
 import AppSocialBar from '../AppSocialBar'
-import MapView from 'react-native-maps'
 import AppUserItem from '../AppUserItem'
+import formatNumber from '../../util/formatNumber'
 
 //Constants
 const validationSchema = Yup.object().shape({
@@ -28,8 +30,6 @@ const validationSchema = Yup.object().shape({
 export default function ListingDetailScren({route}){
 
     const listing = route.params
-
-    console.log(listing);
 
     const navigation = useNavigation()
 
@@ -62,6 +62,7 @@ export default function ListingDetailScren({route}){
                 keyboardVericalOffset={Platform.OS === "ios" ? 30 : 0 }
             >
                 <View style={styles.cardContainer}>
+                    <BlurView intensity={70} style={styles.statusbarBlurrer} />
                     {/* <Image style={styles.cardImage} source={{uri: item.images[0].url}} /> */}
                     <Image preview={{uri:listing.item.images[0].thumbnailUrl}} tint="light" style={styles.cardImage} uri={listing.item.images[0].url} />
                     <View style={{flexDirection: "row", justifyContent: "space-between"}}>
@@ -70,7 +71,7 @@ export default function ListingDetailScren({route}){
                             <AppText numberOfLines={1}
                                 style={{color: Colors.secondary, fontWeight: "bold"}}
                             >
-                                ₵{listing.item.price}
+                                GH₵ {formatNumber(listing.item.price, "currency")}
                             </AppText>
                         </View>
                         <View style={styles.limited}>
@@ -81,7 +82,7 @@ export default function ListingDetailScren({route}){
                 </View>
 
                 <AppUserItem 
-                    title="Leeford Appiah Marfo"
+                    title={listing.user.fullName}
                     subTitle={listing.user.totalListings + ' Listings'}
                     image={listing.user.img}
                     // showChevron
@@ -182,6 +183,14 @@ const styles = StyleSheet.create({
         color: Colors.primary,
         fontSize: 14,
         margin: 0
+    },
+    statusbarBlurrer: {
+        position: "absolute",
+        top: 0,
+        left: 0,
+        width: "100%",
+        height: getStatusBarHeight(),
+        zIndex: 1
     }
 
 })

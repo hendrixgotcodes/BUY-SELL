@@ -22,6 +22,7 @@ import LottieView from 'lottie-react-native'
 
 //Hooks
 import useAPI from '../../hooks/useAPI'
+import formatNumber from '../../util/formatNumber'
 
 const user = {
     img: require('../../assets/img/dp.jpg'),
@@ -146,7 +147,7 @@ export default function ListingsScreen({navigation}) {
                         // ItemSeparatorComponent = {()=>(
                         //     <ListItemSeperator gap={20} />
                         // )}
-                        // keyExtractor={(card)=>card.id.toString()}
+                        // keyExtractor={(item)=>item.id.toString()}
                         onRefresh={loadListings}
                         refreshing={isLoading}
                         renderItem={
@@ -155,7 +156,7 @@ export default function ListingsScreen({navigation}) {
                                 return (
                                 <Card
                                     title={item.title}
-                                    subTitle={"₵"+item.price}
+                                    subTitle={"₵"+ formatNumber(item.price, "currency")}
                                     imageUrl={item.images[0].url}
                                     style={styles.card}
                                     onPress={()=>{

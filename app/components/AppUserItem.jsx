@@ -46,7 +46,7 @@ export default function AppUserItem({style, title: fullName, subTitle: totalList
                 <View style={[styles.container, {...style}]}>
                     <Image style={styles.figure} source={image} />
                     <View style={{flex: 1}}>
-                        <View style={{flexDirection: "row", justifyContent: "flex-start"}}>
+                        <View style={{flex:1, flexDirection: "row", justifyContent: "space-between"}}>
                             <AppText
                                 numberOfLines={(numberOfLines >= 1) ? numberOfLines : 1}
                                 style={{...Platform.select({
@@ -67,7 +67,7 @@ export default function AppUserItem({style, title: fullName, subTitle: totalList
                                 loop={false}
                                 autoPlay={false}
                                 source={require("../assets/animations/verified_animated.json")}
-                                style={styles.animation}
+                                style={styles.badge}
                                 autoSize={false}
                                 ref={verifiedAnimation}
                             />
@@ -101,8 +101,8 @@ export default function AppUserItem({style, title: fullName, subTitle: totalList
 
 const styles = StyleSheet.create({
     badge:{
-        width: 37,
-        height: 37
+        width: 22,
+        height: 22
     },
     container: {
         display: "flex",
