@@ -147,7 +147,7 @@ export default function ListingsScreen({navigation}) {
                         // ItemSeparatorComponent = {()=>(
                         //     <ListItemSeperator gap={20} />
                         // )}
-                        // keyExtractor={(item)=>item.id.toString()}
+                        keyExtractor={(item)=>item.id.toString()}
                         onRefresh={loadListings}
                         refreshing={isLoading}
                         renderItem={

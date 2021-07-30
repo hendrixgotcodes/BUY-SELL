@@ -8,41 +8,7 @@ const apiClient = create({
     baseURL: "http://192.168.100.3:9000/api"
 })
 
-const get = apiClient.get
 
-// apiClient.get = (url, params, axiosConfig)=>{
-
-//     return new Promise((resolve, reject)=>{
-
-//         get(url, params, axiosConfig)
-//         .then((response)=>{
-
-//             if(response && response.ok){
-//                 cache.store(url, response.data)
-//                 resolve(response)
-//             }else{
-//                 cache.get(url)
-//                 .then((data)=>{
-
-//                     resolve (data ? {
-//                         ok: true,
-//                         data
-//                     } : response)
-
-//                 })
-//             }
-
-//         })
-
-//     })
-
-    
-
-    
-
-    
-
-// }
 
 apiClient.get = async (url)=>{
 
@@ -52,7 +18,10 @@ apiClient.get = async (url)=>{
 
         const snapShot = await db.collection("listings").get()
         snapShot.forEach((doc)=>{
-            docs.push(doc.data())
+            docs.push({
+                id: doc.id,
+                ...doc.data()
+            })
         })
 
 
