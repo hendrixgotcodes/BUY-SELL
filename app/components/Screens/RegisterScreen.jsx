@@ -1,9 +1,10 @@
-import React, {useState} from 'react'
-import { View, StyleSheet, Image } from 'react-native'
+import React, {useEffect, useState} from 'react'
+import { Image, Modal, Pressable, StatusBar, StyleSheet, View, } from 'react-native'
 
 //Components
 import {AppForm, AppFormField, ErrorMessage, SubmitButton} from '../forms'
 import ActivityIndicator from '../ActivityIndicator'
+import LottieView from 'lottie-react-native'
 import SafeAreaScreen from './SafeAreaScreen'
 
 //Assets
@@ -13,22 +14,39 @@ const logo = require("../../assets/logo-red.png")
 
 //Extra
 import authApi from '../../api/auth'
+import user from '../../api/user'
 import * as Yup from 'yup'
+import AppText from '../AppText'
+import Colors from '../../assets/_colors'
 
 const validationSchema = Yup.object().shape({
-    name: Yup.string().required().label("Name"),
     email: Yup.string().required().email().label("Email"),
     password: Yup.string().required().min(5).max(10).label("Password")
 })
 
 export default function RegisterScreen({}) {
 
-    const [hasLoginFailed, setHasLoginFailed] = useState(false)
     const [errorMessage, setErrorMessage] = useState("")
+    const [hasLoginFailed, setHasLoginFailed] = useState(false)
     const [isLoading, setIsLoading] = useState(false)
+    const [isModalShown, setIsModalShown] = useState(false)
+    const [showRetry, setShowRetry] = useState(false)
 
     const {logIn} = useAuth()
     // const registerAPI = useAPI(authApi.register)
+
+    // useEffect(()=>{
+
+    //     StatusBar.setBarStyle()
+
+    // },[])
+
+    const handleRetryOnPress = ()=>{
+
+        setIsModalShown(false)
+
+    }
+    
 
     const handleSubmit = async ({email, password})=>{
 
@@ -36,8 +54,16 @@ export default function RegisterScreen({}) {
 
         try {
 
-            const user  =  await authApi.register(email, password)
-            logIn(user)
+            await user.signUp(email, password)
+            setIsModalShown(true)
+
+            const userCred = await user.addUser()
+
+            setTimeout(()=>{
+                setShowRetry(true)
+            }, 30000)
+
+            logIn(userCred)
 
         } catch (error) {
             setHasLoginFailed(true)
@@ -59,18 +85,10 @@ export default function RegisterScreen({}) {
                 
                 {hasLoginFailed === true && <ErrorMessage message={errorMessage} />}
                 <AppForm
-                    initialValues={{name: "", email: "", password: ""}}
+                    initialValues={{email: "", password: ""}}
                     onSubmit={(res)=>handleSubmit(res)}
                     validationSchema={validationSchema}
                 >
-                    <AppFormField
-                        autoCapitalize="words"
-                        autoCorrect={false}
-                        icon="account"
-                        name="name"
-                        placeholder="Name"
-                        textContentType="name"
-                    />
 
                     <AppFormField
                         autoCapitalize="none"
@@ -106,6 +124,41 @@ export default function RegisterScreen({}) {
 
             </View>
 
+            <Modal
+                animationType="slide"
+                visible={isModalShown}
+                // visible={true}
+            >
+
+                <SafeAreaScreen style={styles.modal}>
+
+                    <LottieView
+                        autoPlay
+                        loop
+                        source={require("../../assets/animations/new_email.json")}
+                        style={styles.modalAnimation}
+                    />
+
+                    <View style={styles.modalTextWrapper}>
+                        <AppText style={styles.modalText}>
+                        A confirmation link has been sent to the email you provided. Please follow it to activate your account.
+                        You will be automatically signed in once you are done.
+                        </AppText>
+                        
+                        {showRetry === true && (
+                            <Pressable hitSlop={20} onPress={handleRetryOnPress}>
+                                <AppText style={{textAlign: "center", color: Colors.secondary}}>Retry</AppText>
+                            </Pressable>
+                        )}
+
+                    </View>
+
+                </SafeAreaScreen>
+
+            </Modal>
+
+            
+
         </SafeAreaScreen>
     )
 }
@@ -120,5 +173,20 @@ const styles = StyleSheet.create({
         alignSelf: "center",
         marginTop: 50,
         marginBottom: 20
+   },
+   modal:{
+       alignItems: "center",
+       justifyContent: "center"
+   },
+   modalAnimation: {
+       height: 100,
+       width: 100,
+   },
+   modalText: {
+       textAlign: "center"
+   },
+   modalTextWrapper:{
+       marginTop: 20,
+       width: "86%"
    }
 })

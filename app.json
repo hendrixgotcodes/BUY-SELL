@@ -8,7 +8,6 @@
     "splash": {
       "image": "./app/assets/splash.png",
       "resizeMode": "cover",
-      // "backgroundColor": "#e63e4b",
       "backgroundColor": "#fff"
     },
     "updates": {
@@ -35,10 +34,9 @@
         {
           "icon": "./app/assets/logo-red.png",
           "color": "#ffffff",
-          // "sounds": ["./local/path/to/mySound.wav", "./local/path/to/myOtherSound.wav"],
           "mode": "production"
         }
       ]
-    ],
+    ]
   }
 }
