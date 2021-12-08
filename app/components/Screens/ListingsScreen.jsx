@@ -62,7 +62,7 @@ export default function ListingsScreen({navigation}) {
                     <Image 
                         style={styles.logo} 
                         color={Colors.medium} 
-                        source={require("../../assets/logo-red.png")} 
+                        source={require("../../assets/logo.png")} 
                     />
 
                    
@@ -160,10 +160,7 @@ export default function ListingsScreen({navigation}) {
                                     imageUrl={item.images[0].url}
                                     style={styles.card}
                                     onPress={()=>{
-                                        navigation.navigate(routes.LISTING_DETAILS, {
-                                            'item': item, 
-                                            'user': user
-                                        })
+                                        navigation.navigate(routes.LISTING_DETAILS, item)
                                     }}
                                     thumbnailUrl={item.images[0].thumbnailUrl}
                                 />

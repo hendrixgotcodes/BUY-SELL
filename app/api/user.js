@@ -1,18 +1,40 @@
 import firebase from 'firebase'
+import userInfo from './userInfo'
 
 const auth = firebase.auth()
 const db = firebase.firestore()
 
-const signIn = async (email, password)=>{
+
+
+const addFavorite = async (item)=>{
 
     try {
 
-        const userCredential = await auth.signInWithEmailAndPassword(email, password)
+        let data = {
+            favorites: []
+        }
         
-        const userObj = await db.collection('users').doc(userCredential.user.uid).get()
+        const response = await db.collection("favorites").doc(auth.currentUser.uid).get()
+        const favoritesObject = response.data()
+        
+        if(!favoritesObject.favorites){
+            
+            data.favorites.push(item)
+            await db.collection("favorites").doc(auth.currentUser.uid).set(data)
+            return
 
-        return userObj
-        
+        }
+        else{
+            
+            favoritesObject.favorites.push(item)
+            await db.collection("favorites").doc(auth.currentUser.uid).set(favoritesObject)
+            return
+
+        }
+
+        // console.log(favorites);
+    
+
 
     } catch (error) {
         throw error
@@ -20,53 +42,67 @@ const signIn = async (email, password)=>{
 
 }
 
-const signUp = async (email, password)=>{
+const getFavorites = async ()=>{
 
     try {
         
-        const userCredential = await auth.createUserWithEmailAndPassword(email, password)
-
-        const verifyEmail = await auth.currentUser.sendEmailVerification()
-
-        return "Please check your mail to activate your account."
-
-        // console.log(userCredential);
-
-
-    } catch (error) {
-        console.log(error);
-        throw error
-    }
-
-}
-
-const addUser = async ()=>{
-
-    try {
-
-        const userCredential = auth.currentUser.providerData[0]
-
-        console.log(userCredential);
-        
-        // const response = await db.collection('users').doc(userCredential.user.uid).set({
-
-        //         ...userCredential.user,
-        //         listingsCount: 0,
-        //         favorites: [],
-        //         messages: []
-
-        // })
-
-        // return response
-
     } catch (error) {
         
     }
 
 }
+
+const addUser = async (firstName, lastName)=>{
+
+    try {
+
+        await auth.currentUser.sendEmailVerification()
+                
+
+        const reloadUserState = setInterval( async ()=>{
+
+            await auth.currentUser.reload()
+
+            if(auth.currentUser.emailVerified === true){
+
+                clearInterval(reloadUserState)
+
+                await auth.currentUser.updateProfile({
+                    displayName: `${firstName} ${lastName}`
+                })
+    
+                const userCredential = auth.currentUser.providerData[0]
+    
+                const response = await db.collection('users').doc(auth.currentUser.uid).set({
+    
+                        ...userCredential,
+                        favorites: [],
+                        firstName,
+                        lastName,
+                        listingsCount: 0,
+                        messages: [],
+    
+                })
+
+                userInfo.set()
+    
+                return auth.currentUser
+            }
+
+        }, 3000)
+
+        
+        
+
+    } catch (error) {
+        
+    }
+
+}
+
+
 
 export default {
+    addFavorite,
     addUser,
-    signIn,
-    signUp
 }

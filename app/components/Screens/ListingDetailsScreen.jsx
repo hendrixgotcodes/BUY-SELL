@@ -1,7 +1,7 @@
 import { BlurView } from 'expo-blur'
 import React from 'react'
 import {Keyboard, KeyboardAvoidingView, Platform, StyleSheet, SafeAreaView, StatusBar, View, ScrollView} from 'react-native'
-import {Image} from 'react-native-expo-image-cache'
+import {Image, CacheManager} from 'react-native-expo-image-cache'
 import {useNavigation} from '@react-navigation/native'
 import {getStatusBarHeight} from 'react-native-status-bar-height'
 
@@ -13,13 +13,14 @@ import AppText from '../AppText'
 // import SafeAreaScreen from './SafeAreaScreen'
 
 //Assets
-import Colors from '../../assets/_colors'
-import messagesApi from '../../api/messages'
-import * as Yup from 'yup'
-import { MaterialCommunityIcons } from '@expo/vector-icons'
 import AppSocialBar from '../AppSocialBar'
 import AppUserItem from '../AppUserItem'
+import Colors from '../../assets/_colors'
 import formatNumber from '../../util/formatNumber'
+import messagesApi from '../../api/messages'
+import user from '../../api/user'
+import * as Yup from 'yup'
+import { MaterialCommunityIcons } from '@expo/vector-icons'
 
 //Constants
 const validationSchema = Yup.object().shape({
@@ -27,10 +28,10 @@ const validationSchema = Yup.object().shape({
 })
 
 
+
 export default function ListingDetailScren({route}){
 
     const listing = route.params
-
     const navigation = useNavigation()
 
     const handleSubmit= async ({message}, resetForm)=>{
@@ -52,6 +53,12 @@ export default function ListingDetailScren({route}){
         navigation.navigate("Messages")
     }
 
+    const setFavorite = ()=>{
+
+        user.addFavorite(listing)
+
+    }
+
 
     return(
 
@@ -62,16 +69,16 @@ export default function ListingDetailScren({route}){
                 keyboardVericalOffset={Platform.OS === "ios" ? 30 : 0 }
             >
                 <View style={styles.cardContainer}>
-                    <BlurView intensity={70} style={styles.statusbarBlurrer} />
-                    {/* <Image style={styles.cardImage} source={{uri: item.images[0].url}} /> */}
-                    <Image preview={{uri:listing.item.images[0].thumbnailUrl}} tint="light" style={styles.cardImage} uri={listing.item.images[0].url} />
+                    {/* <BlurView intensity={70} style={styles.statusbarBlurrer} /> */}
+                    {/* <Image style={styles.cardImage} source={{uri: listing.images[0].url}} /> */}
+                    <Image preview={{uri:listing.images[0].thumbnailUrl}}  tint="light" style={styles.cardImage} uri={listing.images[0].url} />
                     <View style={{flexDirection: "row", justifyContent: "space-between"}}>
                         <View style={styles.captionsWrapper}>
-                            <AppText style={styles.header} numberOfLines={2}>{listing.item.title}</AppText>
+                            <AppText style={styles.header} numberOfLines={2}>{listing.title}</AppText>
                             <AppText numberOfLines={1}
                                 style={{color: Colors.secondary, fontWeight: "bold"}}
                             >
-                                GH₵ {formatNumber(listing.item.price, "currency")}
+                                GH₵ {formatNumber(listing.price, "currency")}
                             </AppText>
                         </View>
                         <View style={styles.limited}>
@@ -82,21 +89,21 @@ export default function ListingDetailScren({route}){
                 </View>
 
                 <AppUserItem 
-                    title={listing.user.fullName}
-                    subTitle={listing.user.totalListings + ' Listings'}
-                    image={listing.user.img}
+                    title={listing.seller.displayName}
+                    subTitle= {listing.seller.email}
+                    image={listing.seller.photoURL}
                     // showChevron
                     style={{marginTop: 1}}
                 />
                 <View>
-                    <AppSocialBar handleOnMessage={handleOnMessage} />
+                    <AppSocialBar onLiked={setFavorite} handleOnMessage={handleOnMessage} />
                 </View>
 
                 <ScrollView
                     style={{padding: 10}}
                 >
                     <AppText style={{color: Colors.medium, fontSize: 16}}>
-                        {listing.item.description}
+                        {listing.description}
                     </AppText>
                 </ScrollView>
 

@@ -8,7 +8,7 @@ import {AppForm, ErrorMessage, AppFormField, SubmitButtonLoading} from '../forms
 
 //Assets
 import useAuth from '../../auth/useAuth'
-const logo = require("../../assets/logo-red.png")
+const logo = require("../../assets/logo.png")
 
 //Extra
 import authApi from '../../api/auth'
@@ -28,16 +28,13 @@ export default function LoginScreen(){
     const [errorMessage, setErrorMessage] = useState("")
     const [isLoading, setIsLoading] = useState(false) 
 
-    // useEffect(() => {
-    //     StatusBar.setBarStyle('dark-content', true)
-    // }, [])
-
     const {logIn} = useAuth()
 
     const handleSubmit = async ({email, password})=>{
 
 
         setIsLoading(true)
+
 
         try {
             const user  =  await authApi.login(email, password)

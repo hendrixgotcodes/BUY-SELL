@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { 
     View, 
     Text, 
@@ -6,7 +6,8 @@ import {
     SafeAreaView, 
     ImageBackground,
     Image,
-    Platform
+    Platform,
+    StatusBar
 } from 'react-native'
 
 //Components
@@ -18,10 +19,16 @@ import Colors from '../../assets/_colors'
 
 //Variables
 const backgroundImage = require("../../assets/bgs/background.jpg")
-const logo = require("../../assets/logo-red.png")
+const logo = require("../../assets/logo.png")
 
 
 export default function WelcomeScreen({navigation}) {
+
+    useEffect(()=>{
+
+        StatusBar.setBarStyle('dark-content')
+
+    },[])
 
     const handleLoginOnClick = ()=>{
         navigation.navigate("loginScreen")

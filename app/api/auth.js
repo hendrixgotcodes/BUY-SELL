@@ -1,14 +1,31 @@
 import firebase from './firebase'
+import userInfo from './userInfo'
+
+const auth = firebase.auth()
+const db = firebase.firestore()
+
+
+const getCurrentUser = ()=>{
+        
+    return auth.currentUser
+
+}
 
 const login = async (email, password)=>{
 
     try {
 
-        const {user} = await firebase.auth().signInWithEmailAndPassword(email, password)
-        return user
+        await auth.signInWithEmailAndPassword(email, password)
+        const response = await db.collection("users").doc(auth.currentUser.uid).get()
+
+        userInfo.set(response.data())
+
+        return {
+            ...response.data(),
+            uid: auth.currentUser.uid
+        }
 
     } catch (error) {
-        console.log(error.code, "nof pc");
 
         switch(error.code){
 
@@ -24,10 +41,25 @@ const login = async (email, password)=>{
             case "auth/user-not-found":
                 throw new Error("It appears you have no account with us. Please try sign up.")
             default: 
+                console.log(error);
                 throw new Error("An unknown error occured")
 
         }
 
+
+    }
+
+}
+
+const logOut = async ()=>{
+
+    try {
+        
+        await auth.signOut()
+        userInfo.reset()
+
+    } catch (error) {
+        throw error
     }
 
 }
@@ -36,7 +68,7 @@ const register = async (email, password)=>{
 
     try {
 
-        const {user} = await firebase.auth().createUserWithEmailAndPassword(email, password)
+        const {user} = await auth.createUserWithEmailAndPassword(email, password)
         return user
 
     } catch (error) {
@@ -67,6 +99,8 @@ const register = async (email, password)=>{
 }
 
 export default {
+    getCurrentUser,
     login,
+    logOut,
     register
 }

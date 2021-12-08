@@ -13,6 +13,7 @@ const useAuth = ()=>{
     }
 
     const logIn = (user)=>{
+
         setUser(user)
         authStorage.storeToken(user)
     }

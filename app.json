@@ -4,9 +4,9 @@
     "slug": "donewithit",
     "version": "1.0.0",
     "orientation": "default",
-    "icon": "./app/assets/logo-red.png",
+    "icon": "./app/assets/logo.png",
     "splash": {
-      "image": "./app/assets/splash.png",
+      "image": "./app/assets/splash2.png",
       "resizeMode": "cover",
       "backgroundColor": "#fff"
     },
@@ -32,7 +32,7 @@
       [
         "expo-notifications",
         {
-          "icon": "./app/assets/logo-red.png",
+          "icon": "./app/assets/logo.png",
           "color": "#ffffff",
           "mode": "production"
         }

@@ -14,6 +14,7 @@ const getListings = ()=>{
 
         client.get(endPoint)
         .then((result)=>{
+
             resolve(result);
         })
 
@@ -48,12 +49,12 @@ const getListings = ()=>{
 
 // }
 
-const addListing =  async (listings, onUploadProgress, {uid})=>{
+const addListing =  async (listings, onUploadProgress, user)=>{
 
     const promises = []
     const imageURLs = []
 
-    const filePath = `images/${uid}/`
+    const filePath = `images/${user.uid}/`
 
     let totalImages = listings.images.length
     let totalProgress = 0
@@ -86,7 +87,12 @@ const addListing =  async (listings, onUploadProgress, {uid})=>{
 
         listings.images = result
 
-        const response = await db.collection("listings").doc(`${uid}_${listings.title}`).set(listings)
+        listings = {
+            ...listings,
+            seller: user
+        }
+
+        const response = await db.collection("listings").doc(`${user.uid}_${listings.title}`).set(listings)
 
     })
 

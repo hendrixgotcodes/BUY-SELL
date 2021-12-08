@@ -17,14 +17,26 @@ export default function UploadScreen({onDone, progress=0, visible=false}) {
             <View style={styles.container}>
                 { 
                     progress < 1 ?
-                    (<Progress.Bar 
-                        color={Colors.primary} 
-                        progress={progress} 
-                        width={200} 
-                    />)
+                    (
+                    // <Progress.Bar 
+                    //     color={Colors.primary} 
+                    //     progress={progress} 
+                    //     width={200} 
+                    // />
+                        <LottieView 
+                            autoPlay={true}
+                            loop={true}
+                            onAnimationFinish={()=>{
+                                onDone()
+                                console.log("removed");
+                            }}
+                            source={require("../../assets/animations/uploading.json")} 
+                            style={styles.animation}
+                        />
+                    )
                     : (<LottieView 
-                            autoPlay
-                            loop={false}
+                            autoPlay={true}
+                            loop={true}
                             onAnimationFinish={()=>{
                                 onDone()
                                 console.log("removed");

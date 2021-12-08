@@ -108,6 +108,16 @@ export default function ListingEditScreen() {
     // const location = useLocation()
     const {user, logOut} = useAuth()
 
+    const {displayName, email, firstName, lastName, photoURL, uid} = user
+    const userDetails = {
+        displayName, 
+        email, 
+        firstName, 
+        lastName, 
+        photoURL,
+        uid
+    }
+
 
     const handleSubmit = (listings, resetForm)=>{
 

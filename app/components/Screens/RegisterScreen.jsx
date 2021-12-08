@@ -10,7 +10,7 @@ import SafeAreaScreen from './SafeAreaScreen'
 //Assets
 import useAuth from '../../auth/useAuth'
 import useAPI from '../../hooks/useAPI'
-const logo = require("../../assets/logo-red.png")
+const logo = require("../../assets/logo.png")
 
 //Extra
 import authApi from '../../api/auth'
@@ -20,6 +20,8 @@ import AppText from '../AppText'
 import Colors from '../../assets/_colors'
 
 const validationSchema = Yup.object().shape({
+    firstName: Yup.string().required().label("First name"),
+    lastName: Yup.string().required().label("Last name"),
     email: Yup.string().required().email().label("Email"),
     password: Yup.string().required().min(5).max(10).label("Password")
 })
@@ -30,16 +32,17 @@ export default function RegisterScreen({}) {
     const [hasLoginFailed, setHasLoginFailed] = useState(false)
     const [isLoading, setIsLoading] = useState(false)
     const [isModalShown, setIsModalShown] = useState(false)
+    const [userEmail, setUserEmail] = useState("")
     const [showRetry, setShowRetry] = useState(false)
 
     const {logIn} = useAuth()
     // const registerAPI = useAPI(authApi.register)
 
-    // useEffect(()=>{
+    useEffect(()=>{
 
-    //     StatusBar.setBarStyle()
+        StatusBar.setBarStyle('dark-content')
 
-    // },[])
+    },[])
 
     const handleRetryOnPress = ()=>{
 
@@ -48,22 +51,23 @@ export default function RegisterScreen({}) {
     }
     
 
-    const handleSubmit = async ({email, password})=>{
+    const handleSubmit = async ({firstName, lastName, email, password})=>{
 
         setIsLoading(true)
 
         try {
 
-            await user.signUp(email, password)
+            await authApi.register(email, password)
+            setUserEmail(email)
             setIsModalShown(true)
 
-            const userCred = await user.addUser()
+            const userInfo = await user.addUser(firstName, lastName)
+            // logIn(userInfo)
 
             setTimeout(()=>{
                 setShowRetry(true)
-            }, 30000)
+            }, 60000)
 
-            logIn(userCred)
 
         } catch (error) {
             setHasLoginFailed(true)
@@ -85,11 +89,27 @@ export default function RegisterScreen({}) {
                 
                 {hasLoginFailed === true && <ErrorMessage message={errorMessage} />}
                 <AppForm
-                    initialValues={{email: "", password: ""}}
+                    initialValues={{firstName:"", lastName:"", email: "", password: ""}}
                     onSubmit={(res)=>handleSubmit(res)}
                     validationSchema={validationSchema}
                 >
 
+                    <AppFormField
+                        autoCapitalize="words"
+                        autoCorrect={false}
+                        icon="account"
+                        keyboardType="default"
+                        name="firstName"
+                        placeholder="First name"
+                    />
+                    <AppFormField
+                        autoCapitalize="words"
+                        autoCorrect={false}
+                        icon="account"
+                        keyboardType="default"
+                        name="lastName"
+                        placeholder="Last name"
+                    />
                     <AppFormField
                         autoCapitalize="none"
                         autoCorrect={false}
@@ -141,13 +161,13 @@ export default function RegisterScreen({}) {
 
                     <View style={styles.modalTextWrapper}>
                         <AppText style={styles.modalText}>
-                        A confirmation link has been sent to the email you provided. Please follow it to activate your account.
+                        A confirmation link has been sent to <AppText style={{color: Colors.secondary}}>{userEmail}</AppText>. Please follow it to activate your account.
                         You will be automatically signed in once you are done.
                         </AppText>
                         
                         {showRetry === true && (
                             <Pressable hitSlop={20} onPress={handleRetryOnPress}>
-                                <AppText style={{textAlign: "center", color: Colors.secondary}}>Retry</AppText>
+                                <AppText style={{textAlign: "center", color: Colors.primary, marginTop: 15}}>Retry</AppText>
                             </Pressable>
                         )}
 
