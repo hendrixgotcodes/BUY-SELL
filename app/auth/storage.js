@@ -1,53 +1,40 @@
-import *  as SecureStore from "expo-secure-store"
+import * as SecureStore from "expo-secure-store";
 
-const key="authToken"
+const key = "authToken";
 
 const storeToken = async (authToken) => {
-
-    authToken = JSON.stringify(authToken)
+    authToken = JSON.stringify(authToken);
 
     try {
-        const savedToken = await SecureStore.setItemAsync(key, authToken)
-        return
+        await SecureStore.setItemAsync(key, authToken);
+        return;
     } catch (error) {
         console.log(error, "**************************");
     }
+};
 
-}
-
-const getToken = async ()=>{
-
+const getToken = async () => {
     try {
-        let authToken=  await SecureStore.getItemAsync(key)
-        authToken = JSON.parse(authToken)
-        return authToken
+        let authToken = await SecureStore.getItemAsync(key);
+        authToken = JSON.parse(authToken);
+        return authToken;
     } catch (error) {
         console.log(error);
     }
+};
 
-}
+const getUser = async () => {
+    const token = await getToken();
+    return token || null;
+};
 
-const getUser = async ()=>{
-
+const removeToken = async () => {
     try {
-        const token = await getToken()
-
-        return (token) ? token : null
-    } catch (error) {
-        
-    }
-
-}
-
-const removeToken = async ()=>{
-
-    try {
-        await SecureStore.deleteItemAsync(key)
-        return
+        await SecureStore.deleteItemAsync(key);
+        return;
     } catch (error) {
         console.log(error);
     }
+};
 
-}
-
-export default {storeToken, getToken, getUser, removeToken}
+export default { storeToken, getToken, getUser, removeToken };

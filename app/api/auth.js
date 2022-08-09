@@ -1,106 +1,78 @@
-import firebase from './firebase'
-import userInfo from './userInfo'
+import firebase from "./firebase";
+import userInfo from "./userInfo";
 
-const auth = firebase.auth()
-const db = firebase.firestore()
+const auth = firebase.auth();
+const db = firebase.firestore();
 
+const getCurrentUser = () => auth.currentUser;
 
-const getCurrentUser = ()=>{
-        
-    return auth.currentUser
-
-}
-
-const login = async (email, password)=>{
-
+const login = async (email, password) => {
     try {
+        await auth.signInWithEmailAndPassword(email, password);
+        const response = await db
+            .collection("users")
+            .doc(auth.currentUser.uid)
+            .get();
 
-        await auth.signInWithEmailAndPassword(email, password)
-        const response = await db.collection("users").doc(auth.currentUser.uid).get()
-
-        userInfo.set(response.data())
+        userInfo.set(response.data());
 
         return {
             ...response.data(),
-            uid: auth.currentUser.uid
-        }
-
+            uid: auth.currentUser.uid,
+        };
     } catch (error) {
-
-        switch(error.code){
-
-            case "auth/invalid-password": 
-                throw new Error("Invalid password")
-                break
+        switch (error.code) {
+            case "auth/invalid-password":
+                throw new Error("Invalid password");
             case "auth/invalid-email":
-                throw new Error("Your email is invalid")
-                break
+                throw new Error("Your email is invalid");
             case "auth/wrong-password":
-                throw new Error("Incorrect password")
-                break
+                throw new Error("Incorrect password");
             case "auth/user-not-found":
-                throw new Error("It appears you have no account with us. Please try sign up.")
-            default: 
+                throw new Error(
+                    "It appears you have no account with us. Please try sign up."
+                );
+            default:
                 console.log(error);
-                throw new Error("An unknown error occured")
-
+                throw new Error("An unknown error occured");
         }
-
-
     }
+};
 
-}
+const logOut = async () => {
+    await auth.signOut();
+    userInfo.reset();
+};
 
-const logOut = async ()=>{
-
+const register = async (email, password) => {
     try {
-        
-        await auth.signOut()
-        userInfo.reset()
-
+        const { user } = await auth.createUserWithEmailAndPassword(
+            email,
+            password
+        );
+        return user;
     } catch (error) {
-        throw error
-    }
-
-}
-
-const register = async (email, password)=>{
-
-    try {
-
-        const {user} = await auth.createUserWithEmailAndPassword(email, password)
-        return user
-
-    } catch (error) {
-
-        switch(error.code){
-
-            case "auth/invalid-password": 
-                throw new Error("Invalid password")
-                break
+        switch (error.code) {
+            case "auth/invalid-password":
+                throw new Error("Invalid password");
             case "auth/email-already-in-use":
-                throw new Error("Email already existes")
-                break
+                throw new Error("Email already existes");
             case "auth/wrong-password":
-                throw new Error("Incorrect password")
-                break
+                throw new Error("Incorrect password");
             case "auth/user-not-found":
-                throw new Error("It appears you have no account with us. Please try sign up.")
-            default: 
+                throw new Error(
+                    "It appears you have no account with us. Please try sign up."
+                );
+            default:
                 console.log(error);
-                throw new Error("An unknown error occured")
-
+                throw new Error("An unknown error occured");
         }
-
-
-
     }
-
-}
+};
 
 export default {
     getCurrentUser,
     login,
     logOut,
-    register
-}
+    register,
+};

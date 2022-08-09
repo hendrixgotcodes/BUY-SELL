@@ -1,0 +1,31 @@
+{
+    "env": {
+        "browser": true,
+        "es2021": true,
+        "react-native/react-native": true
+    },
+    "plugins": ["react","react-native"],
+    "extends": [
+        "eslint:recommended",
+        "plugin:react/recommended",
+        "prettier"
+    ],
+    "parserOptions": {
+        "ecmaVersion": "latest",
+        "sourceType": "module",
+        "ecmaFeatures": {
+            "jsx": true
+        }
+    },
+    "rules": {
+        "react-native/no-unused-styles": 2,
+        "react-native/split-platform-components": 2,
+        "react-native/no-inline-styles": 2,
+        "react-native/no-color-literals": 2,
+        "react-native/no-raw-text": "off",
+        "react-native/no-single-element-style-arrays": 2,
+        "react/prop-types": "off",
+        "import/namespace": "off"
+    },
+    "ignorePatterns":["/node_modules/*", "/.expo/*", "/.expo-shared/*", "/.vscode/*", "babel.config.js"]
+}

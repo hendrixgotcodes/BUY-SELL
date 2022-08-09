@@ -1,41 +1,42 @@
-import React from 'react'
+import { MaterialCommunityIcons } from "@expo/vector-icons";
+import React from "react";
 import {
     View,
     Image,
     StyleSheet,
     SafeAreaView,
     StatusBar,
-    Platform
-} from 'react-native'
+    Platform,
+} from "react-native";
 
-//Assets
-import colors from '../../assets/_colors'
-const image = require("../../assets/bgs/chair.jpg")
-import { MaterialCommunityIcons } from '@expo/vector-icons';
+// Assets
+import colors from "../../assets/_colors";
 
-export default function ViewImageScreen(){
+const image = require("../../assets/bgs/chair.jpg");
 
+export default function ViewImageScreen() {
     return (
         <View style={styles.wrapper}>
-
             <SafeAreaView style={styles.safeArea}>
-
                 <View style={styles.contentWrapper}>
                     <View style={styles.btnWrapper}>
-
-                        <MaterialCommunityIcons name="close" size={24} color={colors.plain} />
-                        <MaterialCommunityIcons name="trash-can-outline" size={24} color={colors.plain} />
-
+                        <MaterialCommunityIcons
+                            name="close"
+                            size={24}
+                            color={colors.plain}
+                        />
+                        <MaterialCommunityIcons
+                            name="trash-can-outline"
+                            size={24}
+                            color={colors.plain}
+                        />
                     </View>
 
                     <Image source={image} style={styles.image} />
                 </View>
-
             </SafeAreaView>
-
         </View>
-    )
-
+    );
 }
 
 const styles = StyleSheet.create({
@@ -49,29 +50,18 @@ const styles = StyleSheet.create({
         width: "100%",
         height: "100%",
     },
-    contentWrapper:{
-    },
+    contentWrapper: {},
     btnWrapper: {
         width: "100%",
         display: "flex",
         flexDirection: "row",
         justifyContent: "space-between",
         alignItems: "center",
-        paddingHorizontal: 20
+        paddingHorizontal: 20,
     },
-    btn:{
-        width: 35,
-        height: 35
-    },
-    btnPrimary: {
-        backgroundColor: colors.primary
-    },
-    btnSecondary:{
-        backgroundColor: colors.secondary
-    },
-    image:{
+    image: {
         width: "100%",
         height: "80%",
-        marginTop: 50
-    }
-})
+        marginTop: 50,
+    },
+});

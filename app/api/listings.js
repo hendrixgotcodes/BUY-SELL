@@ -1,27 +1,17 @@
-import client from './client'
-import firebase from './firebase'
-import pushMedia from './pushMedia'
+import client from "./client";
+import firebase from "./firebase";
+import pushMedia from "./pushMedia";
 
+// Fields
+const endPoint = "/listings";
+const db = firebase.firestore();
 
-
-//Fields
-const endPoint = "/listings"
-const db = firebase.firestore()
-
-
-const getListings = ()=>{
-    return new Promise((resolve, reject)=>{
-
-        client.get(endPoint)
-        .then((result)=>{
-
+const getListings = () =>
+    new Promise((resolve) => {
+        client.get(endPoint).then((result) => {
             resolve(result);
-        })
-
-    })
-}
-
-
+        });
+    });
 
 // const addListing = (listing, onUploadProgress)=>{
 
@@ -49,64 +39,53 @@ const getListings = ()=>{
 
 // }
 
-const addListing =  async (listings, onUploadProgress, user)=>{
+const addListing = async (listings, onUploadProgress, user) => {
+    // const promises = [];
+    const imageURLs = [];
 
-    const promises = []
-    const imageURLs = []
+    const filePath = `images/${user.uid}/`;
 
-    const filePath = `images/${user.uid}/`
+    // const totalImages = listings.images.length;
+    // eslint-disable-next-line no-unused-vars
+    let totalProgress = 0;
 
-    let totalImages = listings.images.length
-    let totalProgress = 0
-
-    const uploadProgress = (progress, index)=>{
-
-        totalProgress += (parseFloat(progress))
+    const uploadProgress = (progress) => {
+        totalProgress += parseFloat(progress);
 
         // console.log(`index: ${index} \t`, `progress: ${progress}\t`, `totalImages: ${totalImages}`);
         // console.log(progress);
-        
+    };
 
+    for (let index = 0; index < listings.images.length; index++) {
+        const fileName = `img_${index}`;
+        const image = listings.images[index];
+
+        const url = await pushMedia(fileName, filePath, image, (progress) =>
+            uploadProgress(progress, index)
+        );
+        imageURLs.push(url);
     }
 
-    
-
-    for(let index=0; index < listings.images.length; index++){
-
-        const fileName = `img_${index}`
-        const image = listings.images[index]
-
-        
-        const url = await pushMedia(fileName, filePath, image, (progress)=>(uploadProgress(progress, index)))
-        imageURLs.push(url)
-
-    }
-
-    Promise.all(imageURLs)
-    .then(async (result)=>{
-
-        listings.images = result
+    Promise.all(imageURLs).then(async (result) => {
+        listings.images = result;
 
         listings = {
             ...listings,
-            seller: user
-        }
+            seller: user,
+        };
 
-        const response = await db.collection("listings").doc(`${user.uid}_${listings.title}`).set(listings)
+        await db
+            .collection("listings")
+            .doc(`${user.uid}_${listings.title}`)
+            .set(listings);
+    });
 
-    })
-
-    return{
-        ok: true
-    }
-
-
-    
-
-
-}
+    return {
+        ok: true,
+    };
+};
 
 export default {
     addListing,
-    getListings
-}
+    getListings,
+};

@@ -1,39 +1,48 @@
-import React from 'react'
-import {View, StyleSheet, FlatList, Pressable} from 'react-native'
+// Screens
 
+// Assets
+import { MaterialCommunityIcons } from "@expo/vector-icons";
+import React from "react";
+import { FlatList, StyleSheet, View } from "react-native";
 
-//Screens
-import SafeAreaScreen from './SafeAreaScreen'
+import Colors from "../../assets/_colors";
+import useAuth from "../../auth/useAuth";
 
-//Assets
-import Colors from '../../assets/_colors'
-import { MaterialCommunityIcons } from '@expo/vector-icons';
-import useAuth from '../../auth/useAuth'
+// Component
+import AppText from "../AppText";
+import ListItem, { MenuListItem } from "../ListItem";
+import ListItemSeperator from "../ListItemSeperator";
+import SafeAreaScreen from "./SafeAreaScreen";
 
-//Component
-import AppText from '../AppText'
-import ListItem, {MenuListItem} from '../ListItem'
-import ListItemSeperator from '../ListItemSeperator'
+export default function MyAccountScreen({ navigation }) {
+    const { user, logOut } = useAuth();
 
-export default function MyAccountScreen({navigation}){
-
-    const {user, logOut} = useAuth()
-
-
-    const listDetails= [
+    const listDetails = [
         {
             id: 1,
             description: "My Listings",
             backgroundColor: Colors.primary,
-            icon: <MaterialCommunityIcons name="format-list-bulleted" size={20} color={Colors.plain} />,
-            targetScreen: "My Listings"
+            icon: (
+                <MaterialCommunityIcons
+                    name="format-list-bulleted"
+                    size={20}
+                    color={Colors.plain}
+                />
+            ),
+            targetScreen: "My Listings",
         },
-        {   
-            id:2,
+        {
+            id: 2,
             description: "My Messages",
             backgroundColor: Colors.secondary,
-            icon: <MaterialCommunityIcons name="email" size={20} color={Colors.plain} />,
-            targetScreen: "Messages"
+            icon: (
+                <MaterialCommunityIcons
+                    name="email"
+                    size={20}
+                    color={Colors.plain}
+                />
+            ),
+            targetScreen: "Messages",
         },
         // {
         //     id:3,
@@ -42,77 +51,78 @@ export default function MyAccountScreen({navigation}){
         //     icon: <MaterialCommunityIcons name="credit-card" size={24} color={Colors.plain} />,
         //     targetScreen: "Messages"
         // },
-    ]
+    ];
 
-
-    return(
+    return (
         <SafeAreaScreen style={styles.container}>
-
             <View style={styles.header}>
-                <AppText style={styles.headerTitle}>
-                    My Account
-                </AppText>
+                <AppText style={styles.headerTitle}>My Account</AppText>
             </View>
 
             <View style={styles.mainWrapper}>
-
                 <ListItem
-                        title="Samuel Opoku Asare" 
-                        subTitle={user.email}
-                        image= {require("../../assets/img/dp.jpg")}
+                    title="Samuel Opoku Asare"
+                    subTitle={user.email}
+                    image={require("../../assets/img/dp.jpg")}
                 />
-                
 
                 <View style={styles.listWrapper}>
-
-                        <FlatList
-
-                            data={listDetails}
-                            keyExtractor={(items)=>items.id.toString()}
-                            ItemSeparatorComponent= {()=><ListItemSeperator gap={1} />}
-                            renderItem={
-                                ({item})=>(
-                                    <MenuListItem
-                                        description={item.description}
-                                        backgroundColor= {item.backgroundColor}
-                                        icon={item.icon}
-                                        onPress={()=>navigation.navigate(item.targetScreen)}
-                                    />
-                                )
-                            }
-
-                        />
-
+                    <FlatList
+                        data={listDetails}
+                        keyExtractor={(items) => items.id.toString()}
+                        ItemSeparatorComponent={() => (
+                            <ListItemSeperator gap={1} />
+                        )}
+                        renderItem={({ item }) => (
+                            <MenuListItem
+                                description={item.description}
+                                backgroundColor={item.backgroundColor}
+                                icon={item.icon}
+                                onPress={() =>
+                                    navigation.navigate(item.targetScreen)
+                                }
+                            />
+                        )}
+                    />
                 </View>
 
                 <MenuListItem
-                        description="Settings"
-                        backgroundColor={Colors.medium} 
-                        icon={<MaterialCommunityIcons name="cog" size={20} color={Colors.plain} />}
-                        onPress={logOut}
+                    description="Settings"
+                    backgroundColor={Colors.medium}
+                    icon={
+                        <MaterialCommunityIcons
+                            name="cog"
+                            size={20}
+                            color={Colors.plain}
+                        />
+                    }
+                    onPress={logOut}
                 />
                 <ListItemSeperator gap={1} />
                 <MenuListItem
-                        description="Log Out"
-                        backgroundColor={Colors.complementary} 
-                        icon={<MaterialCommunityIcons name="logout" size={20} color={Colors.plain} />}
-                        onPress={logOut}
+                    description="Log Out"
+                    backgroundColor={Colors.complementary}
+                    icon={
+                        <MaterialCommunityIcons
+                            name="logout"
+                            size={20}
+                            color={Colors.plain}
+                        />
+                    }
+                    onPress={logOut}
                 />
-
             </View>
-
         </SafeAreaScreen>
-    )
-
+    );
 }
 
 const styles = StyleSheet.create({
-    container:{
-        backgroundColor: Colors.plain
+    container: {
+        backgroundColor: Colors.plain,
     },
     listWrapper: {
         marginTop: 30,
-        marginBottom: 15
+        marginBottom: 15,
     },
     header: {
         alignItems: "center",
@@ -126,13 +136,13 @@ const styles = StyleSheet.create({
         paddingHorizontal: 15,
         width: "100%",
     },
-    mainWrapper:{
+    mainWrapper: {
         backgroundColor: Colors.offwhite,
-        flex: 1
+        flex: 1,
     },
     headerTitle: {
-        textAlign: "center", 
-        fontWeight: "bold", 
-        fontSize: 24
+        textAlign: "center",
+        fontWeight: "bold",
+        fontSize: 24,
     },
-})
+});

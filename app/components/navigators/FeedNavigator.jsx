@@ -1,43 +1,38 @@
-import React from 'react'
-import { View, StyleSheet } from 'react-native'
+import { createStackNavigator } from "@react-navigation/stack";
+import React from "react";
 
-//Components
-import {createStackNavigator} from '@react-navigation/stack'
-import ListingsScreen from '../Screens/ListingsScreen'
-import ListingDetailsScreen from '../Screens/ListingDetailsScreen'
+// Components
+import ListingDetailsScreen from "../Screens/ListingDetailsScreen";
+import ListingsScreen from "../Screens/ListingsScreen";
+import SearchScreen from "../Screens/SearchScreen";
+import routes from "./routes";
 // import ListingDetailNavigator from './ListingDetailNavigator'
 // import MessageNavigator from './MessageNavigator'
 
-//Fields
-const Stack = createStackNavigator()
-import routes from './routes'
-import SearchScreen from '../Screens/SearchScreen'
+// Fields
+const Stack = createStackNavigator();
 
-
-
- 
 export default function FeedNavigator() {
     return (
-        <Stack.Navigator 
+        <Stack.Navigator
             // mode="modal"
             screenOptions={{
-                headerShown: false
+                headerShown: false,
             }}
         >
-
-            <Stack.Screen mode="modal" name="Listings" component={ListingsScreen} />
-
-            <Stack.Screen 
+            <Stack.Screen
                 mode="modal"
-                name={routes.LISTING_DETAILS} 
-                component={ListingDetailsScreen} 
+                name="Listings"
+                component={ListingsScreen}
             />
 
-            <Stack.Screen 
+            <Stack.Screen
                 mode="modal"
-                name="search" 
-                component={SearchScreen} 
+                name={routes.LISTING_DETAILS}
+                component={ListingDetailsScreen}
             />
+
+            <Stack.Screen mode="modal" name="search" component={SearchScreen} />
 
             {/* <Stack.Screen 
                 mode="card" 
@@ -45,7 +40,6 @@ export default function FeedNavigator() {
                 component={MessageNavigator} 
                 // options={({route})=>}
             /> */}
-
         </Stack.Navigator>
-    )
+    );
 }
