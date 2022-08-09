@@ -1,73 +1,78 @@
-import React, { useEffect } from 'react'
-import { 
-    View, 
-    Text, 
-    StyleSheet, 
-    SafeAreaView, 
-    ImageBackground,
-    Image,
-    Platform,
-    StatusBar
-} from 'react-native'
+/* eslint-disable react-native/no-inline-styles */
+import React, { useEffect } from "react";
+import {
+    Image, ImageBackground, Platform,
+    StatusBar, StyleSheet, View
+} from "react-native";
 
-//Components
-import AppText from '../AppText'
-import AppButton from  '../AppButton'
+// Components
+import Colors from "../../assets/_colors";
+import AppButton from "../AppButton";
+import AppText from "../AppText";
 
-//Assets
-import Colors from '../../assets/_colors'
+// Assets
 
-//Variables
-const backgroundImage = require("../../assets/bgs/background.jpg")
-const logo = require("../../assets/logo.png")
+// Variables
+const backgroundImage = require("../../assets/bgs/background.jpg");
+const logo = require("../../assets/logo.png");
 
+export default function WelcomeScreen({ navigation }) {
+    useEffect(() => {
+        StatusBar.setBarStyle("dark-content");
+    }, []);
 
-export default function WelcomeScreen({navigation}) {
+    const handleLoginOnClick = () => {
+        navigation.navigate("loginScreen");
+    };
 
-    useEffect(()=>{
-
-        StatusBar.setBarStyle('dark-content')
-
-    },[])
-
-    const handleLoginOnClick = ()=>{
-        navigation.navigate("loginScreen")
-    }
-
-    const handleRegisterOnClick = ()=>{
-        navigation.navigate("registerScreen")
-    }
+    const handleRegisterOnClick = () => {
+        navigation.navigate("registerScreen");
+    };
 
     return (
         <View style={styles.container}>
-            <ImageBackground source={backgroundImage} style={styles.imgBg} blurRadius={Platform.OS === "android" ? 2 : 20}>
+            <ImageBackground
+                source={backgroundImage}
+                style={styles.imgBg}
+                blurRadius={Platform.OS === "android" ? 2 : 20}
+            >
                 <View style={styles.contentWrapper}>
                     <View style={styles.header}>
                         <Image source={logo} style={styles.header_logo} />
-                        <AppText>Sell What You Don't Need</AppText>
+                        <AppText>Sell What You Don&apos;t Need</AppText>
                     </View>
                     <View style={styles.btnWrapper}>
-                        <AppButton title="login" style={{marginBottom: 20}} onPress={handleLoginOnClick} />
-                        <AppButton title="register" style={{marginBottom: 20, backgroundColor: Colors.secondary}} onPress={handleRegisterOnClick} />
+                        <AppButton
+                            title="login"
+                            style={{ marginBottom: 20 }}
+                            onPress={handleLoginOnClick}
+                        />
+                        <AppButton
+                            title="register"
+                            style={{
+                                marginBottom: 20,
+                                backgroundColor: Colors.secondary,
+                            }}
+                            onPress={handleRegisterOnClick}
+                        />
                     </View>
-                    </View>
+                </View>
             </ImageBackground>
         </View>
-    )
+    );
 }
 
 const styles = StyleSheet.create({
-
     container: {
         flex: 1,
-        width: "100%"
+        width: "100%",
     },
     imgBg: {
         width: "100%",
         height: "100%",
     },
     header: {
-    //    justifySelf: "flex-start",
+        //    justifySelf: "flex-start",
         textAlign: "center",
         display: "flex",
         flexDirection: "column",
@@ -75,7 +80,7 @@ const styles = StyleSheet.create({
         alignItems: "center",
         marginTop: "20%",
     },
-    header_logo:{
+    header_logo: {
         height: 95,
         width: 95,
     },
@@ -88,7 +93,6 @@ const styles = StyleSheet.create({
         flexDirection: "column",
     },
     btnWrapper: {
-        width: "90%"
+        width: "90%",
     },
-
-})
+});

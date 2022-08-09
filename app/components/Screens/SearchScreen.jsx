@@ -1,30 +1,34 @@
-import React from 'react'
-import { View, StyleSheet, FlatList } from 'react-native'
+import { useNavigation } from "@react-navigation/native";
+import React from "react";
+import { View, StyleSheet, FlatList } from "react-native";
 
-//Components
-import SafeAreaScreen from './SafeAreaScreen'
+// Components
 
-//Asset
-import Colors from '../../assets/_colors'
-import AppTextInput from '../AppTextInput'
-import AppMenubar from '../AppMenubar'
-import { useState } from 'react'
+// Asset
+import listingsAPI from "../../api/listings";
+import Colors from "../../assets/_colors";
+import useAPI from "../../hooks/useAPI";
+import AppMenubar from "../AppMenubar";
+import AppTextInput from "../AppTextInput";
+import Card from "../Card";
+import routes from "../navigators/routes";
 
-//API
-import listingsAPI from '../../api/listings'
+// API
 
-//Hooks
-import useAPI from '../../hooks/useAPI'
- 
+// Hooks
+import SafeAreaScreen from "./SafeAreaScreen";
+
 export default function SearchScreen() {
+    const {
+        data: listings,
+        isLoading,
+        request: loadListings,
+    } = useAPI(listingsAPI.getListings);
 
-    const [keyword, setKeyword] = useState("Recommended for you")
-    const {data: listings, hasError, isLoading, request: loadListings} = useAPI(listingsAPI.getListings)
-
+    const navigation = useNavigation()
 
     return (
         <SafeAreaScreen style={styles.container}>
-            
             <View style={styles.textInputWrapper}>
                 <AppTextInput
                     placeholder="search..."
@@ -33,8 +37,16 @@ export default function SearchScreen() {
             </View>
 
             <AppMenubar
-                items={["All","Cars","Camera", "Clothing", "Furniture", "Games", "Sports"]} 
-                onChange={(item)=>{
+                items={[
+                    "All",
+                    "Cars",
+                    "Camera",
+                    "Clothing",
+                    "Furniture",
+                    "Games",
+                    "Sports",
+                ]}
+                onChange={(item) => {
                     console.log(item);
                 }}
             />
@@ -48,50 +60,34 @@ export default function SearchScreen() {
                     // keyExtractor={(card)=>card.id.toString()}
                     onRefresh={loadListings}
                     refreshing={isLoading}
-                    renderItem={
-                        ({item})=>{ 
-
-                            return (
-                            <Card
-                                title={item.title}
-                                subTitle={"₵"+item.price}
-                                imageUrl={item.images[0].url}
-                                style={styles.card}
-                                onPress={()=>{
-                                    navigation.navigate(routes.LISTING_DETAILS, {
-                                        'item': item, 
-                                        'user': user
-                                    })
-                                }}
-                                thumbnailUrl={item.images[0].thumbnailUrl}
-                            />
-                        )}
-                    }
+                    renderItem={({ item }) => (
+                        <Card
+                            title={item.title}
+                            subTitle={`₵${item.price}`}
+                            imageUrl={item.images[0].url}
+                            style={styles.card}
+                            onPress={() => {
+                                navigation.navigate(routes.LISTING_DETAILS, {
+                                    item,
+                                    // user,
+                                });
+                            }}
+                            thumbnailUrl={item.images[0].thumbnailUrl}
+                        />
+                    )}
                     showsVerticalScrollIndicator={false}
                 />
             </View>
-
-
         </SafeAreaScreen>
-    )
+    );
 }
- 
+
 const styles = StyleSheet.create({
-    appMenubarWrapper:{
-        paddingHorizontal: 15,
-    },
-    container: {
-        backgroundColor: Colors.plain
-    },
-    itemsWrapper:{
+    textInput: {
         backgroundColor: Colors.offwhite,
-        flex: 1
     },
-    textInput:{
-        backgroundColor: Colors.offwhite
-    },
-    textInputWrapper:{
+    textInputWrapper: {
         paddingHorizontal: 10,
         marginBottom: 5,
     },
-})
+});

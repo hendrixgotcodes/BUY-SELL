@@ -1,99 +1,97 @@
-import React, {useEffect, useState} from 'react'
-import { Image, Modal, Pressable, StatusBar, StyleSheet, View, } from 'react-native'
+import LottieView from "lottie-react-native";
+import React, { useEffect, useState } from "react";
+import {
+    Image,
+    Modal,
+    Pressable,
+    StatusBar,
+    StyleSheet,
+    View
+} from "react-native";
 
-//Components
-import {AppForm, AppFormField, ErrorMessage, SubmitButton} from '../forms'
-import ActivityIndicator from '../ActivityIndicator'
-import LottieView from 'lottie-react-native'
-import SafeAreaScreen from './SafeAreaScreen'
+// Components
+import * as Yup from "yup";
 
-//Assets
-import useAuth from '../../auth/useAuth'
-import useAPI from '../../hooks/useAPI'
-const logo = require("../../assets/logo.png")
+import authApi from "../../api/auth";
+import user from "../../api/user";
+import Colors from "../../assets/_colors";
+import ActivityIndicator from "../ActivityIndicator";
+import AppText from "../AppText";
+import { AppForm, AppFormField, ErrorMessage, SubmitButton } from "../forms";
+import SafeAreaScreen from "./SafeAreaScreen";
 
-//Extra
-import authApi from '../../api/auth'
-import user from '../../api/user'
-import * as Yup from 'yup'
-import AppText from '../AppText'
-import Colors from '../../assets/_colors'
+// Assets
+
+// Extra
+
+const logo = require("../../assets/logo.png");
 
 const validationSchema = Yup.object().shape({
     firstName: Yup.string().required().label("First name"),
     lastName: Yup.string().required().label("Last name"),
     email: Yup.string().required().email().label("Email"),
-    password: Yup.string().required().min(5).max(10).label("Password")
-})
+    password: Yup.string().required().min(5).max(10).label("Password"),
+});
 
-export default function RegisterScreen({}) {
+export default function RegisterScreen() {
+    const [errorMessage, setErrorMessage] = useState("");
+    const [hasLoginFailed, setHasLoginFailed] = useState(false);
+    const [isLoading, setIsLoading] = useState(false);
+    const [isModalShown, setIsModalShown] = useState(false);
+    const [userEmail, setUserEmail] = useState("");
+    const [showRetry, setShowRetry] = useState(false);
 
-    const [errorMessage, setErrorMessage] = useState("")
-    const [hasLoginFailed, setHasLoginFailed] = useState(false)
-    const [isLoading, setIsLoading] = useState(false)
-    const [isModalShown, setIsModalShown] = useState(false)
-    const [userEmail, setUserEmail] = useState("")
-    const [showRetry, setShowRetry] = useState(false)
-
-    const {logIn} = useAuth()
     // const registerAPI = useAPI(authApi.register)
 
-    useEffect(()=>{
+    useEffect(() => {
+        StatusBar.setBarStyle("dark-content");
+    }, []);
 
-        StatusBar.setBarStyle('dark-content')
+    const handleRetryOnPress = () => {
+        setIsModalShown(false);
+    };
 
-    },[])
-
-    const handleRetryOnPress = ()=>{
-
-        setIsModalShown(false)
-
-    }
-    
-
-    const handleSubmit = async ({firstName, lastName, email, password})=>{
-
-        setIsLoading(true)
+    const handleSubmit = async ({ firstName, lastName, email, password }) => {
+        setIsLoading(true);
 
         try {
+            await authApi.register(email, password);
+            setUserEmail(email);
+            setIsModalShown(true);
 
-            await authApi.register(email, password)
-            setUserEmail(email)
-            setIsModalShown(true)
-
-            const userInfo = await user.addUser(firstName, lastName)
+            await user.addUser(firstName, lastName);
             // logIn(userInfo)
 
-            setTimeout(()=>{
-                setShowRetry(true)
-            }, 60000)
-
-
+            setTimeout(() => {
+                setShowRetry(true);
+            }, 60000);
         } catch (error) {
-            setHasLoginFailed(true)
-            setErrorMessage(error.message)
+            setHasLoginFailed(true);
+            setErrorMessage(error.message);
             // console.log(error);
         }
 
-        setIsLoading(false)
-
-
-    }
+        setIsLoading(false);
+    };
 
     return (
         <SafeAreaScreen>
-            
             <View style={styles.container}>
-
                 <Image source={logo} style={styles.logo} />
-                
-                {hasLoginFailed === true && <ErrorMessage message={errorMessage} />}
+
+                {hasLoginFailed === true && (
+                    <ErrorMessage message={errorMessage} />
+                )}
                 <AppForm
-                    initialValues={{firstName:"", lastName:"", email: "", password: ""}}
-                    onSubmit={(res)=>handleSubmit(res)}
+                    initialValues={{
+                        firstName: "",
+                        lastName: "",
+                        email: "",
+                        password: "",
+                    }}
+                    onSubmit={(res) => handleSubmit(res)}
                     validationSchema={validationSchema}
                 >
-
                     <AppFormField
                         autoCapitalize="words"
                         autoCorrect={false}
@@ -120,7 +118,7 @@ export default function RegisterScreen({}) {
                         textContentType="emailAddress"
                     />
 
-                    <AppFormField 
+                    <AppFormField
                         autoCapitalize="none"
                         autoCorrect={false}
                         icon="lock"
@@ -130,18 +128,12 @@ export default function RegisterScreen({}) {
                         textContentType="password"
                     />
 
-                    <SubmitButton 
-                        title="register"
-                    />
-
+                    <SubmitButton title="register" />
                 </AppForm>
 
                 <View>
-                    <ActivityIndicator visible={isLoading}  />
+                    <ActivityIndicator visible={isLoading} />
                 </View>
-
-
-
             </View>
 
             <Modal
@@ -149,9 +141,7 @@ export default function RegisterScreen({}) {
                 visible={isModalShown}
                 // visible={true}
             >
-
                 <SafeAreaScreen style={styles.modal}>
-
                     <LottieView
                         autoPlay
                         loop
@@ -161,52 +151,62 @@ export default function RegisterScreen({}) {
 
                     <View style={styles.modalTextWrapper}>
                         <AppText style={styles.modalText}>
-                        A confirmation link has been sent to <AppText style={{color: Colors.secondary}}>{userEmail}</AppText>. Please follow it to activate your account.
-                        You will be automatically signed in once you are done.
+                            A confirmation link has been sent to{" "}
+                            <AppText style={{ color: Colors.secondary }}>
+                                {userEmail}
+                            </AppText>
+                            . Please follow it to activate your account. You
+                            will be automatically signed in once you are done.
                         </AppText>
-                        
+
                         {showRetry === true && (
-                            <Pressable hitSlop={20} onPress={handleRetryOnPress}>
-                                <AppText style={{textAlign: "center", color: Colors.primary, marginTop: 15}}>Retry</AppText>
+                            <Pressable
+                                hitSlop={20}
+                                onPress={handleRetryOnPress}
+                            >
+                                <AppText
+                                    // eslint-disable-next-line react-native/no-inline-styles
+                                    style={{
+                                        textAlign: "center",
+                                        color: Colors.primary,
+                                        marginTop: 15,
+                                    }}
+                                >
+                                    Retry
+                                </AppText>
                             </Pressable>
                         )}
-
                     </View>
-
                 </SafeAreaScreen>
-
             </Modal>
-
-            
-
         </SafeAreaScreen>
-    )
+    );
 }
 
 const styles = StyleSheet.create({
     container: {
-        padding: 10
+        padding: 10,
     },
-    logo:{
+    logo: {
         width: 80,
         height: 80,
         alignSelf: "center",
         marginTop: 50,
-        marginBottom: 20
-   },
-   modal:{
-       alignItems: "center",
-       justifyContent: "center"
-   },
-   modalAnimation: {
-       height: 100,
-       width: 100,
-   },
-   modalText: {
-       textAlign: "center"
-   },
-   modalTextWrapper:{
-       marginTop: 20,
-       width: "86%"
-   }
-})
+        marginBottom: 20,
+    },
+    modal: {
+        alignItems: "center",
+        justifyContent: "center",
+    },
+    modalAnimation: {
+        height: 100,
+        width: 100,
+    },
+    modalText: {
+        textAlign: "center",
+    },
+    modalTextWrapper: {
+        marginTop: 20,
+        width: "86%",
+    },
+});

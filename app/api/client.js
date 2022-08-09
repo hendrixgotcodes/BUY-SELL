@@ -1,54 +1,44 @@
-import {create} from 'apisauce'
-import cache from '../util/cache.js'
-import firebase from './firebase'
+import { create } from "apisauce";
 
-const db = firebase.firestore()
+import cache from "../util/cache.js";
+import firebase from "./firebase";
+
+const db = firebase.firestore();
 
 const apiClient = create({
-    baseURL: "http://192.168.100.3:9000/api"
-})
+    baseURL: "http://192.168.100.3:9000/api",
+});
 
-
-
-apiClient.get = async (url)=>{
-
+apiClient.get = async (url) => {
     try {
+        const docs = [];
 
-        const docs = []
-
-        const snapShot = await db.collection("listings").get()
-        snapShot.forEach((doc)=>{
+        const snapShot = await db.collection("listings").get();
+        snapShot.forEach((doc) => {
             docs.push({
                 id: doc.id,
-                ...doc.data()
-            })
-        })
+                ...doc.data(),
+            });
+        });
 
-
-        cache.store(url, docs)
+        cache.store(url, docs);
 
         return {
             ok: true,
-            data: docs
-        }
-        
-
+            data: docs,
+        };
     } catch (error) {
-       
-       const cachedData = await cache.get(url)
-       return (
-           cachedData ? {
-               ok: true,
-               data
-           } : {
-               ok: false,
-               data: null
-           }
-       )
-
+        const cachedData = await cache.get(url);
+        return cachedData
+            ? {
+                  ok: true,
+                  cachedData,
+              }
+            : {
+                  ok: false,
+                  data: null,
+              };
     }
-    
+};
 
-}
-
-export default apiClient
+export default apiClient;

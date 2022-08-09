@@ -1,60 +1,46 @@
-import {useState, useEffect} from 'react'
-import {Alert} from 'react-native'
-import * as Location from 'expo-location'
+import * as Location from "expo-location";
+import { useEffect, useState } from "react";
+import { Alert } from "react-native";
 
-const useLocation = ()=>{
-
-    const [location, setLocation] = useState()
+const useLocation = () => {
+    const [location] = useState();
 
     useEffect(() => {
+        getUserLocation();
+    }, []);
 
-        getUserLocation()
-      
-    }, [])
-
-    const getUserLocation = ()=>{
-
+    const getUserLocation = () => {
         try {
-            
-            Location.requestForegroundPermissionsAsync()
-            .then(({granted})=>{
-                
-                if(granted !== true){
+            Location.requestForegroundPermissionsAsync().then(({ granted }) => {
+                if (granted !== true) {
                     Alert.alert(
                         "Permissions",
                         "Sorry. We need your location service to make this work."
-                    )
-                }else{
+                    );
+                } else {
                     Location.getCurrentPositionAsync()
-                    .then((result)=>{
-                        // setLocation({latitude, longitude})
-
-                        // Location.reverseGeocodeAsync({latitude, longitude})
-                        // .then((result)=>{
-                        //     console.log(result);
-                        // })
-
-                        // console.log({latitude, longitude});
-                    })
-                    .catch((error)=>{
-                        Alert.alert(
-                            "Error",
-                            "Cannot access your location at the moment. Please ensure your location services is turned on",
-                        )
-                    })
+                        .then(() => {
+                            // setLocation({latitude, longitude})
+                            // Location.reverseGeocodeAsync({latitude, longitude})
+                            // .then((result)=>{
+                            //     console.log(result);
+                            // })
+                            // console.log({latitude, longitude});
+                        })
+                        .catch(() => {
+                            Alert.alert(
+                                "Error",
+                                "Cannot access your location at the moment. Please ensure your location services is turned on"
+                            );
+                        });
                 }
-
-            })
-
+            });
         } catch (error) {
             console.log(error);
         }
-    
+    };
 
-    }
+    return location;
+};
 
-    return location
-
-}
-
-export default useLocation
+export default useLocation;

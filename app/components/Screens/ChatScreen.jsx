@@ -1,33 +1,36 @@
-import React, { useCallback, useEffect, useState} from 'react'
-import * as Linking from 'expo-linking'
-import { View, StyleSheet, Pressable, Text, TouchableOpacity } from 'react-native'
-import {Video} from 'expo-av'
+/* eslint-disable react-native/no-raw-text */
+import { FontAwesome, MaterialCommunityIcons } from "@expo/vector-icons";
+import { Video } from "expo-av";
+import * as Linking from "expo-linking";
+import React, { useCallback, useEffect, useState } from "react";
+import {
+    Pressable,
+    StyleSheet,
+    Text,
+    TouchableOpacity,
+    View
+} from "react-native";
+// Assets
+import { Bubble, GiftedChat,    InputToolbar,Send, } from "react-native-gifted-chat";
+import Colors from "../../assets/_colors";
 
-//Assets
-import Colors from '../../assets/_colors'
-import {MaterialCommunityIcons, FontAwesome} from '@expo/vector-icons'
+// Components
+import AppText from "../AppText";
+import SafeAreaScreen from "./SafeAreaScreen";
 
-//Components
-import AppText from  '../AppText'
-import SafeAreaScreen from './SafeAreaScreen'
-import {Bubble, GiftedChat, Send, InputToolbar } from 'react-native-gifted-chat'
- 
-export default function ChatScreen({navigation}) {
-
+export default function ChatScreen({ navigation }) {
     const [messages, setMessages] = useState([]);
 
-
     useEffect(() => {
-
         setMessages([
             {
                 _id: 1,
-                text: 'Nice couch. Can i get it for 500',
+                text: "Nice couch. Can i get it for 500",
                 createdAt: new Date(),
                 user: {
-                _id: 1,
-                name: 'React Native',
-                avatar: require('../../assets/img/serwaaBonsu.jpg'),
+                    _id: 1,
+                    name: "React Native",
+                    avatar: require("../../assets/img/serwaaBonsu.jpg"),
                 },
             },
             // {
@@ -50,131 +53,121 @@ export default function ChatScreen({navigation}) {
             //     pending: true,
             //     // Any additional custom parameters are passed through
             // }
-        ])
-    }, [])
+        ]);
+    }, []);
 
-    const handleReturnOnPress = ()=>{
+    const handleReturnOnPress = () => {
+        navigation.goBack();
+    };
 
-        navigation.goBack()
-
-    }
-
-    const handlePhoneOnPress = ()=>{
-        
+    const handlePhoneOnPress = () => {
         try {
-            Linking.openURL('tel:+233506000705')
+            Linking.openURL("tel:+233506000705");
         } catch (error) {
             console.log(error);
         }
-
-    }
+    };
 
     const onSend = useCallback((messages = []) => {
-        setMessages(previousMessages => GiftedChat.append(previousMessages, messages))
-    }, [])
+        setMessages((previousMessages) =>
+            GiftedChat.append(previousMessages, messages)
+        );
+    }, []);
 
-    const renderBubble = (props)=>{
+    const renderBubble = (props) => (
+        <Bubble
+            {...props}
+            wrapperStyle={{
+                right: {
+                    backgroundColor: Colors.veryLight,
+                },
+            }}
+            textStyle={{
+                right: {
+                    color: Colors.medium,
+                },
+                left: {
+                    color: Colors.medium,
+                },
+            }}
+        />
+    );
 
-        return(
-            <Bubble 
-                {...props}
-                wrapperStyle={{
-                    right: {
-                        backgroundColor: Colors.veryLight
-                    },
-                }}
-                textStyle={{
-                    right: {
-                        color: Colors.medium
-                    },
-                    left: {
-                        color: Colors.medium
-                    }
-                }}
-            />
-        )
+    const renderInputToolbar = (props) => (
+        <InputToolbar {...props} containerStyle={styles.inputToolbar} />
+    );
 
-    }
+    const renderMessageVideo = (props) => {
+        const { currentMessage } = props;
 
-    const renderInputToolbar = (props)=>{
-
-        return(
-            <InputToolbar
-                {...props}
-                containerStyle={styles.inputToolbar}
-            />
-        )
-
-    }
-
-    const renderMessageVideo = (props: any)=>{
-        const {currentMessage} = props
-
-        return(
-
-            <View style={{paddingHorizontal: 10}}>
+        return (
+            // eslint-disable-next-line react-native/no-inline-styles
+            <View style={{ paddingHorizontal: 10 }}>
                 <Video
-                    posterSource={{uri: currentMessage.image}}
+                    posterSource={{ uri: currentMessage.image }}
                     resizeMode={Video.RESIZE_MODE_COVER}
                     useNativeControls={false}
                     usePoster={true}
                     shouldPlay={false}
-                    source={{uri: currentMessage.video}}
-                    style={{width: 200, height: 200,}}
+                    source={{ uri: currentMessage.video }}
+                    // eslint-disable-next-line react-native/no-inline-styles
+                    style={{ width: 200, height: 200 }}
                 />
             </View>
+        );
+    };
 
-        )
+    const renderSend = (props) => (
+        // eslint-disable-next-line react-native/no-inline-styles
+        <Send {...props} containerStyle={{ margin: 0 }}>
+            <View style={styles.send}>
+                <MaterialCommunityIcons
+                    name="send"
+                    color={Colors.primary}
+                    size={24}
+                    // eslint-disable-next-line react-native/no-inline-styles
+                    style={{ margin: 10 }}
+                />
+            </View>
+        </Send>
+    );
 
-    }
-
-    const renderSend = (props)=>{
-            return (
-                <Send
-                    {...props}
-                    containerStyle={{margin: 0}} 
-                >
-                    <View style={{justifyContent: "center", alignItems: "center"}}>
-                        <MaterialCommunityIcons name="send" color={Colors.primary} size={24} style={{margin: 10}} />
-                    </View>
-                </Send>
-            )
-    }
-
-    const scrollToBottomComponent = ()=>{
-
-        return(
-            <FontAwesome name="angle-double-down" size={22} color={Colors.veryLight} />
-        )
-
-    }
+    const scrollToBottomComponent = () => (
+        <FontAwesome
+            name="angle-double-down"
+            size={22}
+            color={Colors.veryLight}
+        />
+    );
 
     return (
         <SafeAreaScreen style={styles.container}>
-
             <View style={styles.header}>
+                <Pressable style={styles.return} onPress={handleReturnOnPress}>
+                    <MaterialCommunityIcons
+                        name="chevron-left"
+                        size={32}
+                        color={Colors.primary}
+                    />
 
-                <Pressable 
-                    style={styles.return} 
-                    onPress={handleReturnOnPress}
-                >
-                    <MaterialCommunityIcons name="chevron-left" size={32} color={Colors.primary} />
-                    
                     <View style={styles.returnBadge}>
-                        <Text style={{color: Colors.plain}}>2</Text>
+                        <Text style={{ color: Colors.plain }}>2</Text>
                     </View>
                 </Pressable>
 
-                <AppText style={styles.headerTitle}>
-                    Serwaa Bonsu
-                </AppText>
+                <AppText style={styles.headerTitle}>Serwaa Bonsu</AppText>
 
-                <View style={styles.phone} >
-                    <TouchableOpacity activeOpacity={0.3} onPress={handlePhoneOnPress}>
-                        <MaterialCommunityIcons name="phone-outline" size={24} />
+                <View style={styles.phone}>
+                    <TouchableOpacity
+                        activeOpacity={0.3}
+                        onPress={handlePhoneOnPress}
+                    >
+                        <MaterialCommunityIcons
+                            name="phone-outline"
+                            size={24}
+                        />
                     </TouchableOpacity>
                 </View>
-
             </View>
 
             <GiftedChat
@@ -192,18 +185,17 @@ export default function ChatScreen({navigation}) {
                     _id: 2,
                 }}
             />
-            
         </SafeAreaScreen>
-    )
+    );
 }
- 
+
 const styles = StyleSheet.create({
     container: {
         flex: 1,
         width: "100%",
-        backgroundColor: Colors.plain
+        backgroundColor: Colors.plain,
     },
-    header:{
+    header: {
         flexDirection: "row",
         height: 50,
         width: "100%",
@@ -211,22 +203,22 @@ const styles = StyleSheet.create({
         justifyContent: "space-between",
         alignItems: "center",
         borderBottomWidth: 0.17,
-        borderColor: Colors.light
+        borderColor: Colors.light,
     },
     headerTitle: {
-        textAlign: "center", 
-        fontWeight: "bold", 
-        fontSize: 24
+        textAlign: "center",
+        fontWeight: "bold",
+        fontSize: 24,
     },
-    inputToolbar:{
-           borderRadius: 100,
+    inputToolbar: {
+        borderRadius: 100,
         borderColor: Colors.veryLight,
         borderWidth: 1,
         marginHorizontal: 10,
         marginTop: 20,
     },
     phone: {
-        marginRight: 10
+        marginRight: 10,
     },
     return: {
         alignItems: "center",
@@ -235,11 +227,15 @@ const styles = StyleSheet.create({
         // left: 0
     },
     returnBadge: {
-        width: 25, 
-        height: 25, 
-        borderRadius: 100, 
-        backgroundColor: Colors.secondary, 
-        justifyContent: "center", 
+        width: 25,
+        height: 25,
+        borderRadius: 100,
+        backgroundColor: Colors.secondary,
+        justifyContent: "center",
+        alignItems: "center",
+    },
+    send: { 
+        justifyContent: "center",
         alignItems: "center"
     }
-})
+});
