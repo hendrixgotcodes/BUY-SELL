@@ -4,14 +4,14 @@ import firebase from "./firebase";
 const bucket = firebase.storage();
 const storageRef = bucket.ref();
 
-const getBlob = async (uri) => {
+const getBlob = async (uri:string) => {
     const response = await fetch(uri);
     const blob = await response.blob();
 
     return blob;
 };
 
-const pushMedia = async (fileName, filePath, imgUri, onUploadProgress) => {
+const pushMedia = async (fileName:string, filePath:string, imgUri:string, onUploadProgress: (progress:string)=>void) => {
         // get and upload thumnbnail of image
         const thumbNail = await resizeImage(imgUri);
         const tb_blob = await getBlob(thumbNail);
@@ -35,7 +35,7 @@ const pushMedia = async (fileName, filePath, imgUri, onUploadProgress) => {
 
                 // console.log(`pushMedia(): ${progress}` );
             },
-            () => {}
+            // () => {}
             // async ()=>{
 
             // }
@@ -43,7 +43,7 @@ const pushMedia = async (fileName, filePath, imgUri, onUploadProgress) => {
 
         return {
             url: await (await imgUploadTask).ref.getDownloadURL(),
-            thumbnailUrl: await tn_url,
+            thumbnail: await tn_url,
         };
 };
 

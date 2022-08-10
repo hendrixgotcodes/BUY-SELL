@@ -1,26 +1,25 @@
 import firebase from "firebase";
-
-import userInfo from "./userInfo";
+import { ListingItemClient } from "../types/listing";
 
 const auth = firebase.auth();
 const db = firebase.firestore();
 
-const addFavorite = async (item) => {
-        const data = {
+const addFavorite = async (item:ListingItemClient) => {
+        const data:{favorites:ListingItemClient[]} = {
             favorites: [],
         };
 
         const response = await db
             .collection("favorites")
-            .doc(auth.currentUser.uid)
+            .doc(auth.currentUser?.uid)
             .get();
         const favoritesObject = response.data();
 
-        if (!favoritesObject.favorites) {
+        if (!favoritesObject?.favorites) {
             data.favorites.push(item);
             await db
                 .collection("favorites")
-                .doc(auth.currentUser.uid)
+                .doc(auth.currentUser?.uid)
                 .set(data);
             return;
         }
@@ -28,20 +27,20 @@ const addFavorite = async (item) => {
         favoritesObject.favorites.push(item);
         await db
             .collection("favorites")
-            .doc(auth.currentUser.uid)
+            .doc(auth.currentUser?.uid)
             .set(favoritesObject);
         return;
 
         // console.log(favorites);
 };
 
-const addUser = async (firstName, lastName) => {
-        await auth.currentUser.sendEmailVerification();
+const addUser = async (firstName:string, lastName:string) => {
+        await auth.currentUser?.sendEmailVerification();
 
         const reloadUserState = setInterval(async () => {
-            await auth.currentUser.reload();
+            await auth.currentUser?.reload();
 
-            if (auth.currentUser.emailVerified === true) {
+            if (auth.currentUser?.emailVerified === true) {
                 clearInterval(reloadUserState);
 
                 await auth.currentUser.updateProfile({
@@ -61,8 +60,6 @@ const addUser = async (firstName, lastName) => {
                         listingsCount: 0,
                         messages: [],
                     });
-
-                userInfo.set();
 
                 return auth.currentUser;
             }

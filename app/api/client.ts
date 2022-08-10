@@ -1,6 +1,7 @@
 import { create } from "apisauce";
+import ListingItemServer from "../types/listing";
 
-import cache from "../util/cache.js";
+import cache from "../util/cache";
 import firebase from "./firebase";
 
 const db = firebase.firestore();
@@ -11,21 +12,21 @@ const apiClient = create({
 
 apiClient.get = async (url) => {
     try {
-        const docs = [];
+        const listings: ListingItemServer[] = [];
 
         const snapShot = await db.collection("listings").get();
         snapShot.forEach((doc) => {
-            docs.push({
+            listings.push({
+                ...(doc.data() as ListingItemServer),
                 id: doc.id,
-                ...doc.data(),
             });
         });
 
-        cache.store(url, docs);
+        cache.store(url, listings);
 
         return {
             ok: true,
-            data: docs,
+            data: listings,
         };
     } catch (error) {
         const cachedData = await cache.get(url);

@@ -1,3 +1,4 @@
+import { ListingItemClient } from "../types/listing";
 import client from "./client";
 import firebase from "./firebase";
 import pushMedia from "./pushMedia";
@@ -39,45 +40,53 @@ const getListings = () =>
 
 // }
 
-const addListing = async (listings, onUploadProgress, user) => {
+// eslint-disable-next-line no-unused-vars
+const addListing = async (
+    listings: ListingItemClient,
+    onUploadProgress: (progress: number) => void,
+    user: { uid: any }
+) => {
     // const promises = [];
-    const imageURLs = [];
-
+    let imageURLs = [];
     const filePath = `images/${user.uid}/`;
-
-    // const totalImages = listings.images.length;
-    // eslint-disable-next-line no-unused-vars
-    let totalProgress = 0;
-
-    const uploadProgress = (progress) => {
+    const promises: Promise<{
+        url: string;
+        thumbnail: string;
+    }>[] = [];
+    
+    const uploadProgress = (progress: string) => {
+        let totalProgress = 0;
         totalProgress += parseFloat(progress);
 
         // console.log(`index: ${index} \t`, `progress: ${progress}\t`, `totalImages: ${totalImages}`);
         // console.log(progress);
     };
 
-    for (let index = 0; index < listings.images.length; index++) {
+    for (let index = 0; index < listings.images.length; index += 1) {
         const fileName = `img_${index}`;
         const image = listings.images[index];
 
-        const url = await pushMedia(fileName, filePath, image, (progress) =>
-            uploadProgress(progress, index)
+        promises.push(
+            pushMedia(fileName, filePath, image, (progress: string) =>
+                uploadProgress(progress)
+            )
         );
-        imageURLs.push(url);
     }
 
-    Promise.all(imageURLs).then(async (result) => {
-        listings.images = result;
+    imageURLs = await Promise.all(promises);
 
-        listings = {
+    Promise.all(imageURLs).then(async (result) => {
+
+        const newListing = {
             ...listings,
             seller: user,
+            images: result
         };
 
         await db
             .collection("listings")
-            .doc(`${user.uid}_${listings.title}`)
-            .set(listings);
+            .doc(`${user.uid}_${newListing.title}`)
+            .set(newListing);
     });
 
     return {

@@ -1,26 +1,24 @@
 import firebase from "./firebase";
-import userInfo from "./userInfo";
+import fib from 'firebase'
 
 const auth = firebase.auth();
 const db = firebase.firestore();
 
 const getCurrentUser = () => auth.currentUser;
 
-const login = async (email, password) => {
+async function login (email: string, password:string){
     try {
         await auth.signInWithEmailAndPassword(email, password);
         const response = await db
             .collection("users")
-            .doc(auth.currentUser.uid)
+            .doc(auth.currentUser?.uid)
             .get();
-
-        userInfo.set(response.data());
 
         return {
             ...response.data(),
-            uid: auth.currentUser.uid,
+            uid: auth.currentUser?.uid,
         };
-    } catch (error) {
+    } catch (error: any) {
         switch (error.code) {
             case "auth/invalid-password":
                 throw new Error("Invalid password");
@@ -33,25 +31,23 @@ const login = async (email, password) => {
                     "It appears you have no account with us. Please try sign up."
                 );
             default:
-                console.log(error);
-                throw new Error("An unknown error occured");
+                throw new Error("An unknown error occurred");
         }
     }
 };
 
 const logOut = async () => {
     await auth.signOut();
-    userInfo.reset();
 };
 
-const register = async (email, password) => {
+const register = async (email:string, password:string) => {
     try {
         const { user } = await auth.createUserWithEmailAndPassword(
             email,
             password
         );
         return user;
-    } catch (error) {
+    } catch (error:any) {
         switch (error.code) {
             case "auth/invalid-password":
                 throw new Error("Invalid password");
@@ -64,7 +60,6 @@ const register = async (email, password) => {
                     "It appears you have no account with us. Please try sign up."
                 );
             default:
-                console.log(error);
                 throw new Error("An unknown error occured");
         }
     }
