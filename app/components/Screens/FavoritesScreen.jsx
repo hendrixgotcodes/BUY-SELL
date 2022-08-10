@@ -147,9 +147,9 @@ const styles = StyleSheet.create({
     //         },
     //     }),
     // },
-    // wrapper: {
-    //     flex: 1,
-    //     backgroundColor: Colors.offwhite,
-    //     paddingHorizontal: 10,
-    // },
+    wrapper: {
+        flex: 1,
+        backgroundColor: Colors.offwhite,
+        paddingHorizontal: 10,
+    },
 });
