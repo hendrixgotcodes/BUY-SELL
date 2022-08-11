@@ -14,7 +14,7 @@ import SafeAreaScreen from "./Screens/SafeAreaScreen";
 type CategoryItemType={
     backgroundColor: string,
     width: number,
-    iconName: string,
+    iconName: keyof typeof MaterialCommunityIcons.glyphMap,
     color: string,
     iconSize: number,
     label: string,

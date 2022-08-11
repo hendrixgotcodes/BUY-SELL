@@ -4,7 +4,7 @@ import { Pressable, StyleSheet, View } from "react-native";
 import AppText from "./AppText";
 
 
-export default function PickerItem({ label, onPress }) {
+export default function PickerItem({ label, onPress }:{ label:string, onPress?:(arg?:any)=>any }) {
     return (
         <Pressable onPress={onPress}>
             <View style={styles.container}>
