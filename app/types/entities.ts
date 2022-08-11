@@ -1,4 +1,4 @@
-type ListingItemServer = {
+export type ListingItemServer = {
     category: {
         label: string;
         value: number;
@@ -33,4 +33,6 @@ export type ListingItemClient = {
     id: string;
 };
 
-export default ListingItemServer;
+export type User = {
+    uid: string;
+};

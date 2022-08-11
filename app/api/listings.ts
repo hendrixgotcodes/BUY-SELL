@@ -1,4 +1,4 @@
-import { ListingItemClient } from "../types/listing";
+import { ListingItemClient } from "../types/entities";
 import client from "./client";
 import firebase from "./firebase";
 import pushMedia from "./pushMedia";
@@ -53,7 +53,7 @@ const addListing = async (
         url: string;
         thumbnail: string;
     }>[] = [];
-    
+
     const uploadProgress = (progress: string) => {
         let totalProgress = 0;
         totalProgress += parseFloat(progress);
@@ -76,11 +76,10 @@ const addListing = async (
     imageURLs = await Promise.all(promises);
 
     Promise.all(imageURLs).then(async (result) => {
-
         const newListing = {
             ...listings,
             seller: user,
-            images: result
+            images: result,
         };
 
         await db

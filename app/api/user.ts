@@ -1,5 +1,5 @@
 import firebase from "firebase";
-import { ListingItemClient } from "../types/listing";
+import { ListingItemClient } from "../types/entities";
 
 const auth = firebase.auth();
 const db = firebase.firestore();

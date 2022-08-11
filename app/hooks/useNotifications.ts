@@ -19,14 +19,16 @@ export default function useNotifications(){
         try {
             const permissionResponse =
                 await Notifications.requestPermissionsAsync({
-                    allowAlert: true,
-                    allowBadge: true,
-                    allowSound: true,
-                    allowDisplayInCarPlay: true,
-                    allowCriticalAlerts: true,
-                    provideAppNotificationSettings: true,
-                    allowProvisional: true,
-                    allowAnnouncements: true,
+                    ios:{
+                        allowAlert: true,
+                        allowBadge: true,
+                        allowSound: true,
+                        allowDisplayInCarPlay: true,
+                        allowCriticalAlerts: true,
+                        provideAppNotificationSettings: true,
+                        allowProvisional: true,
+                        allowAnnouncements: true,
+                    }
                 });
             if (!permissionResponse.granted) {
                 alert("Cannot work without Notification service");

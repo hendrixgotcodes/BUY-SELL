@@ -2,11 +2,11 @@ import * as SecureStore from "expo-secure-store";
 
 const key = "authToken";
 
-const storeToken = async (authToken) => {
-    authToken = JSON.stringify(authToken);
+const storeToken = async<T> (authToken: T) => {
+    const stringified = JSON.stringify(authToken);
 
     try {
-        await SecureStore.setItemAsync(key, authToken);
+        await SecureStore.setItemAsync(key, stringified);
         return;
     } catch (error) {
         console.log(error, "**************************");
@@ -16,8 +16,10 @@ const storeToken = async (authToken) => {
 const getToken = async () => {
     try {
         let authToken = await SecureStore.getItemAsync(key);
-        authToken = JSON.parse(authToken);
-        return authToken;
+        if(authToken){
+            authToken = JSON.parse(authToken);
+            return authToken;
+        }
     } catch (error) {
         console.log(error);
     }

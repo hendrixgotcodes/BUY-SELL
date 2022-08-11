@@ -1,5 +1,5 @@
 import { create } from "apisauce";
-import ListingItemServer from "../types/listing";
+import ListingItemServer from "../types/entities";
 
 import cache from "../util/cache";
 import firebase from "./firebase";

@@ -23,11 +23,6 @@ export default function FavoritesScreen() {
     const navigation = useNavigation()
     const currentUser = auth.getCurrentUser()
 
-    // let favorites = useRealtime("favorites", currentUser.uid)
-    // favorites = favorites.favorites
-
-    // console.log(favorites);
-
     return (
         <SafeAreaScreen style={styles.container}>
             <View style={styles.header}>
