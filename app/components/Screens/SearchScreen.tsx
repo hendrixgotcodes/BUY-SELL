@@ -1,6 +1,6 @@
 import { useNavigation } from "@react-navigation/native";
 import React from "react";
-import { View, StyleSheet, FlatList } from "react-native";
+import { FlatList, StyleSheet, View } from "react-native";
 
 // Components
 
@@ -28,7 +28,7 @@ export default function SearchScreen() {
     const navigation = useNavigation()
 
     return (
-        <SafeAreaScreen style={styles.container}>
+        <SafeAreaScreen style={{}}>
             <View style={styles.textInputWrapper}>
                 <AppTextInput
                     placeholder="search..."
@@ -60,12 +60,12 @@ export default function SearchScreen() {
                     // keyExtractor={(card)=>card.id.toString()}
                     onRefresh={loadListings}
                     refreshing={isLoading}
-                    renderItem={({ item }) => (
+                    renderItem={({ item }:{item:any}) => (
                         <Card
                             title={item.title}
                             subTitle={`₵${item.price}`}
                             imageUrl={item.images[0].url}
-                            style={styles.card}
+                            // style={styles.card}
                             onPress={() => {
                                 navigation.navigate(routes.LISTING_DETAILS, {
                                     item,

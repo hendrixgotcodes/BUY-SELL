@@ -3,7 +3,7 @@
 // Assets
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import React from "react";
-import { FlatList, StyleSheet, View } from "react-native";
+import { FlatList, StyleProp, StyleSheet, View, ViewStyle } from "react-native";
 
 import Colors from "../../assets/_colors";
 import useAuth from "../../auth/useAuth";
@@ -14,7 +14,7 @@ import ListItem, { MenuListItem } from "../ListItem";
 import ListItemSeperator from "../ListItemSeperator";
 import SafeAreaScreen from "./SafeAreaScreen";
 
-export default function MyAccountScreen({ navigation }) {
+export default function MyAccountScreen({ navigation }:{navigation:any}) {
     const { user, logOut } = useAuth();
 
     const listDetails = [
@@ -56,13 +56,13 @@ export default function MyAccountScreen({ navigation }) {
     return (
         <SafeAreaScreen style={styles.container}>
             <View style={styles.header}>
-                <AppText style={styles.headerTitle}>My Account</AppText>
+                <AppText style={styles.headerTitle as StyleProp<ViewStyle>}>My Account</AppText>
             </View>
 
             <View style={styles.mainWrapper}>
                 <ListItem
                     title="Samuel Opoku Asare"
-                    subTitle={user.email}
+                    subTitle={user!.email}
                     image={require("../../assets/img/dp.jpg")}
                 />
 

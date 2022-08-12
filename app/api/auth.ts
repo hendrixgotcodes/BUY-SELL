@@ -1,12 +1,12 @@
+import { User } from "../types";
 import firebase from "./firebase";
-import fib from 'firebase'
 
 const auth = firebase.auth();
 const db = firebase.firestore();
 
 const getCurrentUser = () => auth.currentUser;
 
-async function login (email: string, password:string){
+async function login (email: string, password:string):Promise<User>{
     try {
         await auth.signInWithEmailAndPassword(email, password);
         const response = await db
@@ -15,8 +15,8 @@ async function login (email: string, password:string){
             .get();
 
         return {
-            ...response.data(),
-            uid: auth.currentUser?.uid,
+            ...response.data() as User,
+            uid: auth.currentUser ? auth.currentUser?.uid : "",
         };
     } catch (error: any) {
         switch (error.code) {

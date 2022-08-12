@@ -13,10 +13,10 @@ import AppText from "../AppText";
 // Assets
 
 // Variables
-const backgroundImage = require("../../assets/bgs/background.jpg");
-const logo = require("../../assets/logo.png");
+import backgroundImage from "../../assets/bgs/background.jpg";
+import logo from "../../assets/logo.png";
 
-export default function WelcomeScreen({ navigation }) {
+export default function WelcomeScreen({ navigation }:{navigation:any}) {
     useEffect(() => {
         StatusBar.setBarStyle("dark-content");
     }, []);

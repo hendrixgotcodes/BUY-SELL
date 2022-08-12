@@ -27,8 +27,8 @@ type ListItemPropType ={
     image: ImageSourcePropType,
     onPress?: (arg?:any)=>any,
     renderRightActions?: (arg?:any)=>any,
-    showChevron: boolean,
-    numberOfLines: number,
+    showChevron?: boolean,
+    numberOfLines?: number,
 }
 
 type MenuListItemPropType={
@@ -45,7 +45,7 @@ export default function ListItem({
     image,
     onPress,
     renderRightActions,
-    showChevron,
+    showChevron=false,
     numberOfLines,
 }:ListItemPropType) {
     if (numberOfLines !== undefined && typeof numberOfLines !== "number") {

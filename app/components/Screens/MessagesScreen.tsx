@@ -1,7 +1,7 @@
 /* eslint-disable react-native/no-raw-text */
 import React, { useEffect, useState } from "react";
 import {
-    FlatList, Platform, SafeAreaView, StatusBar, StyleSheet, View
+    FlatList, Platform, SafeAreaView, StatusBar, StyleProp, StyleSheet, View, ViewStyle
 } from "react-native";
 
 // Components
@@ -29,7 +29,7 @@ const initialMessages = [
     },
 ];
 
-export default function MessagesScreen({ navigation }) {
+export default function MessagesScreen({ navigation }:{navigation:any}) {
     const [messages, setMessages] = useState(initialMessages);
     const [refreshing] = useState(false);
 
@@ -37,8 +37,8 @@ export default function MessagesScreen({ navigation }) {
         // messagesApi.get()
     }, []);
 
-    const deleteMessage = (id) => {
-        setMessages(messages.filter((m) => m.id !== id));
+    const deleteMessage = (id:string) => {
+        setMessages(messages.filter((m) => m.id.toString() !== id));
     };
 
     const handleOnRefresh = () => {
@@ -70,7 +70,7 @@ export default function MessagesScreen({ navigation }) {
                     <Text style={{fontSize: 20,}}>Listings</Text>
                 </Pressable> */}
 
-                <AppText style={styles.headerTitle}>Messages</AppText>
+                <AppText style={styles.headerTitle as StyleProp<ViewStyle>}>Messages</AppText>
             </View>
             <View style={styles.wrapper}>
                 {messages.length !== 0 ? (
@@ -91,7 +91,7 @@ export default function MessagesScreen({ navigation }) {
                                 renderRightActions={() => (
                                     <ListItemDeleteAction
                                         onPress={() => {
-                                            deleteMessage(item.id);
+                                            deleteMessage(item.id.toString());
                                         }}
                                     />
                                 )}

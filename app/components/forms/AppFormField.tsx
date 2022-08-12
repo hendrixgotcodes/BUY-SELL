@@ -1,3 +1,4 @@
+import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { useFormikContext } from "formik";
 import React from "react";
 import { StyleProp, TextInputProps, ViewStyle } from "react-native";
@@ -13,7 +14,8 @@ import ErrorMessage from "./ErrorMessage";
 
 interface AppFormFieldPropTypes extends TextInputProps{
     name: string,
-    style?: StyleProp<ViewStyle>
+    style?: StyleProp<ViewStyle>,
+    icon?: keyof typeof MaterialCommunityIcons.glyphMap,
 }
 
 export default function AppFormField({ name, style, ...rest }:AppFormFieldPropTypes) {

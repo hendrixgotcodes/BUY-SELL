@@ -6,12 +6,18 @@ import { Modal, StyleSheet, View } from "react-native";
 
 
 // Components
+type UploadScreenPropType={
+    onDone: (arg?:any)=>any,
+    progress: number,
+    visible: boolean,
+}
+
 
 export default function UploadScreen({
     onDone,
     progress = 0,
     visible = false,
-}) {
+}:UploadScreenPropType) {
     return (
         <Modal visible={visible}>
             <View style={styles.container}>

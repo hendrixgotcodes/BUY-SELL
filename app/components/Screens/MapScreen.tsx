@@ -1,15 +1,17 @@
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import * as Location from "expo-location";
+import { Location as LocationType } from "../../types/entities";
 import React, { useRef, useState } from "react";
 import {
     Animated, Platform,
-    Pressable, StyleSheet, View
+    Pressable, StyleProp, StyleSheet, View, ViewStyle
 } from "react-native";
 
 // Assets
 import MapView, { Marker } from "react-native-maps";
 
 import Colors from "../../assets/_colors";
+import useLocation from "../../hooks/useLocation";
 
 // Components
 import AppTextInput from "../AppTextInput";
@@ -21,26 +23,35 @@ const DELTA = {
     longitudeDelta: 0.0421,
 };
 
-export default function MapScreen({ dismiss, onLocationSelected }) {
+export default function MapScreen({ dismiss, onLocationSelected }:{dismiss: (arg?:any)=>any, onLocationSelected: (arg?:any)=>any}) {
     // useEffect(()=>{
     //     Location.setGoogleApiKey("AIzaSyAkV66qhT6lHIkWcKD7pIbHofxKUvnBTqA")
     // }, [])
 
-    const [currentLocation, setCurrentLocation] = useState({
-        latitude: 5.647746557375088,
-        longitude: -0.08263701573021955,
-    });
+    const location = useLocation()
+    const [currentLocation, setCurrentLocation] = useState(location);
 
-    const [autoCompleteData, setAutoCompleteData] = useState([]);
-    const [map, setMap] = useState(null);
+
+    const [autoCompleteData, setAutoCompleteData] = useState<{
+        location: LocationType,
+        city: string|null,
+        district: string|null,
+        street: string|null
+    } []>([]);
+    const [map, setMap] = useState<MapView|null>(null);
 
     const formAnimation = useRef(new Animated.Value(-400)).current;
     const searchBoxAnimation = useRef(new Animated.Value(1500)).current;
 
     // console.log(formAnimation, searchBoxAnimation);
 
-    const handleOnTextInput = ({ nativeEvent: { text } }) => {
-        const locations = [];
+    const handleOnTextInput = ({ nativeEvent: { text } }:{nativeEvent: {text:any}}) => {
+        const locations:{
+            location: LocationType,
+            city: string|null,
+            district: string|null,
+            street: string|null
+        } [] = [];
 
         Location.geocodeAsync(text).then((result) => {
             result.map((item) => {
@@ -65,7 +76,7 @@ export default function MapScreen({ dismiss, onLocationSelected }) {
             });
         });
     };
-    const handleOnAutoCompleteItemPress = (item) => {
+    const handleOnAutoCompleteItemPress = (item:any) => {
         setCurrentLocation(item);
         setAutoCompleteData([]);
 
@@ -76,11 +87,11 @@ export default function MapScreen({ dismiss, onLocationSelected }) {
         //   ...DELTA
         // })
 
-        map.getCamera().then((newCamera) => {
+        map?.getCamera().then((newCamera) => {
             newCamera.center = { ...item };
             newCamera.zoom = 20;
 
-            map.animateCamera(newCamera, 1000);
+            map.animateCamera(newCamera);
         });
     };
 
@@ -142,7 +153,7 @@ export default function MapScreen({ dismiss, onLocationSelected }) {
                         style={{
                             backgroundColor: Colors.offwhite,
                             flex: searchBoxAnimation,
-                        }}
+                        } as unknown as StyleProp<ViewStyle>}
                     />
                     <View style={styles.inputClose}>
                         <MaterialCommunityIcons

@@ -5,8 +5,10 @@ import {
     Modal,
     Pressable,
     StatusBar,
+    StyleProp,
     StyleSheet,
-    View
+    View,
+    ViewStyle
 } from "react-native";
 
 // Components
@@ -24,7 +26,7 @@ import SafeAreaScreen from "./SafeAreaScreen";
 
 // Extra
 
-const logo = require("../../assets/logo.png");
+import logo from "../../assets/logo.png";
 
 const validationSchema = Yup.object().shape({
     firstName: Yup.string().required().label("First name"),
@@ -51,7 +53,7 @@ export default function RegisterScreen() {
         setIsModalShown(false);
     };
 
-    const handleSubmit = async ({ firstName, lastName, email, password }) => {
+    const handleSubmit = async ({ firstName, lastName, email, password }:{firstName:string, lastName:string, email:string, password:string}) => {
         setIsLoading(true);
 
         try {
@@ -65,7 +67,7 @@ export default function RegisterScreen() {
             setTimeout(() => {
                 setShowRetry(true);
             }, 60000);
-        } catch (error) {
+        } catch (error: any) {
             setHasLoginFailed(true);
             setErrorMessage(error.message);
             // console.log(error);
@@ -75,7 +77,7 @@ export default function RegisterScreen() {
     };
 
     return (
-        <SafeAreaScreen>
+        <SafeAreaScreen style={{}}>
             <View style={styles.container}>
                 <Image source={logo} style={styles.logo} />
 
@@ -150,9 +152,9 @@ export default function RegisterScreen() {
                     />
 
                     <View style={styles.modalTextWrapper}>
-                        <AppText style={styles.modalText}>
+                        <AppText style={styles.modalText as StyleProp<ViewStyle>}>
                             A confirmation link has been sent to{" "}
-                            <AppText style={{ color: Colors.secondary }}>
+                            <AppText style={{ color: Colors.secondary } as StyleProp<ViewStyle>}>
                                 {userEmail}
                             </AppText>
                             . Please follow it to activate your account. You
@@ -170,7 +172,7 @@ export default function RegisterScreen() {
                                         textAlign: "center",
                                         color: Colors.primary,
                                         marginTop: 15,
-                                    }}
+                                    } as StyleProp<ViewStyle>}
                                 >
                                     Retry
                                 </AppText>

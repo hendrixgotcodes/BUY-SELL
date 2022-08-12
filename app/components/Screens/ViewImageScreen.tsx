@@ -12,7 +12,7 @@ import {
 // Assets
 import colors from "../../assets/_colors";
 
-const image = require("../../assets/bgs/chair.jpg");
+import image from "../../assets/bgs/chair.jpg";
 
 export default function ViewImageScreen() {
     return (
