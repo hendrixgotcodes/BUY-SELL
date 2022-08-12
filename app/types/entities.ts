@@ -8,7 +8,7 @@ export type ListingItemServer = {
         thumbnail: string;
         url: string;
     }[];
-    location: number[];
+    location?: Location;
     price: number;
     seller: {
         uid: string;
@@ -24,7 +24,7 @@ export type ListingItemClient = {
     };
     description: string;
     images: string[];
-    location: number[];
+    location?: Location;
     price: number;
     seller: {
         uid: string;
@@ -35,4 +35,15 @@ export type ListingItemClient = {
 
 export type User = {
     uid: string;
+    displayName:string, 
+    email:string, 
+    firstName:string, 
+    lastName:string, 
+    photoURL:string,
 };
+
+
+export type Location={
+    latitude: number,
+    longitude: number
+}

@@ -1,3 +1,5 @@
+/* eslint-disable react-native/no-inline-styles */
+import { FormikHelpers } from "formik";
 import React, { useState } from "react";
 import {
     Modal,
@@ -11,6 +13,8 @@ import listingsAPI from "../../api/listings";
 
 // Components
 import useAuth from "../../auth/useAuth";
+import { ListingItemClient } from "../../types";
+import { Location } from "../../types/entities";
 import AppText from "../AppText";
 import {
     AppForm,
@@ -103,26 +107,21 @@ const categories = [
     },
 ];
 
+
 export default function ListingEditScreen() {
     const [progress, setProgress] = useState(0);
     const [uploadVisible, setUploadVisible] = useState(false);
     const [isMapShown, setIsMapShown] = useState(false);
-    const [location, setLocation] = useState(null);
+    const [location, setLocation] = useState<Location>();
 
     // const location = useLocation()
-    const { user, logOut } = useAuth();
+    const { user } = useAuth();
 
-    const { displayName, email, firstName, lastName, photoURL, uid } = user;
-    const userDetails = {
-        displayName,
-        email,
-        firstName,
-        lastName,
-        photoURL,
-        uid,
-    };
 
-    const handleSubmit = (listings, resetForm) =>
+    function handleSubmit (
+        listings:ListingItemClient, 
+        {resetForm}: FormikHelpers<any>
+    ){
         // console.log(listings);
 
         new Promise((resolve, reject) => {
@@ -130,9 +129,9 @@ export default function ListingEditScreen() {
 
             listingsAPI
                 .addListing(
-                    { ...listings, location },
+                    location ? { ...listings, location } : {...listings},
                     (progress) => setProgress(progress),
-                    user
+                    user!
                 )
                 .then((result) => {
                     setProgress(0);
@@ -146,16 +145,17 @@ export default function ListingEditScreen() {
                         //     setUploadVisible(false)
                         // }, 1000);
                         resetForm();
-                        resolve();
+                        resolve("success");
                     }
                 });
         });
+    }
     const handleOnMapPress = () => {
         setIsMapShown(true);
     };
 
     return (
-        <SafeAreaScreen>
+        <SafeAreaScreen style={{}}>
             <View style={styles.container}>
                 <UploadScreen
                     onDone={() => setUploadVisible(false)}
@@ -171,7 +171,7 @@ export default function ListingEditScreen() {
                         description: "",
                         images: [],
                     }}
-                    onSubmit={(values, resetForm) =>
+                    onSubmit={(values, resetForm ) =>
                         handleSubmit(values, resetForm)
                     }
                     validationSchema={validationSchema}
@@ -189,7 +189,7 @@ export default function ListingEditScreen() {
                     <AppFormPicker
                         items={categories}
                         name="category"
-                        onSelectItem={(item) => {}}
+                        // onSelectItem={(item) => {}}
                         placeholder="Category"
                         style={{ width: "60%" }}
                     />
@@ -238,15 +238,6 @@ export default function ListingEditScreen() {
 const styles = StyleSheet.create({
     container: {
         paddingHorizontal: 10,
-    },
-    flexBox: {
-        width: "100%",
-        // flex: 1,
-        flexDirection: "row",
-        display: "flex",
-        backgroundColor: "red",
-        justifyContent: "center",
-        alignItems: "center",
     },
     mapViewWrapper: {},
 });

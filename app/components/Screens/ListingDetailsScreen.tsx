@@ -4,7 +4,7 @@ import { useNavigation } from "@react-navigation/native";
 import React from "react";
 import {
     KeyboardAvoidingView,
-    Platform, ScrollView, StyleSheet, View
+    Platform, ScrollView, StyleProp, StyleSheet, View, ViewStyle
 } from "react-native";
 import { Image } from "react-native-expo-image-cache";
 
@@ -28,7 +28,7 @@ import AppUserItem from "../AppUserItem";
 //     message: Yup.string().required().label("Message"),
 // });
 
-export default function ListingDetailScren({ route }) {
+export default function ListingDetailScren({ route }:{route:any}) {
     const listing = route.params;
     const navigation = useNavigation();
 
@@ -58,7 +58,7 @@ export default function ListingDetailScren({ route }) {
 
         <KeyboardAvoidingView
             behavior="position"
-            keyboardVericalOffset={Platform.OS === "ios" ? 30 : 0}
+            keyboardVerticalOffset={Platform.OS === "ios" ? 30 : 0}
         >
             <View style={styles.cardContainer}>
                 {/* <BlurView intensity={70} style={styles.statusbarBlurrer} /> */}
@@ -76,7 +76,7 @@ export default function ListingDetailScren({ route }) {
                     }}
                 >
                     <View style={styles.captionsWrapper}>
-                        <AppText style={styles.header} numberOfLines={2}>
+                        <AppText style={styles.header as StyleProp<ViewStyle>} numberOfLines={2}>
                             {listing.title}
                         </AppText>
                         <AppText
@@ -84,10 +84,10 @@ export default function ListingDetailScren({ route }) {
                             style={{
                                 color: Colors.secondary,
                                 fontWeight: "bold",
-                            }}
+                            } as StyleProp<ViewStyle>}
                         // eslint-disable-next-line react-native/no-raw-text
                         >
-                            GH₵ {formatNumber(listing.price, "currency")}
+                            GH₵ {formatNumber(listing.price, "currency") as string}
                         </AppText>
                     </View>
                     <View style={styles.limited}>
@@ -100,7 +100,6 @@ export default function ListingDetailScren({ route }) {
                 title={listing.seller.displayName}
                 subTitle={listing.seller.email}
                 image={listing.seller.photoURL}
-                // showChevron
                 style={{ marginTop: 1 }}
             />
             <View>
@@ -111,7 +110,7 @@ export default function ListingDetailScren({ route }) {
             </View>
 
             <ScrollView style={{ padding: 10 }}>
-                <AppText style={{ color: Colors.medium, fontSize: 16 }}>
+                <AppText style={{ color: Colors.medium, fontSize: 16 } as StyleProp<ViewStyle>}>
                     {listing.description}
                 </AppText>
             </ScrollView>

@@ -1,5 +1,6 @@
 import { useFormikContext } from "formik";
 import React from "react";
+import { StyleProp, TextInputProps, ViewStyle } from "react-native";
 
 // Components
 import AppTextInput from "../AppTextInput";
@@ -9,22 +10,28 @@ import ErrorMessage from "./ErrorMessage";
 
 // Hook
 
-export default function AppFormField({ name, style, ...rest }) {
+
+interface AppFormFieldPropTypes extends TextInputProps{
+    name: string,
+    style?: StyleProp<ViewStyle>
+}
+
+export default function AppFormField({ name, style, ...rest }:AppFormFieldPropTypes) {
     const {
         setFieldTouched,
         setFieldValue,
         errors,
         touched,
         values,
-    } = useFormikContext();
+    } = useFormikContext<any>();
 
     return (
         <>
             <AppTextInput
-                onChangeText={(text) => setFieldValue(name, text)}
-                value={values[name]}
                 onBlur={() => setFieldTouched(name)}
                 style={style}
+                value={values[name]}
+                onChangeText={(text) => setFieldValue(name, text)}
                 {...rest}
             />
             {touched[name] && <ErrorMessage message={errors[name]} />}

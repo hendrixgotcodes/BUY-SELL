@@ -5,24 +5,23 @@ import React from "react";
 import ImageInputList from "../ImageInputList";
 import ErrorMessage from "./ErrorMessage";
 
-export default function FormImagePicker({ name }) {
+
+
+export default function FormImagePicker({ name }:{name:string}) {
     const {
-        setFieldTouched,
         setFieldValue,
-        handleChange,
         errors,
         touched,
         values,
-        style,
-    } = useFormikContext();
+    } = useFormikContext<any>();
 
-    const handleOnRemoveImage = (item) => {
-        const uris = values[name].filter((uriItem) => uriItem !== item);
+    const handleOnRemoveImage = (item:string) => {
+        const uris = values[name].filter((uriItem:string) => uriItem !== item);
 
         setFieldValue(name, uris);
     };
 
-    const handleOnAddURI = (uri) => {
+    const handleOnAddURI = (uri:string) => {
         setFieldValue(name, [...values[name], uri]);
     };
 

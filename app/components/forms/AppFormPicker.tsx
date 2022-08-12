@@ -1,5 +1,6 @@
 import { useFormikContext } from "formik";
 import React from "react";
+import { StyleProp, ViewStyle } from "react-native";
 
 // Components
 import AppPicker from "../AppPicker";
@@ -7,13 +8,20 @@ import ErrorMessage from "./ErrorMessage";
 
 // Hook
 
+interface AppFormFieldPropTypes{
+    item?:any,
+    name:string,
+    onBlur?: (arg?:any)=>any,
+    onSelectItem?: (arg?:any)=>any,
+    style: StyleProp<ViewStyle>,
+}
+
 export default function AppFormField({
-    item,
     name,
-    onBlur,
     onSelectItem,
+    style,
     ...rest
-}) {
+}:AppFormFieldPropTypes) {
     const {
         setFieldTouched,
         setFieldValue,
@@ -21,8 +29,7 @@ export default function AppFormField({
         errors,
         touched,
         values,
-        style,
-    } = useFormikContext();
+    } = useFormikContext<any>();
 
     return (
         <>
@@ -32,7 +39,7 @@ export default function AppFormField({
                     handleChange(name);
                     setFieldTouched(name);
 
-                    onSelectItem(item);
+                    onSelectItem && onSelectItem(item);
                 }}
                 onBlur={() => {
                     setFieldTouched(name);

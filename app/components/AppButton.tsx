@@ -1,6 +1,6 @@
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import React from "react";
-import { GestureResponderEvent, StyleProp, StyleSheet, TouchableOpacity, View, ViewStyle } from "react-native";
+import { StyleProp, StyleSheet, TouchableOpacity, View, ViewStyle } from "react-native";
 
 // Components
 import Colors from "../assets/_colors";
@@ -12,7 +12,7 @@ type ButtonType={
     style?: StyleProp<ViewStyle>, 
     title: string, 
     icon?: keyof typeof MaterialCommunityIcons.glyphMap, 
-    onPress: (e:GestureResponderEvent)=>any
+    onPress: (e:any)=>any
 }
 
 export default function Button({ style, title, icon, onPress }:ButtonType) {
@@ -27,7 +27,7 @@ export default function Button({ style, title, icon, onPress }:ButtonType) {
                             color={Colors.plain}
                         />
                     )}
-                    <AppText numberOfLines={1} style={styles.text}>{title}</AppText>
+                    <AppText numberOfLines={1} style={styles.text as StyleProp<ViewStyle>}>{title}</AppText>
                 </>
             </View>
         </TouchableOpacity>

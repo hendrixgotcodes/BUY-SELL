@@ -1,13 +1,11 @@
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import React from "react";
 import {
-    ActivityIndicator,
-    GestureResponderEvent,
-    StyleProp,
+    ActivityIndicator, StyleProp,
     StyleSheet,
     TouchableOpacity,
     View,
-    ViewStyle,
+    ViewStyle
 } from "react-native";
 
 // Components
@@ -17,8 +15,8 @@ import AppText from "./AppText";
 type ButtonType={
     style: StyleProp<ViewStyle>, 
     title: string, 
-    icon: keyof typeof MaterialCommunityIcons.glyphMap, 
-    onPress: (e:GestureResponderEvent)=>any,
+    icon?: keyof typeof MaterialCommunityIcons.glyphMap, 
+    onPress: (e:any)=>any,
     isLoading: boolean
 }
 
@@ -31,7 +29,7 @@ export default function Button({ style, title, isLoading, onPress }:ButtonType) 
                         <ActivityIndicator size="small" color={Colors.plain} />
                     </View>
                 )}
-                <AppText numberOfLines={1} style={styles.text}>{title}</AppText>
+                <AppText numberOfLines={1} style={styles.text as StyleProp<ViewStyle>}>{title}</AppText>
             </View>
         </TouchableOpacity>
     );

@@ -27,8 +27,8 @@ type AppUserItemProps={
     image: ImageSourcePropType,
     onPress?: (arg?:any)=>any,
     renderRightActions?: (arg?:any)=>any,
-    showChevron: boolean,
-    numberOfLines: boolean
+    showChevron?: boolean,
+    numberOfLines?: number
 }
 
 export default function AppUserItem({
@@ -39,7 +39,7 @@ export default function AppUserItem({
     onPress,
     renderRightActions,
     showChevron,
-    numberOfLines,
+    numberOfLines=1,
 }:AppUserItemProps) {
     const verifiedAnimation = useRef<LottieView|null>(null);
 

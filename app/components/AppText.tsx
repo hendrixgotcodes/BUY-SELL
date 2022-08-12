@@ -1,4 +1,4 @@
-import React, { ReactChild, ReactChildren } from "react";
+import React, { ReactNode } from "react";
 import { StyleProp, Text, ViewStyle } from "react-native";
 
 // Assets
@@ -6,7 +6,7 @@ import defaultStyles from "../config/_styles";
 
 
 type AppTextProps={
-    children: ReactChild|ReactChildren,
+    children: ReactNode,
     numberOfLines?: number,
     style?: StyleProp<ViewStyle>
 }

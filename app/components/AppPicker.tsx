@@ -22,11 +22,11 @@ type CategoryItemType={
 }
 
 type AppPickerType={
-    icon: keyof typeof MaterialCommunityIcons.glyphMap,
+    icon?: keyof typeof MaterialCommunityIcons.glyphMap,
     onSelectItem: (item: CategoryItemType)=>void,
-    items: CategoryItemType[],
+    items?: CategoryItemType[],
     onBlur: ()=>void,
-    placeholder: string,
+    placeholder?: string,
     selectedItem: CategoryItemType,
     style: StyleProp<ViewStyle>,
 }

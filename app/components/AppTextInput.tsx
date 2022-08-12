@@ -8,6 +8,7 @@ import {
     StyleSheet,
     Text,
     TextInput,
+    TextInputProps,
     View,
     ViewStyle,
 } from "react-native";
@@ -23,10 +24,10 @@ type LocationType={
     longitude: number
 }
 
-type AppTextInputProps={
-    autoComplete: boolean,
-    autoCompleteData: any[],
-    onAutoCompleteItemPress: (arg?:any)=>any,
+interface AppTextInputProps extends TextInputProps{
+    autoComplete?: boolean,
+    autoCompleteData?: any[],
+    onAutoCompleteItemPress?: (arg?:any)=>any,
     icon?: keyof typeof MaterialCommunityIcons.glyphMap,
     style?: StyleProp<ViewStyle>
 }
@@ -40,7 +41,7 @@ export default function AppTextInput({
     ...rest
 }:AppTextInputProps) {
     const handleAutoCompleteItemOnPress = (itemLocation:LocationType) => {
-        onAutoCompleteItemPress(itemLocation);
+        onAutoCompleteItemPress && onAutoCompleteItemPress(itemLocation);
     };
 
     const autoCompleteItem = (item:any) => (

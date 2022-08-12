@@ -3,7 +3,7 @@
 import { useNavigation } from "@react-navigation/native";
 import LottieView from "lottie-react-native";
 import React, { useState } from "react";
-import { FlatList, Platform, StyleSheet, View } from "react-native";
+import { FlatList, Platform, StyleProp, StyleSheet, View, ViewStyle } from "react-native";
 
 // Components
 import Colors from "../../assets/_colors";
@@ -26,7 +26,7 @@ export default function FavoritesScreen() {
     return (
         <SafeAreaScreen style={styles.container}>
             <View style={styles.header}>
-                <AppText style={styles.headerTitle}>Favorites</AppText>
+                <AppText style={styles.headerTitle as StyleProp<ViewStyle>}>Favorites</AppText>
             </View>
 
             <View style={styles.wrapper}>
@@ -43,7 +43,7 @@ export default function FavoritesScreen() {
                                     alignSelf: "center",
                                 }}
                             />
-                            <AppText style={styles.text}>
+                            <AppText style={styles.text as StyleProp<ViewStyle>}>
                                 Your favorite listings will appear here.
                             </AppText>
                         </View>
@@ -61,19 +61,18 @@ export default function FavoritesScreen() {
                             // ItemSeparatorComponent = {()=>(
                             //     <ListItemSeperator gap={20} />
                             // )}
-                            keyExtractor={(item) => item.item.id.toString()}
+                            keyExtractor={(item) => item}
                             // onRefresh={loadListings}
                             // refreshing={isLoading}
-                            renderItem={({ item }) => (
+                            renderItem={({ item }:{item:any}) => (
                                 <Card
-                                    title={item.item.title}
+                                    title={item.title}
                                     subTitle={`₵${formatNumber(
                                         item.item.price,
                                         "currency"
                                     )}`}
                                     // style={{ marginTop: 20 }}
                                     imageUrl={item.item.images[0].url}
-                                    style={styles.card}
                                     onPress={() => {
                                         navigation.navigate(
                                             routes.LISTING_DETAILS,
