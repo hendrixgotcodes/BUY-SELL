@@ -11,6 +11,7 @@ import ErrorMessage from "./ErrorMessage";
 interface AppFormFieldPropTypes{
     item?:any,
     name:string,
+    items: any[],
     onBlur?: (arg?:any)=>any,
     onSelectItem?: (arg?:any)=>any,
     style: StyleProp<ViewStyle>,
@@ -20,6 +21,7 @@ export default function AppFormField({
     name,
     onSelectItem,
     style,
+    items,
     ...rest
 }:AppFormFieldPropTypes) {
     const {
@@ -34,6 +36,7 @@ export default function AppFormField({
     return (
         <>
             <AppPicker
+                items={items}
                 onSelectItem={(item) => {
                     setFieldValue(name, item);
                     handleChange(name);

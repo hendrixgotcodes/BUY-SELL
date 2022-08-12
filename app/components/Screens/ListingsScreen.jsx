@@ -41,8 +41,11 @@ export default function ListingsScreen({ navigation }) {
         request: loadListings,
     } = useAPI(listingsAPI.getListings);
 
+
     useEffect(() => {
         loadListings();
+
+
 
         StatusBar.setBarStyle("dark-content", true);
     }, []);
