@@ -24,7 +24,7 @@ type CategoryItemType={
 type AppPickerType={
     icon?: keyof typeof MaterialCommunityIcons.glyphMap,
     onSelectItem: (item: CategoryItemType)=>void,
-    items?: CategoryItemType[],
+    items: any[],
     onBlur: ()=>void,
     placeholder?: string,
     selectedItem: CategoryItemType,

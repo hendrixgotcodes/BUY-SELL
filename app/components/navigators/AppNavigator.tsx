@@ -6,7 +6,7 @@ import { Platform } from "react-native";
 
 // Components
 import Colors from "../../assets/_colors";
-import useNotifications from "../../hooks/useNotifications";
+import useNotificationsRegisterer from "../../hooks/useNotificationsRegisterer";
 import FavoritesScreen from "../Screens/FavoritesScreen";
 import ListingEditScreen from "../Screens/ListingEditScreen";
 import AccountNavigator from "./AccountNavigator";
@@ -27,7 +27,7 @@ const getTabBarVisibility = (route:any) => {
 
 export default function AppNavigator() {
 
-    useNotifications();
+    useNotificationsRegisterer();
 
     return (
         <Tab.Navigator

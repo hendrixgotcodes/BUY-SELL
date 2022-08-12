@@ -2,17 +2,18 @@ import { useNetInfo } from "@react-native-community/netinfo";
 import { NavigationContainer } from "@react-navigation/native";
 import AppLoading from "expo-app-loading";
 import React, { useState } from "react";
+import AuthContext from "./app/auth/context";
 
 // Component
 
 // Assets
-import AuthContext from "./app/auth/context";
 import authStorage from "./app/auth/storage";
 import AppNavigator from "./app/components/navigators/AppNavigator";
 import AuthNavigator from "./app/components/navigators/AuthNavigator";
 import myTheme from "./app/components/navigators/navigationTheme";
 import navigationRef from "./app/components/navigators/rootNavigation";
 import NotificationBanner from "./app/components/NotificationBanner";
+import { NotificationsContextProvider } from "./app/contexts/NotificationsContext";
 
 export default function App() {
     const NetInfo = useNetInfo();
@@ -41,11 +42,13 @@ export default function App() {
             {NetInfo.isInternetReachable === false &&
                 NetInfo.type !== "unknown" && <NotificationBanner />}
             {/* <NotificationBanner /> */}
-            <AuthContext.Provider value={{ user, setUser }}>
-                <NavigationContainer ref={navigationRef} theme={myTheme}>
-                    {user ? <AppNavigator /> : <AuthNavigator />}
-                </NavigationContainer>
-            </AuthContext.Provider>
+            <NotificationsContextProvider>
+                <AuthContext.Provider value={{ user, setUser }}>
+                    <NavigationContainer ref={navigationRef} theme={myTheme}>
+                        {user ? <AppNavigator /> : <AuthNavigator />}
+                    </NavigationContainer>
+                </AuthContext.Provider>
+            </NotificationsContextProvider>
         </>
         // <ChatScreen />
     );
