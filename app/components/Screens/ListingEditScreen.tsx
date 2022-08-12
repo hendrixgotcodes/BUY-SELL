@@ -13,6 +13,7 @@ import listingsAPI from "../../api/listings";
 
 // Components
 import useAuth from "../../auth/useAuth";
+import useLocation from "../../hooks/useLocation";
 import { ListingItemClient } from "../../types";
 import { Location } from "../../types/entities";
 import AppText from "../AppText";
@@ -112,9 +113,10 @@ export default function ListingEditScreen() {
     const [progress, setProgress] = useState(0);
     const [uploadVisible, setUploadVisible] = useState(false);
     const [isMapShown, setIsMapShown] = useState(false);
-    const [location, setLocation] = useState<Location>();
-
-    // const location = useLocation()
+    const currentlocation = useLocation()
+    const [location, setLocation] = useState<Location>(currentlocation)
+   
+    
     const { user } = useAuth();
 
 
@@ -187,10 +189,10 @@ export default function ListingEditScreen() {
                     />
 
                     <AppFormPicker
-                        items={categories}
+                        // items={categories}
                         name="category"
                         // onSelectItem={(item) => {}}
-                        placeholder="Category"
+                        // placeholder="Category"
                         style={{ width: "60%" }}
                     />
 
@@ -227,7 +229,7 @@ export default function ListingEditScreen() {
                 <Modal visible={isMapShown} animationType="slide">
                     <MapScreen
                         dismiss={() => setIsMapShown(false)}
-                        onLocationSelected={(location) => setLocation(location)}
+                        onLocationSelected={(location:Location) => setLocation(location)}
                     />
                 </Modal>
             </View>

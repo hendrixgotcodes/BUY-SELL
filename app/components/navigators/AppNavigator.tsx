@@ -19,7 +19,7 @@ import NewListingButton from "./NewListingButton";
 // Variable
 const Tab = createBottomTabNavigator();
 
-const getTabBarVisibility = (route) => {
+const getTabBarVisibility = (route:any) => {
     const routeName = getFocusedRouteNameFromRoute(route);
 
     return !(routeName === "chat" || routeName === "Listing Details");
@@ -55,7 +55,7 @@ export default function AppNavigator() {
                             size={size}
                         />
                     ),
-                    tabBarBadge: true,
+                    tabBarBadge: "",
                     tabBarBadgeStyle: {
                         display: "flex",
                         justifyContent: "center",

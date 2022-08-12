@@ -1,6 +1,6 @@
 import { useFormikContext } from "formik";
 import React from "react";
-import { View, Text, StyleSheet } from "react-native";
+import { StyleSheet } from "react-native";
 
 // Components
 import AppButtonLoading from "../AppButtonLoading";

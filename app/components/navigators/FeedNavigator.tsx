@@ -21,18 +21,22 @@ export default function FeedNavigator() {
             }}
         >
             <Stack.Screen
-                mode="modal"
+                // mode="modal"
                 name="Listings"
                 component={ListingsScreen}
             />
 
             <Stack.Screen
-                mode="modal"
+                // mode="modal"
                 name={routes.LISTING_DETAILS}
                 component={ListingDetailsScreen}
             />
 
-            <Stack.Screen mode="modal" name="search" component={SearchScreen} />
+            <Stack.Screen 
+                // mode="modal" 
+                name="search" 
+                component={SearchScreen} 
+            />
 
             {/* <Stack.Screen 
                 mode="card" 
