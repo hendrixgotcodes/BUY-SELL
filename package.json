@@ -42,7 +42,7 @@
     "formik": "^2.1.4",
     "husky": "^8.0.1",
     "lottie-react-native": "5.0.1",
-    "moment": "^2.29.1",
+    "moment": "^2.29.4",
     "nanoid": "^4.0.0",
     "numeral": "^2.0.6",
     "prop-types": "^15.7.2",
